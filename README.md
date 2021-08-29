@@ -1,29 +1,5 @@
-# README #
+# GAM-350 #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+Author: Khoi Ho
 
-### What is this repository for? ###
-
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
-
-### How do I get set up? ###
-
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
-
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+Description: This repository contains all of the projects and assignments created by Khoi Ho for GAM-350 (Multiplayer Game Development).
