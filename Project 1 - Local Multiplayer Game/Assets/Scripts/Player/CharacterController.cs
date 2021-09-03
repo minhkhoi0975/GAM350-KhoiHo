@@ -1,20 +1,31 @@
-﻿using System.Collections;
+﻿/**
+ * CharacterController.cs
+ * Description: This script handles the inputs from the player.
+ * Programmer: Khoi Ho
+ */
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
+
 public class CharacterController : MonoBehaviour
 {
-    [SerializeField] private Rigidbody RigidBodyComponent;                  // The rigid body of the character.
-    [SerializeField] private CapsuleCollider CapsuleColliderComponent;      // The collider of the character.
-
     [SerializeField] private byte ControlID = 1;  // The ID number that determines how this character is controlled (1 = WASD, 2 = Arrows).
 
-    [SerializeField] private float MoveForceMagnitude = 70.0f;
+    [SerializeField] private float MoveForceMagnitude = 50.0f;
     [SerializeField] private float TurnRate = 10.0f;
 
     [SerializeField] private GameObject ProjectilePrefab; // The prefab of projectiles fired by the character.
 
+    private Rigidbody RigidBodyComponent;                  // The rigid body of the character.
     private float Vertical, Horizontal; // Use for moving the character vertically/horizontally.
+
+    private void Start()
+    {
+        RigidBodyComponent = GetComponent<Rigidbody>();
+    }
 
     private void Update()
     {

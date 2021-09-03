@@ -1,3 +1,9 @@
+/**
+ * HealthComponent.cs
+ * Description: This script contains info about a GameObject's health. When the health reaches 0, the root GameObject is deleted.
+ * Programmer: Khoi Ho
+ */
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
