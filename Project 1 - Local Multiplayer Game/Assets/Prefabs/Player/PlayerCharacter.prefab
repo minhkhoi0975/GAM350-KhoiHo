@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 4251371382806354112}
   m_Layer: 0
   m_Name: Body
-  m_TagString: Untagged
+  m_TagString: Character
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -112,9 +112,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57fec73a4214e764cabdc2d08ada919c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RigidBodyComponent: {fileID: 7338738367500575410}
-  CapsuleColliderComponent: {fileID: 8913188122562208612}
-  ControlID: 1
+  controlID: 1
   MoveForceMagnitude: 50
   TurnRate: 20
   ProjectilePrefab: {fileID: 606824639061569467, guid: 8b4eef5653fbc5e4aac88c4429714573,

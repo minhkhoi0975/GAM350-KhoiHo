@@ -52,8 +52,7 @@ public class ProjectileComponent : MonoBehaviour
             HealthComponent HealthComponent = collision.gameObject.GetComponent<HealthComponent>();
             if (HealthComponent)
             {
-                HealthComponent.CurrentHealth -= Damage;
-                Debug.Log("Damage: " + Damage + "\tHealth: " + HealthComponent.CurrentHealth);
+                HealthComponent.TakeDamage(Damage, Instigator);
             }
         }
 

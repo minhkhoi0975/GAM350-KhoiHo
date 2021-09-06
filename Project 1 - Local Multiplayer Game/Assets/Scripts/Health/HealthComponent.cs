@@ -12,30 +12,36 @@ public class HealthComponent : MonoBehaviour
 {
     [SerializeField] float MaxHealth = 100.0f;
 
-    float currentHealth;
-    public float CurrentHealth 
-    { 
-        get 
-        { 
-            return currentHealth; 
-        } 
-        set 
-        {
-            currentHealth = value < 0 ? 0 : (value > MaxHealth ? MaxHealth : value);
-        } 
-    }
+    float CurrentHealth;
 
     private void Awake()
     {
         CurrentHealth = MaxHealth;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void TakeDamage(float DamageAmount, GameObject Instigator)
     {
-        // If the health of the game object goes 0 or lower, destroy the game object.
-        if(CurrentHealth <= 0.0f)
+        CurrentHealth -= DamageAmount;
+        if(CurrentHealth <= 0)
         {
+            // Check if the instigator and the game object associated with this component are characters.
+            if(Instigator.CompareTag("Character") && gameObject.CompareTag("Character"))
+            {
+                // Get the control ID of the character, then update the score.
+                CharacterController CharacterController = Instigator.GetComponent<CharacterController>();
+                if(CharacterController && GameManager.Instance)
+                {
+                    if(CharacterController.ControlID == 1)
+                    {
+                        GameManager.Instance.Player1Score++;
+                    }
+                    else
+                    {
+                        GameManager.Instance.Player2Score++;
+                    }
+                }
+            }
+
             Destroy(transform.root.gameObject);
         }
     }

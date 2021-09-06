@@ -12,7 +12,18 @@ using UnityEngine;
 
 public class CharacterController : MonoBehaviour
 {
-    [SerializeField] private byte ControlID = 1;  // The ID number that determines how this character is controlled (1 = WASD, 2 = Arrows).
+    [SerializeField] private byte controlID = 1;  // The ID number that determines how this character is controlled (1 = WASD, 2 = Arrows).
+    public byte ControlID 
+    { 
+        get 
+        { 
+            return controlID; 
+        } 
+        set
+        {
+            controlID = (byte)(value < 1 ? 1 : (value > 2 ? 2 : value));
+        }
+    }
 
     [SerializeField] private float MoveForceMagnitude = 50.0f;
     [SerializeField] private float TurnRate = 10.0f;
@@ -77,8 +88,6 @@ public class CharacterController : MonoBehaviour
         {
             // Rotate the character.
             float RotationAngleInDegrees = Mathf.Atan2(RelativeMoveDirection.x, RelativeMoveDirection.z) * Mathf.Rad2Deg;
-
-            // Smooth turn.
             RigidBodyComponent.rotation = Quaternion.Lerp(RigidBodyComponent.rotation, Quaternion.Euler(0.0f, RotationAngleInDegrees, 0.0f), Time.fixedDeltaTime * TurnRate);
 
             // Move the character.
