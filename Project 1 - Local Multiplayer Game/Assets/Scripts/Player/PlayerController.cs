@@ -10,7 +10,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 
-public class CharacterController : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     [SerializeField] private byte controlID = 1;  // The ID number that determines how this character is controlled (1 = WASD, 2 = Arrows).
     public byte ControlID 

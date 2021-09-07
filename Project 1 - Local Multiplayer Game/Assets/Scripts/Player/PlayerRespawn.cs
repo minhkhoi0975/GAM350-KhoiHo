@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterRespawn : MonoBehaviour
+public class PlayerRespawn : MonoBehaviour
 {
     [SerializeField] GameObject CharacterPrefab;
     [SerializeField] Material CharacterBodyMaterial; // The material for the character's body.
@@ -51,7 +51,7 @@ public class CharacterRespawn : MonoBehaviour
             CurrentCharacterInstance = Instantiate(CharacterPrefab, transform.position, transform.rotation);
 
             // Set the control ID of the character.
-            CharacterController CharacterController = CurrentCharacterInstance.GetComponentInChildren<CharacterController>();
+            PlayerController CharacterController = CurrentCharacterInstance.GetComponentInChildren<PlayerController>();
             if(CharacterController)
             {
                 CharacterController.ControlID = this.ControlID;

@@ -30,7 +30,7 @@ public class HealthComponent : MonoBehaviour
                 if (Instigator.CompareTag("Character") && gameObject.CompareTag("Character"))
                 {
                     // Get the control ID of the character, then update the score.
-                    CharacterController CharacterController = Instigator.GetComponent<CharacterController>();
+                    PlayerController CharacterController = Instigator.GetComponent<PlayerController>();
                     if (CharacterController && GameManager.Instance)
                     {
                         if (CharacterController.ControlID == 1)
