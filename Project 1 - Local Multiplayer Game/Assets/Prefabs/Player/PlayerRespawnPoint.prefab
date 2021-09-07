@@ -127,6 +127,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CharacterPrefab: {fileID: 2228463600266611084, guid: 3965b249975996f4facd33a0e2c5b396,
     type: 3}
+  CharacterBodyMaterial: {fileID: 2100000, guid: 1b73f3bcf38a96947adb4faaf223700a,
+    type: 2}
   controlID: 1
 --- !u!1 &7798242750487883663
 GameObject:

@@ -24,20 +24,23 @@ public class HealthComponent : MonoBehaviour
         CurrentHealth -= DamageAmount;
         if(CurrentHealth <= 0)
         {
-            // Check if the instigator and the game object associated with this component are characters.
-            if(Instigator.CompareTag("Character") && gameObject.CompareTag("Character"))
+            if (Instigator)
             {
-                // Get the control ID of the character, then update the score.
-                CharacterController CharacterController = Instigator.GetComponent<CharacterController>();
-                if(CharacterController && GameManager.Instance)
+                // Check if the instigator and the game object associated with this component are characters.
+                if (Instigator.CompareTag("Character") && gameObject.CompareTag("Character"))
                 {
-                    if(CharacterController.ControlID == 1)
+                    // Get the control ID of the character, then update the score.
+                    CharacterController CharacterController = Instigator.GetComponent<CharacterController>();
+                    if (CharacterController && GameManager.Instance)
                     {
-                        GameManager.Instance.Player1Score++;
-                    }
-                    else
-                    {
-                        GameManager.Instance.Player2Score++;
+                        if (CharacterController.ControlID == 1)
+                        {
+                            GameManager.Instance.Player1Score++;
+                        }
+                        else
+                        {
+                            GameManager.Instance.Player2Score++;
+                        }
                     }
                 }
             }

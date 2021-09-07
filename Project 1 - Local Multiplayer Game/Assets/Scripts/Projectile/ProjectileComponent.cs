@@ -15,7 +15,7 @@ public class ProjectileComponent : MonoBehaviour
     [SerializeField] float Age = 5;                   // How long before this projectile is automatically destroyed.   
 
     public float Damage = 20.0f;                      // The damage of the projectile.
-    public GameObject Instigator;                     // The game object responsible for the damage (i.e. the character that shot this projectile).
+    [HideInInspector]public GameObject Instigator;    // The game object responsible for the damage (i.e. the character that shot this projectile).
 
     Rigidbody RigidBodyComponent;                     // The rigid body of the projectile.
     float CurrentAge = 0;                             // How long the projectile has existed.

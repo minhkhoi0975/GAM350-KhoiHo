@@ -5,6 +5,8 @@ using UnityEngine;
 public class CharacterRespawn : MonoBehaviour
 {
     [SerializeField] GameObject CharacterPrefab;
+    [SerializeField] Material CharacterBodyMaterial; // The material for the character's body.
+
     [SerializeField] private byte controlID = 1;  // The ID number that determines how this character is controlled (1 = WASD, 2 = Arrows).
     public byte ControlID
     {
@@ -33,7 +35,8 @@ public class CharacterRespawn : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.R))
+        // Respawn key is the same as firing key.
+        if(Input.GetButtonDown("Fire1") && ControlID == 1 || Input.GetButtonDown("Fire2") && ControlID == 2)
         {
             Respawn();
         }
@@ -52,6 +55,13 @@ public class CharacterRespawn : MonoBehaviour
             if(CharacterController)
             {
                 CharacterController.ControlID = this.ControlID;
+            }
+
+            // Set the material of the character's body.
+            Renderer CharacterBodyRenderer = CurrentCharacterInstance.GetComponentInChildren<Renderer>();
+            if(CharacterBodyRenderer)
+            {
+                CharacterBodyRenderer.material = CharacterBodyMaterial;
             }
         }
     }
