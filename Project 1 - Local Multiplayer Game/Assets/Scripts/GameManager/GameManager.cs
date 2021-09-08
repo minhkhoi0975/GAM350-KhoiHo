@@ -1,3 +1,9 @@
+/**
+ * GameManager.cs
+ * Description: This script stores variables which are not deleted when a new level is loaded.
+ * Programer: Khoi Ho
+ */
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,11 +20,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // The scores of player 1 and player 2.
-    int player1Score, player2Score;
+    public const int MAX_NUMBER_OF_PLAYERS = 2;
 
-    public int Player1Score { get { return player1Score; } set { player1Score = value < 0 ? 0 : value; } }
-    public int Player2Score { get { return player2Score; } set { player2Score = value < 0 ? 0 : value; } }
+    public int[] PlayerScores = new int[MAX_NUMBER_OF_PLAYERS]; // The scores of the players.
 
     private void Awake()
     {

@@ -1,6 +1,6 @@
 /**
  * HealthComponent.cs
- * Description: This script contains info about a GameObject's health. When the health reaches 0, the root GameObject is deleted.
+ * Description: This script contains info about a GameObject's health. When the health reaches 0, the GameObject is deleted.
  * Programmer: Khoi Ho
  */
 
@@ -19,33 +19,19 @@ public class HealthComponent : MonoBehaviour
         CurrentHealth = MaxHealth;
     }
 
-    public void TakeDamage(float DamageAmount, GameObject Instigator)
+    // Take damage from an instigator.
+    public void TakeDamage(float DamageAmount, int InstigatorInputIndex = -1)
     {
         CurrentHealth -= DamageAmount;
         if(CurrentHealth <= 0)
         {
-            if (Instigator)
+            // Check if the instigator and the game object associated with this component are characters.
+            // If both of them are, increase the score of the instigator.
+            if (InstigatorInputIndex >= 0 && InstigatorInputIndex < GameManager.MAX_NUMBER_OF_PLAYERS && gameObject.CompareTag("Character"))
             {
-                // Check if the instigator and the game object associated with this component are characters.
-                if (Instigator.CompareTag("Character") && gameObject.CompareTag("Character"))
-                {
-                    // Get the control ID of the character, then update the score.
-                    PlayerController CharacterController = Instigator.GetComponent<PlayerController>();
-                    if (CharacterController && GameManager.Instance)
-                    {
-                        if (CharacterController.ControlID == 1)
-                        {
-                            GameManager.Instance.Player1Score++;
-                        }
-                        else
-                        {
-                            GameManager.Instance.Player2Score++;
-                        }
-                    }
-                }
+                GameManager.Instance.PlayerScores[InstigatorInputIndex]++;
             }
-
-            Destroy(transform.root.gameObject);
+            Destroy(transform.gameObject);
         }
     }
 }

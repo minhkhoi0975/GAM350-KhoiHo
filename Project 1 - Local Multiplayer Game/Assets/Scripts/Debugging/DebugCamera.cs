@@ -1,3 +1,9 @@
+/**
+ * DebugCamera.cs
+ * Description: This script is used for moving the camera freely in Play mode. 
+ * Progremmaer: Khoi Ho
+ */
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

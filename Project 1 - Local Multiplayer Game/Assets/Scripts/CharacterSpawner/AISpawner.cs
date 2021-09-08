@@ -1,13 +1,19 @@
+/**
+ * AISpawner.cs
+ * Description: This script is used for spawning AI characters.
+ * Programmer: Khoi Ho
+ */
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class AISpawner : MonoBehaviour
 {
-    [SerializeField] GameObject CharacterPrefab;
-    [SerializeField] float SpawnDelay = 10.0f;
+    [SerializeField] GameObject characterPrefab;
+    [SerializeField] float spawnDelayInSeconds = 10.0f;
 
-    bool CanSpawn = true;
+    bool canSpawn = true; // Used to delay spawning.
 
     private void Awake()
     {
@@ -18,7 +24,7 @@ public class AISpawner : MonoBehaviour
     // Start is called before the first frame update
     private void Update()
     {
-        if(CanSpawn)
+        if(canSpawn)
         {
             StartCoroutine("SpawnAICharacter");
         }
@@ -27,11 +33,11 @@ public class AISpawner : MonoBehaviour
     IEnumerator SpawnAICharacter()
     {
         // Create an AI character.
-        Instantiate(CharacterPrefab, transform.position, transform.rotation);
+        Instantiate(characterPrefab, transform.position, transform.rotation);
 
         // Delay.
-        CanSpawn = false;
-        yield return new WaitForSeconds(SpawnDelay);
-        CanSpawn = true;
+        canSpawn = false;
+        yield return new WaitForSeconds(spawnDelayInSeconds);
+        canSpawn = true;
     }
 }

@@ -1,0 +1,66 @@
+/**
+ * Character.cs
+ * Description: This script handles the behaviors of a character (movement and firing).
+ * Programmer: Khoi Ho
+ */
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[RequireComponent(typeof(Rigidbody))]
+public class Character : MonoBehaviour
+{
+    [SerializeField] Rigidbody rigidBodyComponent;
+
+    // Movement
+    [SerializeField] float moveSpeed = 50.0f;
+    [SerializeField] float turnRate = 20.0f;
+
+    // Firing
+    [SerializeField] GameObject projectilePrefab;
+
+    // Start is called before the first frame update
+    void Awake()
+    {
+        if(rigidBodyComponent == null)
+        {
+            rigidBodyComponent = GetComponent<Rigidbody>();
+        }
+    }
+
+    public void MoveCharacter(float vertical, float horizontal)
+    {
+        // Calculate the move direction relative to the player.
+        Vector3 relativeMoveDirection = new Vector3(horizontal, 0.0f, vertical).normalized;
+
+        if (relativeMoveDirection.magnitude >= 0.1f)
+        {
+            // Rotate the character.
+            float rotationAngleInDegrees = Mathf.Atan2(relativeMoveDirection.x, relativeMoveDirection.z) * Mathf.Rad2Deg;
+            rigidBodyComponent.rotation = Quaternion.Lerp(rigidBodyComponent.rotation, Quaternion.Euler(0.0f, rotationAngleInDegrees, 0.0f), Time.fixedDeltaTime * turnRate);
+
+            // Convert the relative move direction to world move direction.
+            Vector3 worldMoveDirection = Quaternion.Euler(0.0f, rotationAngleInDegrees, 0.0f) * Vector3.forward;
+
+            // Move the player.
+            rigidBodyComponent.AddForce(worldMoveDirection * moveSpeed * Time.fixedDeltaTime, ForceMode.VelocityChange);
+        }
+    }
+
+    public void FireProjectile()
+    {
+        if (projectilePrefab)
+        {
+            // Spawn a projectile.
+            GameObject projectile = Instantiate(projectilePrefab, transform.position + transform.forward * 1.5f, rigidBodyComponent.rotation);
+
+            // Set the instigator of the projectile to be this character.
+            Projectile projectileCompponent = projectile.GetComponent<Projectile>();
+            if (projectileCompponent)
+            {
+                projectileCompponent.Instigator = this.gameObject;
+            }
+        }
+    }
+}

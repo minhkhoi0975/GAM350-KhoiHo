@@ -90,9 +90,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1189452517956475150}
-  - component: {fileID: 8864033097214752042}
+  - component: {fileID: 8644659940466866793}
   m_Layer: 0
-  m_Name: PlayerRespawnPoint
+  m_Name: AICharacterSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -113,7 +113,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8864033097214752042
+--- !u!114 &8644659940466866793
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -122,14 +122,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 4120957346067794197}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b0367dd1e3c259b4b90d5b90c37f734f, type: 3}
+  m_Script: {fileID: 11500000, guid: 75103f7ce436cfb43a606377c7e3e697, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CharacterPrefab: {fileID: 2228463600266611084, guid: 3965b249975996f4facd33a0e2c5b396,
+  characterPrefab: {fileID: 5365992952997443629, guid: 6cd5a243a29a80c4193cb8a6f3581a89,
     type: 3}
-  CharacterBodyMaterial: {fileID: 2100000, guid: 1b73f3bcf38a96947adb4faaf223700a,
-    type: 2}
-  controlID: 1
+  spawnDelayInSeconds: 10
 --- !u!1 &7798242750487883663
 GameObject:
   m_ObjectHideFlags: 0
@@ -142,7 +140,7 @@ GameObject:
   - component: {fileID: 1169522266781420497}
   - component: {fileID: 7630953312834060856}
   m_Layer: 0
-  m_Name: Body
+  m_Name: DummyBody
   m_TagString: Character
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
