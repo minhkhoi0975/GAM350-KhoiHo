@@ -29,7 +29,7 @@ public class HealthComponent : MonoBehaviour
             // If both of them are, increase the score of the instigator.
             if (InstigatorInputIndex >= 0 && InstigatorInputIndex < GameManager.MAX_NUMBER_OF_PLAYERS && gameObject.CompareTag("Character"))
             {
-                GameManager.Instance.PlayerScores[InstigatorInputIndex]++;
+                GameManager.Instance.playerScores[InstigatorInputIndex]++;
             }
             Destroy(transform.gameObject);
         }

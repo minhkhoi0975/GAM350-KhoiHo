@@ -13,7 +13,7 @@ public class PlayerRespawnPoint : MonoBehaviour
     [SerializeField] GameObject characterPrefab;
     [SerializeField] Material characterBodyMaterial; // The material for the character's body.
 
-    public int inputIndex = 1;                       // Each player has a unique input index. The index of the first player is 1.
+    public int inputIndex = 0;                       // Each player has a unique input index. The index of the first player is 0.
 
     GameObject currentCharacterInstance;
 
@@ -25,7 +25,11 @@ public class PlayerRespawnPoint : MonoBehaviour
 
     private void Start()
     {
-        Respawn();
+        // The first player's character is always spawned when the game starts.
+        if (inputIndex == 0)
+        {
+            Respawn();
+        }
     }
 
     private void Update()
@@ -33,6 +37,7 @@ public class PlayerRespawnPoint : MonoBehaviour
         // Respawn key is the same as firing key.
         if (Input.GetButtonDown("Fire" + inputIndex))
         {
+            GameManager.Instance.isPlayerInputActive[inputIndex] = true;
             Respawn();
         }
     }
