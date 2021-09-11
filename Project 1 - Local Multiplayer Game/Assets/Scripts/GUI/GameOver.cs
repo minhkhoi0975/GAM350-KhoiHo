@@ -29,6 +29,7 @@ public class GameOver : MonoBehaviour
 
     public void LoadLevel(string LevelName)
     {
+        GameManager.Instance.ResetGame();
         SceneManager.LoadScene(LevelName);
     }
 

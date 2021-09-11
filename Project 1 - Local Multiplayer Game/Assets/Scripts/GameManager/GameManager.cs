@@ -54,4 +54,15 @@ public class GameManager : MonoBehaviour
 
         return numberOfActiveInputs;
     }
+
+    public void ResetGame()
+    {
+        for(int i = 0; i < MAX_NUMBER_OF_PLAYERS; i++)
+        {
+            isPlayerInputActive[i] = false;
+            playerScores[i] = 0;
+        }
+
+        isPlayerInputActive[0] = true;
+    }
 }

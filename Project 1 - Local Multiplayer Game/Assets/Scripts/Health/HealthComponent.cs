@@ -25,7 +25,7 @@ public class HealthComponent : MonoBehaviour
         CurrentHealth -= DamageAmount;
         if(CurrentHealth <= 0)
         {
-            // Check if the instigator and the game object associated with this component are characters.
+            // Check if both the instigator and this game object are characters.
             // If both of them are, increase the score of the instigator.
             if (InstigatorInputIndex >= 0 && InstigatorInputIndex < GameManager.MAX_NUMBER_OF_PLAYERS && gameObject.CompareTag("Character"))
             {

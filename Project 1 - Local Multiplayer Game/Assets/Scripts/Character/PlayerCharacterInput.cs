@@ -14,6 +14,8 @@ public class PlayerCharacterInput : MonoBehaviour
     [SerializeField] Character characterComponent;
     public int inputIndex = 0;                    // Each player has a unique input index. The index of the first player is 0.
 
+    float verticalAxis, horizontalAxis;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -26,8 +28,12 @@ public class PlayerCharacterInput : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Movement
+        verticalAxis = Input.GetAxis("Vertical" + inputIndex);
+        horizontalAxis = Input.GetAxis("Horizontal" + inputIndex);
+
         // Firing
-        if(Input.GetButtonDown("Fire" + inputIndex))
+        if (Input.GetButtonDown("Fire" + inputIndex))
         {
             characterComponent.FireProjectile();
         }
@@ -36,9 +42,6 @@ public class PlayerCharacterInput : MonoBehaviour
     private void FixedUpdate()
     {
         // Movement
-        float vertical = Input.GetAxis("Vertical" + inputIndex);
-        float horizontal = Input.GetAxis("Horizontal" + inputIndex);
-
-        characterComponent.MoveCharacter(vertical, horizontal);
+        characterComponent.MoveCharacter(verticalAxis, horizontalAxis);
     }
 }
