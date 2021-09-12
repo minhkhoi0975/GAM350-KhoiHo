@@ -58,14 +58,25 @@ public class GameManager : MonoBehaviour
         return numberOfActiveInputs;
     }
 
+    // When the game is over, only keep the input of the first player active.
+    public void ResetPlayerInputs()
+    {
+        for (int i = 1; i < MAX_NUMBER_OF_PLAYERS; i++)
+        {
+            isPlayerInputActive[i] = false;
+        }
+    }
+
+    // Set the scores of the players to 0.
     public void ResetPlayerStats()
     {
         for(int i = 0; i < MAX_NUMBER_OF_PLAYERS; i++)
-        {
-            isPlayerInputActive[i] = false;
+        {       
             playerScores[i] = 0;
         }
 
         isPlayerInputActive[0] = true;
     }
+
+
 }

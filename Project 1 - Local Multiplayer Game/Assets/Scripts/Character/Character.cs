@@ -31,12 +31,12 @@ public class Character : MonoBehaviour
 
     public void MoveCharacter(float vertical, float horizontal)
     {
-        // Calculate the move direction relative to the player.
+        // Get the move direction relative to the player.
         Vector3 relativeMoveDirection = new Vector3(horizontal, 0.0f, vertical).normalized;
 
-        if (relativeMoveDirection.magnitude >= 0.1f)
+        if (relativeMoveDirection.magnitude >= 0.1f) // Prevent the character from rotating when it's idle.
         {
-            // Rotate the character.
+            // Smoothly rotate the character.
             float rotationAngleInDegrees = Mathf.Atan2(relativeMoveDirection.x, relativeMoveDirection.z) * Mathf.Rad2Deg;
             rigidBodyComponent.rotation = Quaternion.Lerp(rigidBodyComponent.rotation, Quaternion.Euler(0.0f, rotationAngleInDegrees, 0.0f), Time.fixedDeltaTime * turnRate);
 

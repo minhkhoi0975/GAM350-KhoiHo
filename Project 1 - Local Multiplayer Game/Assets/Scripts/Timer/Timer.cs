@@ -32,6 +32,10 @@ public class Timer : MonoBehaviour
         }
         else
         {
+            // Update the previously played level.
+            GameManager.Instance.previouslySelectedLevel = SceneManager.GetActiveScene().name;
+
+            // Load the "Game Over" scene.
             SceneManager.LoadScene(gameOverLevel);
         }
     }
