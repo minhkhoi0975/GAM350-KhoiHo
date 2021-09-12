@@ -27,14 +27,16 @@ public class GameOver : MonoBehaviour
         }
     }
 
-    public void LoadLevel(string LevelName)
+    public void LoadRecentlyPlayedLevel()
     {
-        GameManager.Instance.ResetGame();
-        SceneManager.LoadScene(LevelName);
+        GameManager.Instance.ResetPlayerStats();
+        SceneManager.LoadScene(GameManager.Instance.previouslySelectedLevel);
+        Debug.Log(GameManager.Instance.previouslySelectedLevel);
     }
 
-    public void ExitGame()
+    public void GoToMainMenu()
     {
-        Application.Quit();
+        GameManager.Instance.ResetPlayerStats();
+        SceneManager.LoadScene("MainMenu");
     }
 }

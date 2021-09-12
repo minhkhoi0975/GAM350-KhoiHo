@@ -10,20 +10,21 @@ using UnityEngine;
 
 public class HealthComponent : MonoBehaviour
 {
-    [SerializeField] float MaxHealth = 100.0f;
-
-    float CurrentHealth;
+    [SerializeField] float maxHealth = 100.0f;
+    float currentHealth;
 
     private void Awake()
     {
-        CurrentHealth = MaxHealth;
+        currentHealth = maxHealth;
     }
 
     // Take damage from an instigator.
+    // The instigator is the game object that is responsible for the damage (e.g. the character that shoots a bullet).
+    // If the instigator is a playable character, then InstigatorInputIndex is the input index of the player, otherwise it should be -1.
     public void TakeDamage(float DamageAmount, int InstigatorInputIndex = -1)
     {
-        CurrentHealth -= DamageAmount;
-        if(CurrentHealth <= 0)
+        currentHealth -= DamageAmount;
+        if(currentHealth <= 0)
         {
             // Check if both the instigator and this game object are characters.
             // If both of them are, increase the score of the instigator.

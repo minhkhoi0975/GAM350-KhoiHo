@@ -7,6 +7,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -24,6 +25,8 @@ public class GameManager : MonoBehaviour
 
     public bool[] isPlayerInputActive = new bool[MAX_NUMBER_OF_PLAYERS];   // Used to check whether there is a player controller at a particular input index.
     public int[] playerScores = new int[MAX_NUMBER_OF_PLAYERS];            // The scores of the players.
+
+    public string previouslySelectedLevel;
 
     private void Awake()
     {
@@ -55,7 +58,7 @@ public class GameManager : MonoBehaviour
         return numberOfActiveInputs;
     }
 
-    public void ResetGame()
+    public void ResetPlayerStats()
     {
         for(int i = 0; i < MAX_NUMBER_OF_PLAYERS; i++)
         {

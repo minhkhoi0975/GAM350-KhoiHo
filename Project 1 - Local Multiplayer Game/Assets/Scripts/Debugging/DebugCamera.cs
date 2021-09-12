@@ -1,6 +1,6 @@
 /**
  * DebugCamera.cs
- * Description: This script is used for moving the camera freely in Play mode. 
+ * Description: This script is used for moving the camera freely in Play mode. Used only for debugging.
  * Progremmaer: Khoi Ho
  */
 

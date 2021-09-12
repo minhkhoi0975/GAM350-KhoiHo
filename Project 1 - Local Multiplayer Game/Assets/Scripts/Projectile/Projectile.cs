@@ -14,10 +14,14 @@ public class Projectile : MonoBehaviour
     Rigidbody rigidBodyComponent;
 
     [SerializeField] float moveSpeed = 20.0f;    // How fast the projectile moves.
-    [SerializeField] float ageInSeconds = 5;     // How long before this projectile is automatically destroyed.   
+
+    [SerializeField] float ageInSeconds = 5.0f;  // How long before this projectile is automatically destroyed.   
+    float currentAgeInSeconds = 0;               // How long the projectile has existed.
 
     public float damage = 20.0f;                 // The damage of the projectile.
+
     GameObject instigator;                       // The game object responsible for the damage (e.g. the character that shot this projectile).
+    int instigatorInputIndex = -1;               // If instigator is a player character, set this field to the input index of the player, otherise set it to -1.
     public GameObject Instigator
     {
         get
@@ -39,7 +43,7 @@ public class Projectile : MonoBehaviour
             }
         }
     }
-    int instigatorInputIndex = -1;                // If the instigator is a player character, set this field to the input index of the player, otherise set it to -1.
+    
     public int InstigatorInputIndex
     {
         get
@@ -48,8 +52,8 @@ public class Projectile : MonoBehaviour
         }
     }
                     
-    float CurrentAgeInSeconds = 0;               // How long the projectile has existed.
-    bool IsColliding = false;                    // Is this projectile colliding another game object? Used to prevent OnCollisionEnter() from being called multipled times.
+
+    bool isColliding = false;                    // Is this projectile colliding another game object? Used to prevent OnCollisionEnter() from being called multipled times.
 
     private void Awake()
     {
@@ -69,16 +73,16 @@ public class Projectile : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if (IsColliding)
+        if (isColliding)
         {
             return;
         }
         else
         {
-            IsColliding = true;
+            isColliding = true;
         }
         
-        // Avoid harming the instigator.
+        // Avoid harming the instigator itself.
         if (collision.gameObject != instigator)
         {
             // Check if the hit game object has health component. If it does, reduce health.
@@ -103,8 +107,8 @@ public class Projectile : MonoBehaviour
     // Update the age of the projectile.
     void UpdateAge()
     {
-        CurrentAgeInSeconds += Time.deltaTime;
-        if(CurrentAgeInSeconds >= ageInSeconds)
+        currentAgeInSeconds += Time.deltaTime;
+        if(currentAgeInSeconds >= ageInSeconds)
         {
             Destroy(gameObject);
         }
