@@ -14,8 +14,8 @@ public class Character : MonoBehaviour
     [SerializeField] Rigidbody rigidBodyComponent;
 
     // Movement
-    [SerializeField] float moveSpeed = 50.0f;
-    [SerializeField] float turnRate = 20.0f;
+    [SerializeField] float moveSpeed = 30.0f;
+    [SerializeField] float turnSpeed = 20.0f;
 
     // Firing
     [SerializeField] GameObject projectilePrefab;
@@ -38,7 +38,7 @@ public class Character : MonoBehaviour
         {
             // Smoothly rotate the character.
             float rotationAngleInDegrees = Mathf.Atan2(relativeMoveDirection.x, relativeMoveDirection.z) * Mathf.Rad2Deg;
-            rigidBodyComponent.rotation = Quaternion.Lerp(rigidBodyComponent.rotation, Quaternion.Euler(0.0f, rotationAngleInDegrees, 0.0f), Time.fixedDeltaTime * turnRate);
+            rigidBodyComponent.rotation = Quaternion.Lerp(rigidBodyComponent.rotation, Quaternion.Euler(0.0f, rotationAngleInDegrees, 0.0f), Time.fixedDeltaTime * turnSpeed);
 
             // Convert the relative move direction to world move direction.
             Vector3 worldMoveDirection = Quaternion.Euler(0.0f, rotationAngleInDegrees, 0.0f) * Vector3.forward;

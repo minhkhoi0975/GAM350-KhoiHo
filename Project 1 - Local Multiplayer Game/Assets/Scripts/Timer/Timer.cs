@@ -1,3 +1,9 @@
+/**
+ * Timer.cs
+ * Description: This script handles timers.
+ * Programmer: Khoi Ho
+ */
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +14,7 @@ public class Timer : MonoBehaviour
     [SerializeField] float timeLimitInSeconds = 20.0f;
     [SerializeField] string gameOverLevel;                        // Load this level when the timer reaches 0.
 
-    float timeRemainingInSeconds;
+    private float  timeRemainingInSeconds;
     public float TimeRemainingInSeconds
     {
         get
@@ -28,6 +34,7 @@ public class Timer : MonoBehaviour
     {
         if(timeRemainingInSeconds > 0.0f)
         {
+            // Reduce time.
             timeRemainingInSeconds -= Time.deltaTime;
         }
         else
