@@ -42,6 +42,7 @@ public class Character : MonoBehaviour
 
             // Convert the relative move direction to world move direction.
             Vector3 worldMoveDirection = Quaternion.Euler(0.0f, rotationAngleInDegrees, 0.0f) * Vector3.forward;
+            worldMoveDirection = worldMoveDirection.normalized;
 
             // Move the player.
             rigidBodyComponent.AddForce(worldMoveDirection * moveSpeed * Time.fixedDeltaTime, ForceMode.Impulse);
