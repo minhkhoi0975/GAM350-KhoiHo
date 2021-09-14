@@ -23,8 +23,12 @@ public class GameManager : MonoBehaviour
 
     public const int MAX_NUMBER_OF_PLAYERS = 2;
 
-    public bool[] isPlayerInputActive = new bool[MAX_NUMBER_OF_PLAYERS];   // Used to check whether there is a player controller at a particular input index.
-    public int[] playerScores = new int[MAX_NUMBER_OF_PLAYERS];            // The scores of the players.
+    // Used to check whether there is a player controller at a particular input index.
+    // When a level starts, only the player input at index 0 is active.  
+    public bool[] isPlayerInputActive = new bool[MAX_NUMBER_OF_PLAYERS];
+
+    // The scores of the players.
+    public int[] playerScores = new int[MAX_NUMBER_OF_PLAYERS];            
 
     public string previouslySelectedLevel;
 

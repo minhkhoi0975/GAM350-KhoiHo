@@ -144,7 +144,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rigidBodyComponent: {fileID: 1256718222822740760}
   moveSpeed: 30
-  turnRate: 20
+  turnSpeed: 20
   projectilePrefab: {fileID: 606824639061569467, guid: 8b4eef5653fbc5e4aac88c4429714573,
     type: 3}
 --- !u!114 &5949186733650083922

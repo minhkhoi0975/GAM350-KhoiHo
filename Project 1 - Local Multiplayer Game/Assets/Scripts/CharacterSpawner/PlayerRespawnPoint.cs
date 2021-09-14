@@ -10,12 +10,12 @@ using UnityEngine;
 
 public class PlayerRespawnPoint : MonoBehaviour
 {
-    [SerializeField] GameObject characterPrefab;
+    [SerializeField] GameObject characterPrefab;     // The character prefab.
     [SerializeField] Material characterBodyMaterial; // The material for the character's body.
 
     public int inputIndex = 0;                       // Each player has a unique input index. The index of the first player is 0.
 
-    GameObject currentCharacterInstance;
+    GameObject currentPlayerCharacter;
 
     private void Awake()
     {
@@ -45,20 +45,20 @@ public class PlayerRespawnPoint : MonoBehaviour
     void Respawn()
     {
         // Don't respawn if the current player character is still alive.
-        if (!currentCharacterInstance)
+        if (!currentPlayerCharacter)
         {
             // Create a character.
-            currentCharacterInstance = Instantiate(characterPrefab, transform.position, transform.rotation);
+            currentPlayerCharacter = Instantiate(characterPrefab, transform.position, transform.rotation);
 
             // Set the control ID of the character.
-            PlayerCharacterInput playerCharacterInputComponent = currentCharacterInstance.GetComponent<PlayerCharacterInput>();
+            PlayerCharacterInput playerCharacterInputComponent = currentPlayerCharacter.GetComponent<PlayerCharacterInput>();
             if (playerCharacterInputComponent)
             {
                 playerCharacterInputComponent.inputIndex = this.inputIndex;
             }
 
             // Set the material of the character's body.
-            Renderer characterBodyRenderer = currentCharacterInstance.GetComponent<Renderer>();
+            Renderer characterBodyRenderer = currentPlayerCharacter.GetComponent<Renderer>();
             if (characterBodyRenderer)
             {
                 characterBodyRenderer.material = characterBodyMaterial;

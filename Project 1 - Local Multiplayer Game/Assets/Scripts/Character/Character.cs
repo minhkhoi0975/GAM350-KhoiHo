@@ -44,7 +44,7 @@ public class Character : MonoBehaviour
             Vector3 worldMoveDirection = Quaternion.Euler(0.0f, rotationAngleInDegrees, 0.0f) * Vector3.forward;
 
             // Move the player.
-            rigidBodyComponent.AddForce(worldMoveDirection * moveSpeed * Time.fixedDeltaTime, ForceMode.VelocityChange);
+            rigidBodyComponent.AddForce(worldMoveDirection * moveSpeed * Time.fixedDeltaTime, ForceMode.Impulse);
         }
     }
 
