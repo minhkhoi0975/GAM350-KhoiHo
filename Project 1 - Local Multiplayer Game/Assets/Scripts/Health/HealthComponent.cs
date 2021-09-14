@@ -26,15 +26,15 @@ public class HealthComponent : MonoBehaviour
         currentHealth -= DamageAmount;
         if(currentHealth <= 0)
         {
-            // Check if both the instigator and this game object are characters.
+            // Check if the instigator is a playable character and the victim is a character.
             if (InstigatorInputIndex >= 0 && InstigatorInputIndex < GameManager.MAX_NUMBER_OF_PLAYERS && gameObject.CompareTag("Character"))
             {
-                // Player kills player? The killer gets penalty.
+                // Instigator kills the other player? Get penalty.
                 if (gameObject.GetComponent<PlayerCharacterInput>())
                 {
                     GameManager.Instance.playerScores[InstigatorInputIndex] -= 5;
                 }
-                // Player kills NPC? Increase score.
+                // Instigator kills NPC? Increase score.
                 else
                 {
                     GameManager.Instance.playerScores[InstigatorInputIndex]++;
