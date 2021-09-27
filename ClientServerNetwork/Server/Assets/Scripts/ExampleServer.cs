@@ -44,7 +44,7 @@ public class ExampleServer : MonoBehaviour
     // A client has finished connecting to the server
     void OnClientConnected(long aClientId)
     {
-        
+        serverNet.CallRPC("PrintMessage", UCNetwork.MessageReceiver.AllClients, -1, "A client has connected to the server.");
     }
 
     // A client has disconnected
@@ -82,4 +82,11 @@ public class ExampleServer : MonoBehaviour
     {
 
     }
+
+    /*
+    public void PrintMessage(string msg)
+    {
+        Debug.Log(msg);
+    }
+    */
 }
