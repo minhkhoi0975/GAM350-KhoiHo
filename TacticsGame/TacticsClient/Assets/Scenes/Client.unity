@@ -970,6 +970,9 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls: []
+  m_OnSubmit:
+    m_PersistentCalls:
+      m_Calls: []
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1285,6 +1288,9 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls: []
+  m_OnSubmit:
+    m_PersistentCalls:
+      m_Calls: []
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1343,8 +1349,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1385401857}
-  - component: {fileID: 1385401858}
   - component: {fileID: 1385401859}
+  - component: {fileID: 1385401858}
   m_Layer: 0
   m_Name: ExampleClient
   m_TagString: Untagged
@@ -1375,16 +1381,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1385401856}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f26d5b364556e748b998dda9a74b741, type: 3}
+  m_Script: {fileID: 11500000, guid: 0678c66d24c926f4487050c566e5030c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   clientNet: {fileID: 0}
   loginScreen: {fileID: 248918549}
-  cubes:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!114 &1385401859
 MonoBehaviour:
   m_ObjectHideFlags: 0
