@@ -1,0 +1,16 @@
+...Logging started...
+0.0484832: Server Started
+115.5664893: RespondedAwaitingApproval 366069039819216130 127.0.0.1
+115.5809837: RespondedConnect 366069039819216130 127.0.0.1
+115.5974645: Connected 366069039819216130 127.0.0.1
+115.6103497: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: StartVoIP( 1 )
+
+115.6161773: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: SetPlayerId( 1 )
+
+115.6217794: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: SetTeam( 2 )
+
+115.6354275: AreaChange 366069039819216130 127.0.0.1
+146.7749804: Disconnected 366069039819216130 127.0.0.1
+146.7761164: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: VoiceClientDisconnected(  )
+
+149.645749: Server shutdown
