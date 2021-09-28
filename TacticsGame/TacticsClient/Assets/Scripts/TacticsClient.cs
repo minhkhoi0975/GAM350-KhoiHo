@@ -79,6 +79,11 @@ public class TacticsClient : MonoBehaviour
         loginInProcess = false;
     }
 
+    public void OnChangeArea()
+    {
+        Debug.Log("You have joined the game.");
+    }
+
     void OnDestroy()
     {
         if (clientNet.IsConnected())
