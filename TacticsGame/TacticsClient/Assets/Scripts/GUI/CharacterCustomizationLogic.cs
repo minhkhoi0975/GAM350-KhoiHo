@@ -15,7 +15,7 @@ public class CharacterCustomizationLogic : MonoBehaviour
     public Dropdown characterType;
     public TacticsClient client;
 
-    void Ready()
+    public void Ready()
     {
         client.clientNet.CallRPC("SetName", UCNetwork.MessageReceiver.ServerOnly, -1, playerName.text);
         client.clientNet.CallRPC("SetCharacterType", UCNetwork.MessageReceiver.ServerOnly, -1, characterType.value + 1);

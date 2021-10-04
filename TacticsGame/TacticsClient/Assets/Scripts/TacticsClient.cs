@@ -104,12 +104,16 @@ public class TacticsClient : MonoBehaviour
     {
         this.myPlayerId = playerID;
         players[myPlayerId] = new Player();
+
+        Debug.Log("Your ID is: " + playerID);
     }
 
     // RPC called by the server to tell this client which team they are on
     public void SetTeam(int team)
     {
         players[myPlayerId].team = team;
+
+        Debug.Log("Your team ID is: " + team);
     }
 
     // RPC called by the server to tell this client a new player has connected to the game
@@ -117,24 +121,53 @@ public class TacticsClient : MonoBehaviour
     {
         players[playerId] = new Player();
         players[playerId].team = team;
+
+        Debug.Log("Player " + playerId + " has entered the game and joined team " + team);
     }
 
     // RPC called by the server to tell this client a player's name has been changed
     public void PlayerNameChanged(int playerId, string name)
     {
         players[playerId].name = name;
+
+        Debug.Log("Player " + playerId + " has changed their name to " + name);
     }
 
-    // RPC called by the server to tell this client if it's a player's turn
+    // RPC called by the server to tell this client if it's a client is ready to play.
     public void PlayerIsReady(int playerId, bool isReady)
     {
         players[playerId].isReady = isReady;
+
+        if(isReady)
+        {
+            Debug.Log("Player " + playerId + " is ready to play.");
+        }
+        else
+        {
+            Debug.Log("Player " + playerId + " is not ready to play.");
+        }
     }
 
-    // RPC called by the server to tell this client a player has changed their character class
+    // RPC called by the server to tell this client a client has changed their character class
     public void PlayerClassChanged(int playerId, int newCharacterClass)
     {
         players[playerId].characterClass = newCharacterClass;
+
+        string characterClassName = "";
+        switch(newCharacterClass)
+        {
+            case 1:
+                characterClassName = "Warrior";
+                break;
+            case 2:
+                characterClassName = "Rogue";
+                break;
+            case 3:
+                characterClassName = "Wizard";
+                break;
+        }
+
+        Debug.Log("Player " + playerId + "has selected class " + characterClassName);
     }
 
     // RPC called by the server to tell this client the game is about to start within time.
