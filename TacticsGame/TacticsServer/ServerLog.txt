@@ -1,16 +1,51 @@
 ...Logging started...
-0.0483407: Server Started
-15.274913: RespondedAwaitingApproval 2183860201368399263 127.0.0.1
-15.2816924: RespondedConnect 2183860201368399263 127.0.0.1
-15.3073164: Connected 2183860201368399263 127.0.0.1
-15.3130945: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: StartVoIP( 1 )
+0.0497864: Server Started
+8.4760312: RespondedAwaitingApproval 8807695508394755013 127.0.0.1
+8.4801164: RespondedConnect 8807695508394755013 127.0.0.1
+8.4844733: Connected 8807695508394755013 127.0.0.1
+8.4877328: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: StartVoIP( 1 )
 
-15.3150727: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: SetPlayerId( 1 )
+8.488992: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: SetPlayerId( 1 )
 
-15.3161476: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: SetTeam( 2 )
+8.4895909: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: SetTeam( 2 )
 
-15.3265685: AreaChange 2183860201368399263 127.0.0.1
-22.4848627: Disconnected 2183860201368399263 127.0.0.1
-22.4860334: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: VoiceClientDisconnected(  )
+8.4948277: AreaChange 8807695508394755013 127.0.0.1
+20.6547595: Disconnected 8807695508394755013 127.0.0.1
+20.6554269: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: VoiceClientDisconnected(  )
 
-64.1910974: Server shutdown
+765.6944364: RespondedAwaitingApproval -7645770808339280033 127.0.0.1
+765.6965504: RespondedConnect -7645770808339280033 127.0.0.1
+765.6983377: Connected -7645770808339280033 127.0.0.1
+765.6988491: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: StartVoIP( 2 )
+
+765.6993503: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: SetPlayerId( 2 )
+
+765.6999213: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: SetTeam( 2 )
+
+765.7035686: AreaChange -7645770808339280033 127.0.0.1
+769.785493: Disconnected -7645770808339280033 127.0.0.1
+769.7862027: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: VoiceClientDisconnected(  )
+
+803.9765697: RespondedAwaitingApproval 4086171601181915088 127.0.0.1
+803.9787242: RespondedConnect 4086171601181915088 127.0.0.1
+803.9822836: Connected 4086171601181915088 127.0.0.1
+803.9827827: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: StartVoIP( 3 )
+
+803.983334: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: SetPlayerId( 3 )
+
+803.9838735: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: SetTeam( 2 )
+
+803.9869827: AreaChange 4086171601181915088 127.0.0.1
+828.1521656: Disconnected 4086171601181915088 127.0.0.1
+828.1527397: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: VoiceClientDisconnected(  )
+
+1684.1613089: RespondedAwaitingApproval 1985304113425341634 127.0.0.1
+1684.1633651: RespondedConnect 1985304113425341634 127.0.0.1
+1684.1661893: Connected 1985304113425341634 127.0.0.1
+1684.1666632: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: StartVoIP( 4 )
+
+1684.1671241: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: SetPlayerId( 4 )
+
+1684.1675154: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: SetTeam( 2 )
+
+1684.1721842: AreaChange 1985304113425341634 127.0.0.1

@@ -11,7 +11,9 @@ public class TacticsClient : MonoBehaviour
     // Are we in the process of logging into a server
     private bool loginInProcess = false;
 
-    public GameObject loginScreen;
+    public GameObject loginPanel;
+
+    public GameObject characterSelectionPanel;
 
     // Represents a player
     class Player
@@ -65,8 +67,12 @@ public class TacticsClient : MonoBehaviour
 
     void OnNetStatusConnected()
     {
-        loginScreen.SetActive(false);
+        // Disable the login panel.
+        loginPanel.SetActive(false);
         Debug.Log("OnNetStatusConnected called");
+
+        // Enable the character selection panel.
+        characterSelectionPanel.SetActive(true);
 
         clientNet.AddToArea(1);
     }
