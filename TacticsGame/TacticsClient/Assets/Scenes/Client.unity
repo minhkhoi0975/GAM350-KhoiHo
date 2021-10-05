@@ -474,7 +474,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &248918550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2959,6 +2959,8 @@ MonoBehaviour:
   characterSelectionPanel: {fileID: 1307327755}
   textGameAboutToStart: {fileID: 2095923307}
   gameBoard: {fileID: 1727893306}
+  gameBoardPieceTemplate: {fileID: 1000010831633188, guid: 32a448e11b95e0c4c809a9c47a017f2f,
+    type: 3}
 --- !u!114 &1385401859
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3441,7 +3443,7 @@ PrefabInstance:
     - target: {fileID: 8221292428261894666, guid: 5acfd613247c6c741946b7fc58759c66,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5acfd613247c6c741946b7fc58759c66, type: 3}

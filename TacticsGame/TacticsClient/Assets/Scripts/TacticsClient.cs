@@ -18,7 +18,7 @@ public class TacticsClient : MonoBehaviour
     public GameObject textGameAboutToStart;
 
     // Represents a player
-    public class Player
+    public class PlayerInfo
     {
         public string name = "Unknown";
         public int playerId = 0;
@@ -30,8 +30,8 @@ public class TacticsClient : MonoBehaviour
         public bool isReady;
         public GameObject playerObject = null;
     }
-    Dictionary<int, Player> players = new Dictionary<int, Player>();
-    public Dictionary<int, Player> Players
+    Dictionary<int, PlayerInfo> players = new Dictionary<int, PlayerInfo>();
+    public Dictionary<int, PlayerInfo> Players
     {
         get
         {
@@ -47,8 +47,11 @@ public class TacticsClient : MonoBehaviour
     int mapXSize = 0;
     int mapYSize = 0;
 
-    // Game board object.
+    // Game board.
     public GameBoard gameBoard;
+
+    // Game board piece template.
+    public GameObject gameBoardPieceTemplate;
 
     // Use this for initialization
     void Awake()
@@ -120,8 +123,23 @@ public class TacticsClient : MonoBehaviour
     public void SetPlayerId(int playerId)
     {
         this.myPlayerId = playerId;
-        players[myPlayerId] = new Player();
+        players[myPlayerId] = new PlayerInfo();
         players[myPlayerId].playerId = playerId;
+
+        // Create a game object for this player.
+        GameObject myGameObject = clientNet.Instantiate(gameBoardPieceTemplate.name, Vector3.zero, Quaternion.identity);
+        if(myGameObject)
+        {
+            players[myPlayerId].playerObject = myGameObject;
+            players[myPlayerId].playerObject.GetComponent<NetworkSync>().AddToArea(1);
+        }
+        else
+        {
+            Debug.LogError("Cannot create network object!");
+        }
+
+        // The game hasn't started yet, so we should hide the piece.
+        // players[myPlayerId].playerObject.SetActive(false);
 
         Debug.Log("Your ID is: " + playerId);
     }
@@ -131,13 +149,24 @@ public class TacticsClient : MonoBehaviour
     {
         players[myPlayerId].team = team;
 
+        // Update the player object.
+        Player player = players[myPlayerId].playerObject.GetComponent<Player>();
+        player.textTeam.text = team.ToString();
+
+        MeshRenderer playerObjectMeshRenderer = players[myPlayerId].playerObject.GetComponent<MeshRenderer>();
+        if(team == 1)
+        {
+            playerObjectMeshRenderer.material = player.team1Material;
+            playerObjectMeshRenderer.material = player.team2Material;
+        }
+
         Debug.Log("Your team is: " + team);
     }
 
     // RPC called by the server to tell this client a new player has connected to the game
     public void NewPlayerConnected(int playerId, int team)
     {
-        players[playerId] = new Player();
+        players[playerId] = new PlayerInfo();
         players[playerId].playerId = playerId;
         players[playerId].team = team;
 
@@ -148,6 +177,10 @@ public class TacticsClient : MonoBehaviour
     public void PlayerNameChanged(int playerId, string name)
     {
         players[playerId].name = name;
+
+        // Update the player object.
+        Player player = players[playerId].playerObject.GetComponent<Player>();
+        player.textName.text = name;
 
         Debug.Log("Player " + playerId + " has changed their name to " + name);
     }

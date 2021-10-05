@@ -52,7 +52,7 @@ public class CharacterCustomizationLogic : MonoBehaviour
 
         if(listOfPlayers)
         {
-            foreach(KeyValuePair<int, TacticsClient.Player> player in client.Players)
+            foreach(KeyValuePair<int, TacticsClient.PlayerInfo> player in client.Players)
             {
                 // Print player ID.
                 listOfPlayers.text += player.Key + "\t\t";
