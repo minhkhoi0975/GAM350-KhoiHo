@@ -47,6 +47,9 @@ public class TacticsClient : MonoBehaviour
     int mapXSize = 0;
     int mapYSize = 0;
 
+    // Game board object.
+    public GameBoard gameBoard;
+
     // Use this for initialization
     void Awake()
     {
@@ -58,6 +61,11 @@ public class TacticsClient : MonoBehaviour
         if (clientNet == null)
         {
             clientNet = (ClientNetwork)gameObject.AddComponent(typeof(ClientNetwork));
+        }
+
+        if (gameBoard == null)
+        {
+            gameBoard = FindObjectOfType<GameBoard>();
         }
     }
 
@@ -205,9 +213,16 @@ public class TacticsClient : MonoBehaviour
     // RPC called by the server to tell this client the size of the map.
     public void SetMapSize(int x, int y) 
     {
+        // Get info of the map.
         mapXSize = x;
         mapYSize = y;
         boardState = new int[x, y];
+
+        // Generate a game board.
+        gameBoard.gameObject.SetActive(true);
+        gameBoard.sizeX = x;
+        gameBoard.sizeY = y;
+        gameBoard.GenerateNewGameBoard();
     }
     // RPC called by the server to tell this client position [x,y] is blocked.
     public void SetBlockedSpace(int x, int y) 

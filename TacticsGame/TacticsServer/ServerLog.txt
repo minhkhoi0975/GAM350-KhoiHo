@@ -1,393 +1,582 @@
 ...Logging started...
-0.0497463: Server Started
-31.9921436: RespondedAwaitingApproval -6783699973255371418 127.0.0.1
-32.0006649: RespondedConnect -6783699973255371418 127.0.0.1
-32.0151642: Connected -6783699973255371418 127.0.0.1
-32.0219688: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: StartVoIP( 1 )
+0.0496836: Server Started
+0.6317371: RespondedAwaitingApproval 6666713139496543301 127.0.0.1
+0.6504987: RespondedConnect 6666713139496543301 127.0.0.1
+0.6512612: Connected 6666713139496543301 127.0.0.1
+0.6564381: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: StartVoIP( 1 )
 
-32.0252374: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: SetPlayerId( 1 )
+0.6581839: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: SetPlayerId( 1 )
 
-32.0272306: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: SetTeam( 2 )
+0.6592224: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: SetTeam( 2 )
 
-32.0552688: AreaChange -6783699973255371418 127.0.0.1
-33.4617865: RPC ServerOnly NetSyncId: -1 Function: Ready( False )
+0.6689679: AreaChange 6666713139496543301 127.0.0.1
+7.8301395: RPC ServerOnly NetSyncId: -1 Function: SetName( Jackson )
 
-33.4644265: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: PlayerIsReady( 1, False )
+7.833513: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: PlayerNameChanged( 1, Jackson )
 
-33.8277716: RPC ServerOnly NetSyncId: -1 Function: Ready( False )
+9.9811696: RPC ServerOnly NetSyncId: -1 Function: SetCharacterType( 2 )
 
-33.8285502: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: PlayerIsReady( 1, False )
+9.9827364: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: PlayerClassChanged( 1, 2 )
 
-33.9942188: RPC ServerOnly NetSyncId: -1 Function: Ready( False )
+11.3128293: RPC ServerOnly NetSyncId: -1 Function: Ready( True )
 
-33.9949776: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: PlayerIsReady( 1, False )
+11.3143433: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: PlayerIsReady( 1, True )
 
-37.6282842: RPC ServerOnly NetSyncId: -1 Function: SetName( Scar )
+38.4140554: RespondedAwaitingApproval 2033341605495305711 127.0.0.1
+38.4172908: RespondedConnect 2033341605495305711 127.0.0.1
+38.4224877: Connected 2033341605495305711 127.0.0.1
+38.4235057: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: StartVoIP( 2 )
 
-37.6295429: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: PlayerNameChanged( 1, Scar )
+38.4244483: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: SetPlayerId( 2 )
 
-37.7125889: RPC ServerOnly NetSyncId: -1 Function: Ready( False )
+38.425334: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: SetTeam( 1 )
 
-37.7134102: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: PlayerIsReady( 1, False )
+38.4262277: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 1, 2 )
 
-38.6935383: RPC ServerOnly NetSyncId: -1 Function: Ready( False )
+38.427615: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerNameChanged( 1, Jackson )
 
-38.6943444: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: PlayerIsReady( 1, False )
+38.4291198: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerIsReady( 1, True )
 
-39.1116094: RPC ServerOnly NetSyncId: -1 Function: Ready( False )
+38.4299749: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerClassChanged( 1, 2 )
 
-39.1123625: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: PlayerIsReady( 1, False )
+38.4308412: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 2, 1 )
 
-39.4444985: RPC ServerOnly NetSyncId: -1 Function: Ready( False )
+38.4496643: AreaChange 2033341605495305711 127.0.0.1
+41.9161439: RPC ServerOnly NetSyncId: -1 Function: SetCharacterType( 1 )
 
-39.4456837: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: PlayerIsReady( 1, False )
+41.9170366: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: PlayerClassChanged( 2, 1 )
 
-40.8167926: RPC ServerOnly NetSyncId: -1 Function: SetCharacterType( 1 )
+47.0989454: RPC ServerOnly NetSyncId: -1 Function: SetName( Kane )
 
-40.8182495: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: PlayerClassChanged( 1, 1 )
+47.099796: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: PlayerNameChanged( 2, Kane )
 
-41.6100768: RPC ServerOnly NetSyncId: -1 Function: Ready( True )
+47.1654424: RPC ServerOnly NetSyncId: -1 Function: Ready( True )
 
-41.6109375: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: PlayerIsReady( 1, True )
+47.1662603: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: PlayerIsReady( 2, True )
 
-50.2814686: RespondedAwaitingApproval -8316297047850876679 127.0.0.1
-50.2854073: RespondedConnect -8316297047850876679 127.0.0.1
-50.2969137: Connected -8316297047850876679 127.0.0.1
-50.2982148: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: StartVoIP( 2 )
+54.2982003: RespondedAwaitingApproval -2377562480832256444 127.0.0.1
+54.3012508: RespondedConnect -2377562480832256444 127.0.0.1
+54.3100183: Connected -2377562480832256444 127.0.0.1
+54.3108759: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: StartVoIP( 3 )
 
-50.299288: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: SetPlayerId( 2 )
+54.3138482: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: SetPlayerId( 3 )
 
-50.3005263: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: SetTeam( 1 )
+54.3147342: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: SetTeam( 2 )
 
-50.3020682: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 1, 2 )
+54.3159832: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 1, 2 )
 
-50.303362: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerNameChanged( 1, Scar )
+54.3168858: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerNameChanged( 1, Jackson )
 
-50.3043853: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerIsReady( 1, True )
+54.3180686: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerIsReady( 1, True )
 
-50.3054672: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerClassChanged( 1, 1 )
+54.3189611: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerClassChanged( 1, 2 )
 
-50.3069433: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 2, 1 )
+54.3198968: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 3, 2 )
 
-50.3316827: AreaChange -8316297047850876679 127.0.0.1
-54.6626266: RPC ServerOnly NetSyncId: -1 Function: SetName( Joseph )
+54.3209813: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 2, 1 )
 
-54.6639812: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: PlayerNameChanged( 2, Joseph )
+54.3241953: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerNameChanged( 2, Kane )
 
-56.2145092: RPC ServerOnly NetSyncId: -1 Function: SetCharacterType( 3 )
+54.3254005: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerIsReady( 2, True )
 
-56.2156189: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: PlayerClassChanged( 2, 3 )
+54.3266533: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerClassChanged( 2, 1 )
 
-58.1778928: RPC ServerOnly NetSyncId: -1 Function: Ready( True )
+54.3276218: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 3, 2 )
 
-58.1789563: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: PlayerIsReady( 2, True )
+54.3359073: AreaChange -2377562480832256444 127.0.0.1
+58.0654793: RPC ServerOnly NetSyncId: -1 Function: SetName( Laura )
 
-66.0129962: RespondedAwaitingApproval -5540575203011111340 127.0.0.1
-66.0180968: RespondedConnect -5540575203011111340 127.0.0.1
-66.025516: Connected -5540575203011111340 127.0.0.1
-66.0265997: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: StartVoIP( 3 )
+58.0663682: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: PlayerNameChanged( 3, Laura )
 
-66.0276949: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: SetPlayerId( 3 )
+59.1998615: RPC ServerOnly NetSyncId: -1 Function: SetCharacterType( 3 )
 
-66.0285036: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: SetTeam( 2 )
+59.2006701: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: PlayerClassChanged( 3, 3 )
 
-66.0293343: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 1, 2 )
+59.933423: RPC ServerOnly NetSyncId: -1 Function: Ready( True )
 
-66.0302027: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerNameChanged( 1, Scar )
+59.934373: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: PlayerIsReady( 3, True )
 
-66.0310235: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerIsReady( 1, True )
+66.6477707: RespondedAwaitingApproval 7542356493219444444 127.0.0.1
+66.6511375: RespondedConnect 7542356493219444444 127.0.0.1
+66.6597538: Connected 7542356493219444444 127.0.0.1
+66.6605087: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: StartVoIP( 4 )
 
-66.0318272: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerClassChanged( 1, 1 )
+66.66117: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: SetPlayerId( 4 )
 
-66.0329646: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 3, 2 )
+66.6617669: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: SetTeam( 1 )
 
-66.0339242: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 2, 1 )
+66.6623555: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 1, 2 )
 
-66.0349185: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerNameChanged( 2, Joseph )
+66.6635361: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerNameChanged( 1, Jackson )
 
-66.0358323: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerIsReady( 2, True )
+66.6641747: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerIsReady( 1, True )
 
-66.0366107: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerClassChanged( 2, 3 )
+66.6648245: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerClassChanged( 1, 2 )
 
-66.0374431: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 3, 2 )
+66.6654728: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 4, 1 )
 
-66.0430485: AreaChange -5540575203011111340 127.0.0.1
-75.9141078: RPC ServerOnly NetSyncId: -1 Function: SetName( Francis )
+66.666084: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 2, 1 )
 
-75.9151325: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: PlayerNameChanged( 3, Francis )
+66.6670147: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerNameChanged( 2, Kane )
 
-78.582007: RPC ServerOnly NetSyncId: -1 Function: SetCharacterType( 2 )
+66.6677313: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerIsReady( 2, True )
 
-78.5831348: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: PlayerClassChanged( 3, 2 )
+66.6686232: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerClassChanged( 2, 1 )
 
-85.7617871: RespondedAwaitingApproval 6710138645236278911 127.0.0.1
-85.7672582: RespondedConnect 6710138645236278911 127.0.0.1
-85.7729671: Connected 6710138645236278911 127.0.0.1
-85.7739212: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: StartVoIP( 4 )
+66.6692415: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 4, 1 )
 
-85.7747923: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: SetPlayerId( 4 )
+66.669837: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 3, 2 )
 
-85.7756719: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: SetTeam( 1 )
+66.671345: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerNameChanged( 3, Laura )
 
-85.7765937: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 1, 2 )
+66.6729856: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerIsReady( 3, True )
 
-85.7777187: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerNameChanged( 1, Scar )
+66.6736997: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerClassChanged( 3, 3 )
 
-85.7785633: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerIsReady( 1, True )
+66.6752053: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 4, 1 )
 
-85.7794882: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerClassChanged( 1, 1 )
+66.6785628: AreaChange 7542356493219444444 127.0.0.1
+70.4014054: RPC ServerOnly NetSyncId: -1 Function: SetName( Henry )
 
-85.7802615: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 4, 1 )
+70.402388: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: PlayerNameChanged( 4, Henry )
 
-85.7810254: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 2, 1 )
+71.2155339: RPC ServerOnly NetSyncId: -1 Function: SetCharacterType( 2 )
 
-85.7819675: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerNameChanged( 2, Joseph )
+71.2165717: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: PlayerClassChanged( 4, 2 )
 
-85.7829921: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerIsReady( 2, True )
+73.3660065: RPC ServerOnly NetSyncId: -1 Function: Ready( True )
 
-85.7840036: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerClassChanged( 2, 3 )
+73.3671152: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: PlayerIsReady( 4, True )
 
-85.7848332: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 4, 1 )
+80.2362233: RespondedAwaitingApproval 7039544617560096522 127.0.0.1
+80.2395429: RespondedConnect 7039544617560096522 127.0.0.1
+80.2480207: Connected 7039544617560096522 127.0.0.1
+80.2490097: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: StartVoIP( 5 )
 
-85.7856957: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 3, 2 )
+80.2500552: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: SetPlayerId( 5 )
 
-85.7867155: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerNameChanged( 3, Francis )
+80.2509308: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: SetTeam( 2 )
 
-85.7876524: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerClassChanged( 3, 2 )
+80.2515801: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 1, 2 )
 
-85.7884972: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 4, 1 )
+80.25269: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerNameChanged( 1, Jackson )
 
-85.7961992: AreaChange 6710138645236278911 127.0.0.1
-89.097432: RPC ServerOnly NetSyncId: -1 Function: SetName( Simon )
+80.2533819: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerIsReady( 1, True )
 
-89.0983773: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: PlayerNameChanged( 4, Simon )
+80.2541439: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerClassChanged( 1, 2 )
 
-90.1493737: RPC ServerOnly NetSyncId: -1 Function: SetCharacterType( 1 )
+80.2551137: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 5, 2 )
 
-90.1507794: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: PlayerClassChanged( 4, 1 )
+80.2558448: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 2, 1 )
 
-92.4794759: RPC ServerOnly NetSyncId: -1 Function: Ready( True )
+80.2564788: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerNameChanged( 2, Kane )
 
-92.4808548: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: PlayerIsReady( 4, True )
+80.2571903: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerIsReady( 2, True )
 
-101.9815624: RPC ServerOnly NetSyncId: -1 Function: Ready( True )
+80.259657: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerClassChanged( 2, 1 )
 
-101.9831236: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: PlayerIsReady( 3, True )
+80.260593: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 5, 2 )
 
-109.6292258: RespondedAwaitingApproval -2377417935389407387 127.0.0.1
-109.6343468: RespondedConnect -2377417935389407387 127.0.0.1
-109.6423747: Connected -2377417935389407387 127.0.0.1
-109.6434973: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: StartVoIP( 5 )
+80.2618287: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 3, 2 )
 
-109.6443816: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: SetPlayerId( 5 )
+80.2639158: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerNameChanged( 3, Laura )
 
-109.6460053: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: SetTeam( 2 )
+80.2646375: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerIsReady( 3, True )
 
-109.6471476: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 1, 2 )
+80.2659599: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerClassChanged( 3, 3 )
 
-109.6481418: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerNameChanged( 1, Scar )
+80.2668348: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 5, 2 )
 
-109.6491074: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerIsReady( 1, True )
+80.2692947: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 4, 1 )
 
-109.6498849: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerClassChanged( 1, 1 )
+80.2706104: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerNameChanged( 4, Henry )
 
-109.6506906: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 5, 2 )
+80.2743935: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerIsReady( 4, True )
 
-109.6519025: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 2, 1 )
+80.2759387: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerClassChanged( 4, 2 )
 
-109.6529837: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerNameChanged( 2, Joseph )
+80.276642: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 5, 2 )
 
-109.6540928: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerIsReady( 2, True )
+80.2818733: AreaChange 7039544617560096522 127.0.0.1
+83.6832626: RPC ServerOnly NetSyncId: -1 Function: SetName( Andy )
 
-109.655208: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerClassChanged( 2, 3 )
+83.684297: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: PlayerNameChanged( 5, Andy )
 
-109.6562825: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 5, 2 )
+84.5514979: RPC ServerOnly NetSyncId: -1 Function: SetCharacterType( 1 )
 
-109.6572007: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 3, 2 )
+84.5526362: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: PlayerClassChanged( 5, 1 )
 
-109.6580812: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerNameChanged( 3, Francis )
+85.1983944: RPC ServerOnly NetSyncId: -1 Function: Ready( True )
 
-109.6588322: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerIsReady( 3, True )
+85.1992291: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: PlayerIsReady( 5, True )
 
-109.6598546: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerClassChanged( 3, 2 )
+92.3165975: RespondedAwaitingApproval -8542812456205227897 127.0.0.1
+92.3196098: RespondedConnect -8542812456205227897 127.0.0.1
+92.3289963: Connected -8542812456205227897 127.0.0.1
+92.3337777: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: StartVoIP( 6 )
 
-109.6608132: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 5, 2 )
+92.3397811: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: SetPlayerId( 6 )
 
-109.661845: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 4, 1 )
+92.3417302: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: SetTeam( 1 )
 
-109.662765: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerNameChanged( 4, Simon )
+92.3510253: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 1, 2 )
 
-109.6642723: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerIsReady( 4, True )
+92.3527126: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerNameChanged( 1, Jackson )
 
-109.6652687: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerClassChanged( 4, 1 )
+92.3538466: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerIsReady( 1, True )
 
-109.6664812: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 5, 2 )
+92.3558091: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerClassChanged( 1, 2 )
 
-109.6701023: AreaChange -2377417935389407387 127.0.0.1
-112.6321862: RPC ServerOnly NetSyncId: -1 Function: SetName( Anna )
+92.3568161: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 6, 1 )
 
-112.6336158: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: PlayerNameChanged( 5, Anna )
+92.3594774: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 2, 1 )
 
-117.2666475: RPC ServerOnly NetSyncId: -1 Function: SetCharacterType( 3 )
+92.3631745: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerNameChanged( 2, Kane )
 
-117.2676634: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: PlayerClassChanged( 5, 3 )
+92.365691: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerIsReady( 2, True )
 
-118.7161053: RPC ServerOnly NetSyncId: -1 Function: Ready( True )
+92.36742: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerClassChanged( 2, 1 )
 
-118.7173262: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: PlayerIsReady( 5, True )
+92.3687033: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 6, 1 )
 
-126.4625158: RespondedAwaitingApproval 8047525480480534021 127.0.0.1
-126.4661899: RespondedConnect 8047525480480534021 127.0.0.1
-126.4759856: Connected 8047525480480534021 127.0.0.1
-126.477264: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: StartVoIP( 6 )
+92.3700232: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 3, 2 )
 
-126.4787356: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: SetPlayerId( 6 )
+92.3715055: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerNameChanged( 3, Laura )
 
-126.4799743: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: SetTeam( 1 )
+92.372765: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerIsReady( 3, True )
 
-126.4810109: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 1, 2 )
+92.3737083: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerClassChanged( 3, 3 )
 
-126.4823566: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerNameChanged( 1, Scar )
+92.3745682: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 6, 1 )
 
-126.4835682: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerIsReady( 1, True )
+92.3754203: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 4, 1 )
 
-126.4846099: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerClassChanged( 1, 1 )
+92.3762671: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerNameChanged( 4, Henry )
 
-126.485636: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 6, 1 )
+92.3770015: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerIsReady( 4, True )
 
-126.4865355: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 2, 1 )
+92.3787799: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerClassChanged( 4, 2 )
 
-126.4874217: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerNameChanged( 2, Joseph )
+92.380134: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 6, 1 )
 
-126.4884153: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerIsReady( 2, True )
+92.3842367: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 5, 2 )
 
-126.4895668: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerClassChanged( 2, 3 )
+92.385091: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerNameChanged( 5, Andy )
 
-126.4906635: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 6, 1 )
+92.3858216: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerIsReady( 5, True )
 
-126.4919382: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 3, 2 )
+92.3866175: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerClassChanged( 5, 1 )
 
-126.4933598: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerNameChanged( 3, Francis )
+92.3873366: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 6, 1 )
 
-126.4951926: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerIsReady( 3, True )
+92.3913359: AreaChange -8542812456205227897 127.0.0.1
+104.6857239: RPC ServerOnly NetSyncId: -1 Function: SetName( Paul )
 
-126.4968131: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerClassChanged( 3, 2 )
+104.6895764: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: PlayerNameChanged( 6, Paul )
 
-126.497784: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 6, 1 )
+106.0517899: RPC ServerOnly NetSyncId: -1 Function: SetCharacterType( 1 )
 
-126.4989534: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 4, 1 )
+106.0526629: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: PlayerClassChanged( 6, 1 )
 
-126.5004085: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerNameChanged( 4, Simon )
+110.1007226: RPC ServerOnly NetSyncId: -1 Function: Ready( True )
 
-126.5018532: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerIsReady( 4, True )
+110.1024132: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: PlayerIsReady( 6, True )
 
-126.5031763: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerClassChanged( 4, 1 )
+110.8162196: RPC ServerOnly NetSyncId: -1 Function: Ready( False )
 
-126.50456: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 6, 1 )
+110.8170634: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: PlayerIsReady( 6, False )
 
-126.5057934: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 5, 2 )
+110.8180897: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: GameStart( 2 )
 
-126.5073443: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerNameChanged( 5, Anna )
+112.8172135: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: SetMapSize( 14, 13 )
 
-126.5093331: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerIsReady( 5, True )
+112.8186175: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: SetBlockedSpace( 1, 8 )
 
-126.5105855: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: PlayerClassChanged( 5, 3 )
+112.8196404: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: SetBlockedSpace( 2, 7 )
 
-126.514717: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: NewPlayerConnected( 6, 1 )
+112.8207735: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: SetBlockedSpace( 3, 6 )
 
-126.5186902: AreaChange 8047525480480534021 127.0.0.1
-129.2496637: RPC ServerOnly NetSyncId: -1 Function: SetName( Joe )
+112.8214847: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: SetBlockedSpace( 3, 11 )
 
-129.2507399: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: PlayerNameChanged( 6, Joe )
+112.8223846: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: SetBlockedSpace( 4, 12 )
 
-131.6360443: RPC ServerOnly NetSyncId: -1 Function: SetCharacterType( 2 )
+112.8229934: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: SetBlockedSpace( 11, 4 )
 
-131.6377776: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: PlayerClassChanged( 6, 2 )
+112.8235657: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: SetBlockedSpace( 12, 12 )
 
-135.3995019: RPC ServerOnly NetSyncId: -1 Function: Ready( True )
+112.8243429: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: SetBlockedSpace( 13, 7 )
 
-135.4005952: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: PlayerIsReady( 6, True )
+112.8250043: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: UpdateHealth( 1, 70 )
 
-136.1980072: RPC ServerOnly NetSyncId: -1 Function: Ready( False )
+112.8256066: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: SetPlayerPosition( 1, 3, 2 )
 
-136.1988308: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: PlayerIsReady( 6, False )
+112.8263637: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: UpdateHealth( 2, 100 )
 
-136.1999474: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: GameStart( 2 )
+112.8269741: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: SetPlayerPosition( 2, 9, 7 )
 
-138.1997345: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: SetMapSize( 11, 10 )
+112.8276506: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: UpdateHealth( 3, 30 )
 
-138.2011567: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: SetBlockedSpace( 0, 1 )
+112.8284184: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: SetPlayerPosition( 3, 10, 12 )
 
-138.2021524: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: SetBlockedSpace( 2, 4 )
+112.8290177: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: UpdateHealth( 4, 70 )
 
-138.2035373: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: SetBlockedSpace( 2, 6 )
+112.8295875: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: SetPlayerPosition( 4, 11, 5 )
 
-138.2044698: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: SetBlockedSpace( 3, 0 )
+112.830312: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: UpdateHealth( 5, 100 )
 
-138.2053708: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: SetBlockedSpace( 4, 1 )
+112.8309065: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: SetPlayerPosition( 5, 3, 10 )
 
-138.2065598: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: SetBlockedSpace( 6, 4 )
+112.8324285: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: UpdateHealth( 6, 100 )
 
-138.2079201: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: SetBlockedSpace( 6, 9 )
+112.8334188: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: SetPlayerPosition( 6, 11, 3 )
 
-138.2089088: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: UpdateHealth( 1, 100 )
+112.8347597: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 1 )
 
-138.2099248: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: SetPlayerPosition( 1, 4, 5 )
+122.8178635: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 2 )
 
-138.2114471: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: UpdateHealth( 2, 30 )
+132.8188038: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 3 )
 
-138.2124533: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: SetPlayerPosition( 2, 8, 1 )
+135.3967873: Disconnected 7039544617560096522 127.0.0.1
+135.3983436: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: VoiceClientDisconnected(  )
 
-138.2134095: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: UpdateHealth( 3, 70 )
+136.7220405: Disconnected 6666713139496543301 127.0.0.1
+136.7230803: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: VoiceClientDisconnected(  )
 
-138.2150662: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: SetPlayerPosition( 3, 1, 1 )
+137.7842754: Disconnected 2033341605495305711 127.0.0.1
+137.7853035: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: VoiceClientDisconnected(  )
 
-138.2177449: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: UpdateHealth( 4, 100 )
+138.5475231: Disconnected -2377562480832256444 127.0.0.1
+138.5484655: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: VoiceClientDisconnected(  )
 
-138.2188449: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: SetPlayerPosition( 4, 9, 9 )
+139.7442847: Disconnected 7542356493219444444 127.0.0.1
+139.7453241: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: VoiceClientDisconnected(  )
 
-138.2208291: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: UpdateHealth( 5, 30 )
+140.700246: Disconnected -8542812456205227897 127.0.0.1
+140.7012505: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: VoiceClientDisconnected(  )
 
-138.22233: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: SetPlayerPosition( 5, 6, 1 )
+142.8200664: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 4 )
 
-138.2244931: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: UpdateHealth( 6, 70 )
+152.8211153: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 5 )
 
-138.2259164: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: SetPlayerPosition( 6, 6, 3 )
+162.8217484: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 6 )
 
-138.2276277: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 1 )
+172.8231004: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 1 )
 
-147.3510407: Disconnected -6783699973255371418 127.0.0.1
-147.3526581: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: VoiceClientDisconnected(  )
+182.8239276: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 2 )
 
-148.2006095: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 2 )
+192.8244083: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 3 )
 
-148.3496487: Disconnected -8316297047850876679 127.0.0.1
-148.3511708: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: VoiceClientDisconnected(  )
+202.8248986: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 4 )
 
-149.101913: Disconnected -5540575203011111340 127.0.0.1
-149.1034424: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: VoiceClientDisconnected(  )
+212.8259156: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 5 )
 
-149.8333712: Disconnected 6710138645236278911 127.0.0.1
-149.8342365: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: VoiceClientDisconnected(  )
+222.8271027: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 6 )
 
-150.55093: Disconnected -2377417935389407387 127.0.0.1
-150.5519284: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: VoiceClientDisconnected(  )
+232.8275325: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 1 )
 
-151.4709952: Disconnected 8047525480480534021 127.0.0.1
-151.472328: => Outgoing RPC Sent to: SingleClient as SingleClient NetSyncId: -1 Function: VoiceClientDisconnected(  )
+242.8300157: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 2 )
 
-158.2008732: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 3 )
+252.8304032: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 3 )
 
-168.2014669: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 4 )
+262.8307978: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 4 )
 
-178.2019337: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 5 )
+272.832276: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 5 )
 
-188.2027648: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 6 )
+282.8324783: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 6 )
 
-198.2031562: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 1 )
+292.8335185: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 1 )
 
-208.2043271: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 2 )
+302.8339181: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 2 )
 
-218.2046341: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 3 )
+312.8340984: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 3 )
 
-223.5460465: Server shutdown
+322.8343587: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 4 )
+
+332.8352384: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 5 )
+
+342.8352002: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 6 )
+
+352.8357041: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 1 )
+
+362.8369706: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 2 )
+
+372.8410762: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 3 )
+
+382.8388422: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 4 )
+
+392.8395426: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 5 )
+
+402.8403328: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 6 )
+
+412.8416537: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 1 )
+
+422.8431479: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 2 )
+
+432.8439266: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 3 )
+
+442.8444531: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 4 )
+
+452.8454672: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 5 )
+
+462.8470888: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 6 )
+
+472.8475442: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 1 )
+
+482.8483449: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 2 )
+
+492.8486152: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 3 )
+
+502.8489093: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 4 )
+
+512.8492321: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 5 )
+
+522.851028: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 6 )
+
+532.8526009: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 1 )
+
+542.8538471: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 2 )
+
+552.854572: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 3 )
+
+562.8556285: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 4 )
+
+572.8577813: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 5 )
+
+582.8617243: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 6 )
+
+592.8626866: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 1 )
+
+602.8641649: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 2 )
+
+612.865419: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 3 )
+
+622.8655196: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 4 )
+
+632.8664483: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 5 )
+
+642.8671226: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 6 )
+
+652.8671209: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 1 )
+
+662.868044: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 2 )
+
+672.8681044: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 3 )
+
+682.8686813: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 4 )
+
+692.8694549: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 5 )
+
+702.8697804: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 6 )
+
+712.8697945: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 1 )
+
+722.8699865: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 2 )
+
+732.8700203: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 3 )
+
+742.8708038: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 4 )
+
+752.8719976: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 5 )
+
+762.8725339: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 6 )
+
+772.8729129: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 1 )
+
+782.873697: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 2 )
+
+792.874475: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 3 )
+
+802.8764619: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 4 )
+
+812.8768214: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 5 )
+
+822.8766747: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 6 )
+
+832.8772035: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 1 )
+
+842.8780269: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 2 )
+
+852.8786216: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 3 )
+
+862.8787233: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 4 )
+
+872.8792881: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 5 )
+
+882.8793976: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 6 )
+
+892.8799627: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 1 )
+
+902.8809203: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 2 )
+
+912.8818885: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 3 )
+
+922.8834894: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 4 )
+
+932.8901116: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 5 )
+
+942.8911673: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 6 )
+
+952.8919257: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 1 )
+
+962.8925305: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 2 )
+
+972.8928573: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 3 )
+
+982.8943329: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 4 )
+
+992.8951687: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 5 )
+
+1002.896158: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 6 )
+
+1012.896686: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 1 )
+
+1022.8978763: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 2 )
+
+1032.8987014: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 3 )
+
+1042.8992711: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 4 )
+
+1052.9005541: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 5 )
+
+1062.9041942: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 6 )
+
+1072.9035778: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 1 )
+
+1082.903623: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 2 )
+
+1092.9054173: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 3 )
+
+1102.9058563: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 4 )
+
+1112.905892: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 5 )
+
+1122.9062409: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 6 )
+
+1132.9071651: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 1 )
+
+1142.9079073: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 2 )
+
+1152.9102692: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 3 )
+
+1162.9144584: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 4 )
+
+1172.9124903: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 5 )
+
+1182.9132092: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 6 )
+
+1192.9151771: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 1 )
+
+1202.9154781: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 2 )
+
+1212.9163504: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 3 )
+
+1222.9166597: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 4 )
+
+1232.9168536: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 5 )
+
+1242.917503: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 6 )
+
+1252.9179568: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 1 )
+
+1262.9184988: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 2 )
+
