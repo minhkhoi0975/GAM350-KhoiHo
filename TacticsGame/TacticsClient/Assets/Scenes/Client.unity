@@ -193,7 +193,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000030518, y: 155}
+  m_AnchoredPosition: {x: -518.6593, y: 133.86548}
   m_SizeDelta: {x: 747.553, y: 136}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &47018992
@@ -374,6 +374,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerName: {fileID: 241778935}
   characterType: {fileID: 428516921}
+  listOfPlayers: {fileID: 1390382908}
+  buttonReady: {fileID: 570271501}
   client: {fileID: 1385401858}
 --- !u!1 &241778933
 GameObject:
@@ -445,7 +447,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Player
+  m_Text: Unknown
 --- !u!222 &241778936
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -547,6 +549,7 @@ RectTransform:
   m_Children:
   - {fileID: 728683147}
   - {fileID: 1307327758}
+  - {fileID: 2095923308}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -589,7 +592,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -183.23376, y: 35}
+  m_AnchoredPosition: {x: -701.89307, y: 13.8654785}
   m_SizeDelta: {x: 223.2675, y: 49.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &307394440
@@ -918,7 +921,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 122.151, y: -34}
+  m_AnchoredPosition: {x: -396.5083, y: -55.13452}
   m_SizeDelta: {x: 246.3, y: 47.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &428516921
@@ -970,6 +973,8 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
+    - m_Text: Not Decided
+      m_Image: {fileID: 0}
     - m_Text: Warrior
       m_Image: {fileID: 0}
     - m_Text: Rogue
@@ -978,7 +983,19 @@ MonoBehaviour:
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 210303734}
+        m_TargetAssemblyTypeName: CharacterCustomizationLogic, Assembly-CSharp
+        m_MethodName: ChangeCharacterType
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_AlphaFadeSpeed: 0.15
 --- !u!114 &428516922
 MonoBehaviour:
@@ -1149,7 +1166,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Player
+  m_Text: Unknown
 --- !u!222 &539631000
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1192,7 +1209,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -183.23, y: -34}
+  m_AnchoredPosition: {x: -701.8893, y: -55.13452}
   m_SizeDelta: {x: 223.27, y: 49.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &545688852
@@ -1273,7 +1290,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -138}
+  m_AnchoredPosition: {x: -518.6593, y: -159.13452}
   m_SizeDelta: {x: 147, y: 34}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &570271501
@@ -1322,7 +1339,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 210303734}
         m_TargetAssemblyTypeName: CharacterCustomizationLogic, Assembly-CSharp
-        m_MethodName: Ready
+        m_MethodName: ChangeIsReady
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2710,6 +2727,7 @@ RectTransform:
   - {fileID: 545688851}
   - {fileID: 428516920}
   - {fileID: 570271500}
+  - {fileID: 1390382907}
   m_Father: {fileID: 248918553}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2755,7 +2773,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 123.150024, y: 35}
+  m_AnchoredPosition: {x: -395.50928, y: 13.8654785}
   m_SizeDelta: {x: 246.3, y: 47.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1372023468
@@ -2811,7 +2829,19 @@ MonoBehaviour:
   m_CharacterLimit: 0
   m_OnEndEdit:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 210303734}
+        m_TargetAssemblyTypeName: CharacterCustomizationLogic, Assembly-CSharp
+        m_MethodName: ChangePlayerName
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnSubmit:
     m_PersistentCalls:
       m_Calls: []
@@ -2821,7 +2851,7 @@ MonoBehaviour:
   m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_CustomCaretColor: 0
   m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
-  m_Text: Player
+  m_Text: Unknown
   m_CaretBlinkRate: 0.85
   m_CaretWidth: 1
   m_ReadOnly: 0
@@ -2911,6 +2941,7 @@ MonoBehaviour:
   clientNet: {fileID: 0}
   loginPanel: {fileID: 728683146}
   characterSelectionPanel: {fileID: 1307327755}
+  textGameAboutToStart: {fileID: 2095923307}
 --- !u!114 &1385401859
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2926,6 +2957,90 @@ MonoBehaviour:
   isServer: 0
   remoteVoiceChatContainerObject: {fileID: 0}
   remoteVoiceChatPrefab: {fileID: 0}
+--- !u!1 &1390382906
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1390382907}
+  - component: {fileID: 1390382909}
+  - component: {fileID: 1390382908}
+  m_Layer: 5
+  m_Name: TextListOfPlayers
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1390382907
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1390382906}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1307327758}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 441, y: -2.6177}
+  m_SizeDelta: {x: 982.1255, y: 922.0139}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1390382908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1390382906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 40
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 40
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: '1    Robert    Warrior    Team 1 Ready
+
+    2    Francis   Mage      Team
+    2 Ready
+
+    3    Henry     Warrior    Team 1 Not Ready'
+--- !u!222 &1390382909
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1390382906}
+  m_CullTransparentMesh: 1
 --- !u!1 &1443252314
 GameObject:
   m_ObjectHideFlags: 0
@@ -3141,7 +3256,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Warrior
+  m_Text: Not Decided
 --- !u!222 &1530890558
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3674,6 +3789,85 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2082914478}
+  m_CullTransparentMesh: 1
+--- !u!1 &2095923307
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2095923308}
+  - component: {fileID: 2095923310}
+  - component: {fileID: 2095923309}
+  m_Layer: 5
+  m_Name: TextGameAboutToStart
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &2095923308
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2095923307}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 248918553}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 381}
+  m_SizeDelta: {x: 913.0179, y: 154.861}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2095923309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2095923307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.7924528, g: 0, b: 0, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 40
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 40
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: The game is about to start...
+--- !u!222 &2095923310
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2095923307}
   m_CullTransparentMesh: 1
 --- !u!1 &2099673383
 GameObject:

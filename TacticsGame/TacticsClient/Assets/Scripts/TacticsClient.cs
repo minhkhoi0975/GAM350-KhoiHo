@@ -15,10 +15,12 @@ public class TacticsClient : MonoBehaviour
 
     public GameObject characterSelectionPanel;
 
+    public GameObject textGameAboutToStart;
+
     // Represents a player
-    class Player
+    public class Player
     {
-        public string name = "";
+        public string name = "Unknown";
         public int playerId = 0;
         public int characterClass = 0;
         public int health = 0;
@@ -29,6 +31,13 @@ public class TacticsClient : MonoBehaviour
         public GameObject playerObject = null;
     }
     Dictionary<int, Player> players = new Dictionary<int, Player>();
+    public Dictionary<int, Player> Players
+    {
+        get
+        {
+            return players;
+        }
+    }
 
     // My player id
     int myPlayerId;
@@ -100,12 +109,13 @@ public class TacticsClient : MonoBehaviour
 
     // LOGIN PHASE
     // RPC called by the server to tell this client what their player id is
-    public void SetPlayerId(int playerID)
+    public void SetPlayerId(int playerId)
     {
-        this.myPlayerId = playerID;
+        this.myPlayerId = playerId;
         players[myPlayerId] = new Player();
+        players[myPlayerId].playerId = playerId;
 
-        Debug.Log("Your ID is: " + playerID);
+        Debug.Log("Your ID is: " + playerId);
     }
     
     // RPC called by the server to tell this client which team they are on
@@ -113,13 +123,14 @@ public class TacticsClient : MonoBehaviour
     {
         players[myPlayerId].team = team;
 
-        Debug.Log("Your team ID is: " + team);
+        Debug.Log("Your team is: " + team);
     }
 
     // RPC called by the server to tell this client a new player has connected to the game
     public void NewPlayerConnected(int playerId, int team)
     {
         players[playerId] = new Player();
+        players[playerId].playerId = playerId;
         players[playerId].team = team;
 
         Debug.Log("Player " + playerId + " has entered the game and joined team " + team);
@@ -167,13 +178,27 @@ public class TacticsClient : MonoBehaviour
                 break;
         }
 
-        Debug.Log("Player " + playerId + "has selected class " + characterClassName);
+        Debug.Log("Player " + playerId + " has selected class " + characterClassName);
     }
 
     // RPC called by the server to tell this client the game is about to start within time.
     public void GameStart(int time)
     {
+        // Disable the character customization panel.
+        characterSelectionPanel.SetActive(false);
+
+        // Enable the "The game is about to start wihtin ... seconds" text.
+        textGameAboutToStart.SetActive(true);
+        StartCoroutine(DisableTextGameAboutToStart(time));
+
         Debug.Log("The game is about to start within " + time + " seconds.");
+    }
+
+    // Disable the "The game is about to start wihtin ... seconds" text after a couple of seconds.
+    IEnumerator DisableTextGameAboutToStart(int time)
+    {
+        yield return new WaitForSeconds(time);
+        textGameAboutToStart.SetActive(false);
     }
 
     // GAME PHASE
