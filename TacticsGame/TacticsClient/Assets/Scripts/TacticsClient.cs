@@ -28,7 +28,7 @@ public class TacticsClient : MonoBehaviour
         public bool isReady;
         public GameObject playerObject = null;
     }
-    Dictionary<int, Player> players;
+    Dictionary<int, Player> players = new Dictionary<int, Player>();
 
     // My player id
     int myPlayerId;
@@ -107,7 +107,7 @@ public class TacticsClient : MonoBehaviour
 
         Debug.Log("Your ID is: " + playerID);
     }
-
+    
     // RPC called by the server to tell this client which team they are on
     public void SetTeam(int team)
     {
