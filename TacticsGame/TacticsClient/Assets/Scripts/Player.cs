@@ -15,19 +15,19 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GetComponent<NetworkSync>().owned)
+        if (GetComponent<NetworkSync>() && GetComponent<NetworkSync>().owned)
         {
             Vector3 movement = new Vector3(Input.GetAxis("Horizontal") * speed * Time.deltaTime, Input.GetAxis("Vertical") * speed * Time.deltaTime, 0);
             transform.position += movement;
         }
     }
 
-    public void ChangeName(string name)
+    public void SetName(string name)
     {
-        textTeam.text = name;
+        textName.text = name;
     }
 
-    public void ChangeCharacterType(int characterType)
+    public void SetCharacterType(int characterType)
     {
         switch(characterType)
         {
@@ -43,7 +43,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void ChangeTeam(int team)
+    public void SetTeam(int team)
     {
         textTeam.text = team.ToString();
         GetComponent<MeshRenderer>().material = team == 1 ? team1Material : team2Material;

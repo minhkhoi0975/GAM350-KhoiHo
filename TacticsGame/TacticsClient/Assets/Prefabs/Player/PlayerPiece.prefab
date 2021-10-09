@@ -12,11 +12,9 @@ GameObject:
   - component: {fileID: 33000011111125062}
   - component: {fileID: 65000011966205968}
   - component: {fileID: 23000011651766706}
-  - component: {fileID: 114000010362414452}
-  - component: {fileID: 114000012040393134}
   - component: {fileID: 114708341656305832}
   m_Layer: 0
-  m_Name: GameBoardPiece
+  m_Name: PlayerPiece
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -102,39 +100,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &114000010362414452
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000010831633188}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a8c97f57a588fb4e8c8a2c203c91f3f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  networkId: -1
-  followsClient: 0
-  deliveryMethod: 2
-  broadcastFrequency: 0.1
-  inAreaOnly: 1
-  position: {x: 0, y: 0, z: 0}
-  rotation: {x: 0, y: 0, z: 0, w: 0}
-  origScene: 
-  clientNet: {fileID: 0}
---- !u!114 &114000012040393134
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000010831633188}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: faf62335a1654464e80af73363a75391, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114708341656305832
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -147,7 +112,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f88074536be4f7d499d64806f3a0c3bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  client: {fileID: 0}
   team1Material: {fileID: 2100000, guid: fc8b2ce3b5ca0ea4e8fc304e61883d6a, type: 2}
   team2Material: {fileID: 2100000, guid: 36ec3fceda7369548b31e8ce9a7c4f7c, type: 2}
   textName: {fileID: 6770896695246650376}
@@ -179,8 +143,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1288118468821466985}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.462, y: 0.131, z: -0.628}
-  m_LocalScale: {x: 0.094892755, y: 0.094892755, z: 0.094892755}
+  m_LocalPosition: {x: -0.462, y: 0.094, z: -0.628}
+  m_LocalScale: {x: 0.055037796, y: 0.055037796, z: 0.055037796}
   m_Children: []
   m_Father: {fileID: 4000011341183586}
   m_RootOrder: 1
@@ -235,7 +199,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1288118468821466985}
-  m_Text: Warrior
+  m_Text: Not Decided
   m_OffsetZ: 0
   m_CharacterSize: 1
   m_LineSpacing: 1
@@ -275,8 +239,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7219590959094927481}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.436, y: 0.431, z: -0.628}
-  m_LocalScale: {x: 0.094892755, y: 0.094892755, z: 0.094892755}
+  m_LocalPosition: {x: -0.445, y: 0.431, z: -0.628}
+  m_LocalScale: {x: 0.070598066, y: 0.070598066, z: 0.070598066}
   m_Children: []
   m_Father: {fileID: 4000011341183586}
   m_RootOrder: 0
@@ -331,7 +295,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7219590959094927481}
-  m_Text: Robert
+  m_Text: Unknown
   m_OffsetZ: 0
   m_CharacterSize: 1
   m_LineSpacing: 1

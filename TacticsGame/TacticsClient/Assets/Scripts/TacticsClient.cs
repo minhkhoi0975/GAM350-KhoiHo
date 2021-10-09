@@ -43,15 +43,18 @@ public class TacticsClient : MonoBehaviour
     int myPlayerId;
 
     // Info about the map
-    int[,] boardState;
+    int[,] boardState = new int[0,0];
     int mapXSize = 0;
     int mapYSize = 0;
 
     // Game board.
     public GameBoard gameBoard;
 
-    // Game board piece template.
-    public GameObject gameBoardPieceTemplate;
+    // Blocked space prefab.
+    public GameObject blockedSpacePrefab;
+
+    // Player piece prefab.
+    public GameObject playerPiecePrefab;
 
     // Use this for initialization
     void Awake()
@@ -106,7 +109,7 @@ public class TacticsClient : MonoBehaviour
     }
 
     public void OnChangeArea()
-    {
+    {     
         Debug.Log("You have joined the game.");
     }
 
@@ -126,18 +129,6 @@ public class TacticsClient : MonoBehaviour
         players[myPlayerId] = new PlayerInfo();
         players[myPlayerId].playerId = playerId;
 
-        // Create a game object for this player.
-        GameObject myGameObject = clientNet.Instantiate(gameBoardPieceTemplate.name, Vector3.zero, Quaternion.identity);
-        if(myGameObject)
-        {
-            players[myPlayerId].playerObject = myGameObject;
-            players[myPlayerId].playerObject.GetComponent<NetworkSync>().AddToArea(1);
-        }
-        else
-        {
-            Debug.LogError("Cannot create network object!");
-        }
-
         // The game hasn't started yet, so we should hide the piece.
         // players[myPlayerId].playerObject.SetActive(false);
 
@@ -148,17 +139,6 @@ public class TacticsClient : MonoBehaviour
     public void SetTeam(int team)
     {
         players[myPlayerId].team = team;
-
-        // Update the player object.
-        Player player = players[myPlayerId].playerObject.GetComponent<Player>();
-        player.textTeam.text = team.ToString();
-
-        MeshRenderer playerObjectMeshRenderer = players[myPlayerId].playerObject.GetComponent<MeshRenderer>();
-        if(team == 1)
-        {
-            playerObjectMeshRenderer.material = player.team1Material;
-            playerObjectMeshRenderer.material = player.team2Material;
-        }
 
         Debug.Log("Your team is: " + team);
     }
@@ -177,10 +157,6 @@ public class TacticsClient : MonoBehaviour
     public void PlayerNameChanged(int playerId, string name)
     {
         players[playerId].name = name;
-
-        // Update the player object.
-        Player player = players[playerId].playerObject.GetComponent<Player>();
-        player.textName.text = name;
 
         Debug.Log("Player " + playerId + " has changed their name to " + name);
     }
@@ -228,6 +204,21 @@ public class TacticsClient : MonoBehaviour
         // Disable the character customization panel.
         characterSelectionPanel.SetActive(false);
 
+        // Spawn player objects.
+        foreach(KeyValuePair<int, PlayerInfo> playerInfo in players)
+        {
+            players[playerInfo.Key].playerObject = Instantiate(playerPiecePrefab, Vector3.zero, Quaternion.identity);
+
+            // Set the properties of the player object.
+            Player player = players[playerInfo.Key].playerObject.GetComponent<Player>();
+            player.SetName(players[playerInfo.Key].name);
+            player.SetCharacterType(players[playerInfo.Key].characterClass);
+            player.SetTeam(players[playerInfo.Key].team);
+
+            // Temporarily hide the object.
+            players[playerInfo.Key].playerObject.SetActive(false);
+        }
+
         // Enable the "The game is about to start wihtin ... seconds" text.
         textGameAboutToStart.SetActive(true);
         StartCoroutine(DisableTextGameAboutToStart(time));
@@ -238,8 +229,17 @@ public class TacticsClient : MonoBehaviour
     // Disable the "The game is about to start wihtin ... seconds" text after a couple of seconds.
     IEnumerator DisableTextGameAboutToStart(int time)
     {
+        // Wait for seconds.
         yield return new WaitForSeconds(time);
+
+        // Enable the "The game is about to start wihtin ... seconds" text. 
         textGameAboutToStart.SetActive(false);
+
+        // Show the player objects.
+        foreach (KeyValuePair<int, PlayerInfo> playerInfo in players)
+        {
+            players[playerInfo.Key].playerObject.SetActive(true);
+        }
     }
 
     // GAME PHASE
@@ -261,12 +261,17 @@ public class TacticsClient : MonoBehaviour
     public void SetBlockedSpace(int x, int y) 
     {
         boardState[x, y] = -1;
+
+        // Create a blocked space object on the game board.
+        GameObject blockedSpaceObject = Instantiate<GameObject>(blockedSpacePrefab, gameBoard.transform.position + new Vector3(1 + 2 * x, 1 + 2 * y, -2.0f), gameBoard.transform.rotation, gameBoard.transform);
     }
     // RPC called by the server to tell this client to update the position of a player.
     public void SetPlayerPosition(int playerId, int x, int y) 
     {
         players[playerId].xPos = x;
         players[playerId].yPos = y;
+
+        players[playerId].playerObject.transform.position = gameBoard.transform.position + new Vector3(1 + 2 * x, 1 + 2 * y, -2.0f);
     }
     // RPC called by the server to tell this client it is a start of a player's turn.
     public void StartTurn(int playerId) 
