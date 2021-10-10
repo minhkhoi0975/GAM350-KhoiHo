@@ -12,9 +12,11 @@ GameObject:
   - component: {fileID: 751907759034015041}
   - component: {fileID: 6454060333889787303}
   - component: {fileID: 5219607227424908871}
+  - component: {fileID: 754090831625495381}
+  - component: {fileID: -1881977925745270788}
   m_Layer: 0
   m_Name: GameBoardTile
-  m_TagString: Untagged
+  m_TagString: GameBoardTile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -61,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 86f0b9df1d99a944aa1ad351a6608c85, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -96,3 +98,31 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &754090831625495381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7376647742109048126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b5db42a4345f5b4eaef0179e99c11f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  xPos: 0
+  yPos: 0
+  client: {fileID: 0}
+--- !u!114 &-1881977925745270788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7376647742109048126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2225d3d95a85122469d1df8d82376857, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mouseOverMaterial: {fileID: 2100000, guid: 86f0b9df1d99a944aa1ad351a6608c85, type: 2}

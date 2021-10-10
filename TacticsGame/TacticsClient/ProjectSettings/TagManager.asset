@@ -6,6 +6,8 @@ TagManager:
   tags:
   - ResourceNode
   - OtherShip
+  - Undefined
+  - GameBoardTile
   layers:
   - Default
   - TransparentFX

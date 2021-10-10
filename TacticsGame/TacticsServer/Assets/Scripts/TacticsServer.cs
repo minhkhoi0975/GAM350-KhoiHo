@@ -552,7 +552,7 @@ public class TacticsServer : MonoBehaviour
             {
                 if (p.teamId == p2.teamId)
                 {
-                    serverNet.CallRPC("DisplayChatMessage", UCNetwork.MessageReceiver.AllClients, -1, "(team) " + p.name + ": " + message);
+                    serverNet.CallRPC("DisplayChatMessage", p2.clientId, -1, "(team) " + p.name + ": " + message);
                 }
             }
         }

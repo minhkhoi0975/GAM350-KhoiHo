@@ -1,4 +1,10 @@
-﻿using UnityEngine;
+﻿/**
+ * Player.cs
+ * Description: This script handles a character's game object.
+ * Programmer: Khoi Ho
+ */
+
+using UnityEngine;
 using System.Collections;
 
 public class Player : MonoBehaviour
@@ -8,7 +14,7 @@ public class Player : MonoBehaviour
 
     public TextMesh textName;
     public TextMesh textCharacterType;
-    public TextMesh textTeam;
+    public TextMesh textHealth;
 
     float speed = 5;
 
@@ -22,11 +28,13 @@ public class Player : MonoBehaviour
         }
     }
 
+    // Set the name of the character.
     public void SetName(string name)
     {
         textName.text = name;
     }
 
+    // Set the character type (Warrior/Rogue/Wizard) of the character.
     public void SetCharacterType(int characterType)
     {
         switch(characterType)
@@ -43,9 +51,23 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void SetTeam(int team)
+    // Set the material to match the team.
+    public void SetTeamMaterial(int team)
     {
-        textTeam.text = team.ToString();
         GetComponent<MeshRenderer>().material = team == 1 ? team1Material : team2Material;
+    }
+
+    // Set the health of the character.
+    public void SetHealth(int health)
+    {
+        textHealth.text = health.ToString();
+    }
+
+    // Set the color of the texts.
+    public void SetTextColor(Color color)
+    {
+        textName.color = color;
+        textCharacterType.color = color;
+        textHealth.color = color;
     }
 }

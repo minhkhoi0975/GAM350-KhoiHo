@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4000011341183586}
   - component: {fileID: 33000011111125062}
-  - component: {fileID: 65000011966205968}
   - component: {fileID: 23000011651766706}
   - component: {fileID: 114708341656305832}
   m_Layer: 0
@@ -45,19 +44,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1000010831633188}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!65 &65000011966205968
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000010831633188}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &23000011651766706
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -116,7 +102,7 @@ MonoBehaviour:
   team2Material: {fileID: 2100000, guid: 36ec3fceda7369548b31e8ce9a7c4f7c, type: 2}
   textName: {fileID: 6770896695246650376}
   textCharacterType: {fileID: 3232147750238663244}
-  textTeam: {fileID: 3802854904280543940}
+  textHealth: {fileID: 3802854904280543940}
 --- !u!1 &1288118468821466985
 GameObject:
   m_ObjectHideFlags: 0
@@ -143,8 +129,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1288118468821466985}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.462, y: 0.094, z: -0.628}
-  m_LocalScale: {x: 0.055037796, y: 0.055037796, z: 0.055037796}
+  m_LocalPosition: {x: 0, y: -0.08399999, z: -0.628}
+  m_LocalScale: {x: 0.06779883, y: 0.06779883, z: 0.06779883}
   m_Children: []
   m_Father: {fileID: 4000011341183586}
   m_RootOrder: 1
@@ -203,16 +189,16 @@ TextMesh:
   m_OffsetZ: 0
   m_CharacterSize: 1
   m_LineSpacing: 1
-  m_Anchor: 0
-  m_Alignment: 0
+  m_Anchor: 4
+  m_Alignment: 1
   m_TabSize: 4
-  m_FontSize: 30
-  m_FontStyle: 0
+  m_FontSize: 40
+  m_FontStyle: 1
   m_RichText: 1
   m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
   m_Color:
     serializedVersion: 2
-    rgba: 4278190080
+    rgba: 4294967295
 --- !u!1 &7219590959094927481
 GameObject:
   m_ObjectHideFlags: 0
@@ -239,8 +225,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7219590959094927481}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.445, y: 0.431, z: -0.628}
-  m_LocalScale: {x: 0.070598066, y: 0.070598066, z: 0.070598066}
+  m_LocalPosition: {x: 0, y: 0.33, z: -0.628}
+  m_LocalScale: {x: 0.122159965, y: 0.122159965, z: 0.122159965}
   m_Children: []
   m_Father: {fileID: 4000011341183586}
   m_RootOrder: 0
@@ -299,16 +285,16 @@ TextMesh:
   m_OffsetZ: 0
   m_CharacterSize: 1
   m_LineSpacing: 1
-  m_Anchor: 0
-  m_Alignment: 0
+  m_Anchor: 4
+  m_Alignment: 1
   m_TabSize: 4
-  m_FontSize: 30
-  m_FontStyle: 0
+  m_FontSize: 40
+  m_FontStyle: 1
   m_RichText: 1
   m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
   m_Color:
     serializedVersion: 2
-    rgba: 4278190080
+    rgba: 4294967295
 --- !u!1 &8720353041622643144
 GameObject:
   m_ObjectHideFlags: 0
@@ -321,7 +307,7 @@ GameObject:
   - component: {fileID: 9105605808476493391}
   - component: {fileID: 3802854904280543940}
   m_Layer: 0
-  m_Name: TextCharacterTeam
+  m_Name: TextCharacterHealth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -335,8 +321,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8720353041622643144}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.082, y: -0.161, z: -0.628}
-  m_LocalScale: {x: 0.094892755, y: 0.094892755, z: 0.094892755}
+  m_LocalPosition: {x: 0, y: -0.445, z: -0.628}
+  m_LocalScale: {x: 0.09581519, y: 0.09581519, z: 0.09581519}
   m_Children: []
   m_Father: {fileID: 4000011341183586}
   m_RootOrder: 2
@@ -391,17 +377,17 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8720353041622643144}
-  m_Text: 1
+  m_Text: 100
   m_OffsetZ: 0
   m_CharacterSize: 1
   m_LineSpacing: 1
-  m_Anchor: 0
-  m_Alignment: 0
+  m_Anchor: 4
+  m_Alignment: 1
   m_TabSize: 4
-  m_FontSize: 30
-  m_FontStyle: 0
+  m_FontSize: 40
+  m_FontStyle: 1
   m_RichText: 1
   m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
   m_Color:
     serializedVersion: 2
-    rgba: 4278190080
+    rgba: 4294967295

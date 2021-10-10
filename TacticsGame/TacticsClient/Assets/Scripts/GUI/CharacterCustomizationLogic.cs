@@ -41,11 +41,6 @@ public class CharacterCustomizationLogic : MonoBehaviour
         buttonReady.GetComponentInChildren<Text>().text = isReady ? "Unready" : "Ready";
     }
 
-    private void Update()
-    {
-        UpdateListOfPlayers();
-    }
-
     public void UpdateListOfPlayers()
     {
         listOfPlayers.text = "";
