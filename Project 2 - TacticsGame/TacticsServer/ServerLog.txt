@@ -778,3 +778,6 @@
 
 410.2797102: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 5 )
 
+420.2799955: => Outgoing RPC Sent to: AllClients as SingleClient NetSyncId: -1 Function: StartTurn( 1 )
+
+424.5701037: Server shutdown
