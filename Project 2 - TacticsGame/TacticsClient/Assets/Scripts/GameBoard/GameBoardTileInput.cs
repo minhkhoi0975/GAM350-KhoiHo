@@ -1,3 +1,9 @@
+/**
+ * GameBoardTileInput.cs
+ * Description: This script allows the player to click a tile on a gameboard so that their character can move or attack.
+ * Programmer: Khoi Ho
+ */
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +11,7 @@ using UnityEngine;
 [RequireComponent(typeof(GameBoardTilePosition))]
 public class GameBoardTileInput : MonoBehaviour
 {
+    // Need this to get its position on the gameboard.
     GameBoardTilePosition tile;
 
     // The material of the tile when the cursor is still over the tile.
@@ -22,7 +29,7 @@ public class GameBoardTileInput : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if(!tile)
+        if (!tile)
         {
             tile = GetComponent<GameBoardTilePosition>();
         }
@@ -34,11 +41,14 @@ public class GameBoardTileInput : MonoBehaviour
         if (!isCursorOver)
             return;
 
-        if(Input.GetButtonDown("Fire1"))
+        // Left click to move the character.
+        if (Input.GetButtonDown("Fire1"))
         {
             Move();
         }
-        else if(Input.GetButtonDown("Fire2"))
+
+        // Right click to attack.
+        else if (Input.GetButtonDown("Fire2"))
         {
             Attack();
         }

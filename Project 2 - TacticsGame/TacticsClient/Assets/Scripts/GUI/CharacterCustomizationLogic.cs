@@ -18,29 +18,34 @@ public class CharacterCustomizationLogic : MonoBehaviour
 
     public TacticsClient client;
 
-    bool isReady = false;
+    bool isPlayerReady = false;
 
+    // Tell the server to change the character's name.
     public void ChangePlayerName()
     {
         client.clientNet.CallRPC("SetName", UCNetwork.MessageReceiver.ServerOnly, -1, playerName.text);
     }
 
+    // Tell the server to change the character's type (warrior/rogue/wizard).
     public void ChangeCharacterType()
     {
         client.clientNet.CallRPC("SetCharacterType", UCNetwork.MessageReceiver.ServerOnly, -1, characterType.value);
     }
 
+    // Tell the server whether the client is ready or not.
     public void ChangeIsReady()
     {
-        if (playerName.text == "" || characterType.value == 0)
-            isReady = false;
+        // Don't make the client ready if the character's name is empty or the client has not chosen a character type.
+        if (playerName.text.Trim() == "" || characterType.value == 0)
+            isPlayerReady = false;
         else
-            isReady = !isReady;
+            isPlayerReady = !isPlayerReady;
+        client.clientNet.CallRPC("Ready", UCNetwork.MessageReceiver.ServerOnly, -1, isPlayerReady);
 
-        client.clientNet.CallRPC("Ready", UCNetwork.MessageReceiver.ServerOnly, -1, isReady);
-        buttonReady.GetComponentInChildren<Text>().text = isReady ? "Unready" : "Ready";
+        buttonReady.GetComponentInChildren<Text>().text = isPlayerReady ? "Unready" : "Ready";
     }
 
+    // Update the list of players in the game session.
     public void UpdateListOfPlayers()
     {
         listOfPlayers.text = "";

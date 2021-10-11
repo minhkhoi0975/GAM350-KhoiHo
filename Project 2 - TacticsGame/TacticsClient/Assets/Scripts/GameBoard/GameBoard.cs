@@ -1,3 +1,9 @@
+/**
+ * GameBoard.cs
+ * Description: This script generates a game board.
+ * Programmer: Khoi Ho
+ */
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,7 +23,6 @@ public class GameBoard : MonoBehaviour
 
     // Reference to the client.
     public TacticsClient client;
-
 
     // Start is called before the first frame update
     void Start()

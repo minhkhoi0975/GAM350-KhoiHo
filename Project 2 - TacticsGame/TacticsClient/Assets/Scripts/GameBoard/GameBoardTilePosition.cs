@@ -1,6 +1,7 @@
 /**
  * GameBoardTile.cs
  * Description: This script stores the position of a game board tile.
+ * Programmer: Khoi Ho
  */
 
 using System.Collections;

@@ -27,7 +27,7 @@ public class GamePhraseLogic : MonoBehaviour
     public void UpdatePlayersTurn(int playerId)
     {
         playersTurnText.text = client.Players[playerId].name + "'s Turn";
-        if (playerId == client.MyPlayerID)
+        if (playerId == client.MyPlayerId)
         {
             playersTurnText.color = Color.green;
         }
@@ -37,11 +37,13 @@ public class GamePhraseLogic : MonoBehaviour
         }  
     }
 
+    // Tell the server to pass this client.
     public void Pass()
     {
         client.clientNet.CallRPC("PassTurn", UCNetwork.MessageReceiver.ServerOnly, -1);
     }
 
+    // Update the chat box.
     public void UpdateChatBox(string newMessage)
     {
         // Remove the oldest message if there are too many messages.
@@ -61,9 +63,10 @@ public class GamePhraseLogic : MonoBehaviour
         }
     }
 
+    // Send a message.
     public void SendMessage()
     {
-        // Don't send a message if its contain is empty.
+        // Don't send a message if its content is empty.
         if (messageInputField.text.Trim() == "")
             return;
 
@@ -78,7 +81,7 @@ public class GamePhraseLogic : MonoBehaviour
             client.clientNet.CallRPC("SendChat", UCNetwork.MessageReceiver.ServerOnly, -1, messageInputField.text);
         }
 
-        // Empty the message.
+        // Empty the message input.
         messageInputField.text = "";
     }
 }

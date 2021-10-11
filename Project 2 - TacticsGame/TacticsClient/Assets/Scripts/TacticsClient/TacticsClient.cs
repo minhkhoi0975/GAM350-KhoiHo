@@ -1,4 +1,11 @@
-﻿using UnityEngine;
+﻿/**
+ * TacticsClient.cs
+ * Description: This script handles RPC calls from the server.
+ * Programmer: Khoi Ho
+ * Credit(s): Professor David Carigg for providing the example client script
+ */
+
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
@@ -31,6 +38,8 @@ public class TacticsClient : MonoBehaviour
         public bool isReady;
         public GameObject playerObject = null;
     }
+
+    // List of players that connect to the server.
     Dictionary<int, PlayerInfo> players = new Dictionary<int, PlayerInfo>();
     public Dictionary<int, PlayerInfo> Players
     {
@@ -42,7 +51,7 @@ public class TacticsClient : MonoBehaviour
 
     // My player id
     int myPlayerId;
-    public int MyPlayerID
+    public int MyPlayerId
     {
         get
         {
@@ -51,7 +60,7 @@ public class TacticsClient : MonoBehaviour
     }
 
     // Info about the map
-    int[,] boardState = new int[0,0];
+    int[,] boardState = new int[0, 0];
     int mapXSize = 0;
     int mapYSize = 0;
 
@@ -77,6 +86,7 @@ public class TacticsClient : MonoBehaviour
             clientNet = (ClientNetwork)gameObject.AddComponent(typeof(ClientNetwork));
         }
 
+        // Make sure that this script references the game board.
         if (gameBoard == null)
         {
             gameBoard = FindObjectOfType<GameBoard>();
@@ -117,7 +127,7 @@ public class TacticsClient : MonoBehaviour
     }
 
     public void OnChangeArea()
-    {     
+    {
         Debug.Log("You have joined the game.");
     }
 
@@ -129,70 +139,77 @@ public class TacticsClient : MonoBehaviour
         }
     }
 
-    // LOGIN PHASE
+    // === LOGIN PHASE ===
+
     // RPC called by the server to tell this client what their player id is
     public void SetPlayerId(int playerId)
     {
+        // Create a new player info for this client.
         this.myPlayerId = playerId;
         players[myPlayerId] = new PlayerInfo();
         players[myPlayerId].playerId = playerId;
 
-        // Update the player list.
+        // Display the updated player list.
         guiLogic.GetComponent<CharacterCustomizationLogic>().UpdateListOfPlayers();
 
-        Debug.Log("Your ID is: " + playerId);
+        Debug.Log("Your ID is: " + playerId + ".");
     }
-    
+
     // RPC called by the server to tell this client which team they are on
     public void SetTeam(int team)
     {
+        // Set the team for this client.
         players[myPlayerId].team = team;
 
-        // Update the player list.
+        // Display the updated player list.
         guiLogic.GetComponent<CharacterCustomizationLogic>().UpdateListOfPlayers();
 
-        Debug.Log("Your team is: " + team);
+        Debug.Log("Your team is: " + team + ".");
     }
 
     // RPC called by the server to tell this client a new player has connected to the game
     public void NewPlayerConnected(int playerId, int team)
     {
+        // Create a player info for the new player that has just joined the server.
         players[playerId] = new PlayerInfo();
         players[playerId].playerId = playerId;
         players[playerId].team = team;
 
-        // Update the player list.
+        // Display the updated player list.
         guiLogic.GetComponent<CharacterCustomizationLogic>().UpdateListOfPlayers();
 
-        Debug.Log("Player " + playerId + " has entered the game and joined team " + team);
+        Debug.Log("Player " + playerId + " has entered the game and joined team " + team + ".");
     }
 
     // RPC called by the server to tell this client a player's name has been changed
     public void PlayerNameChanged(int playerId, string name)
     {
+        // Set the name of the client.
+        string oldName = players[playerId].name;
         players[playerId].name = name;
 
-        // Update the player list.
+        // Display the updated player list.
         guiLogic.GetComponent<CharacterCustomizationLogic>().UpdateListOfPlayers();
 
-        Debug.Log("Player " + playerId + " has changed their name to " + name);
+        Debug.Log(oldName + "(" + playerId + ") has changed their name to " + players[playerId].name + ".");
     }
 
     // RPC called by the server to tell this client if it's a client is ready to play.
     public void PlayerIsReady(int playerId, bool isReady)
     {
+        // Set whether the client is ready or not.
         players[playerId].isReady = isReady;
 
-        // Update the player list.
+        // Display the updated player list.
         guiLogic.GetComponent<CharacterCustomizationLogic>().UpdateListOfPlayers();
 
         if (isReady)
         {
-            Debug.Log("Player " + playerId + " is ready to play.");
+            Debug.Log(players[playerId].name + "(" + playerId + ") is ready to play.");
         }
         else
         {
-            Debug.Log("Player " + playerId + " is not ready to play.");
+            Debug.Log(players[playerId].name + "(" + playerId + ") is not ready to play.");
         }
     }
 
@@ -201,10 +218,10 @@ public class TacticsClient : MonoBehaviour
     {
         players[playerId].characterClass = newCharacterClass;
 
-        // Update the player list.
+        // Display the updated player list.
         guiLogic.GetComponent<CharacterCustomizationLogic>().UpdateListOfPlayers();
 
-        Debug.Log("Player " + playerId + " has selected class " + newCharacterClass);
+        Debug.Log(players[playerId].name + "(" + playerId + ") has selected class " + newCharacterClass + ".");
     }
 
     // RPC called by the server to tell this client the game is about to start within time.
@@ -214,20 +231,10 @@ public class TacticsClient : MonoBehaviour
         characterSelectionPanel.SetActive(false);
 
         // Spawn player game objects.
-        foreach(KeyValuePair<int, PlayerInfo> playerInfo in players)
+        foreach (KeyValuePair<int, PlayerInfo> playerInfo in players)
         {
-            players[playerInfo.Key].playerObject = Instantiate(playerPiecePrefab, Vector3.zero, Quaternion.identity);
-
-            // Set the properties of the game object.
-            Player player = players[playerInfo.Key].playerObject.GetComponent<Player>();
-            player.SetName(players[playerInfo.Key].name);
-            player.SetCharacterType(players[playerInfo.Key].characterClass);
-            player.SetTeamMaterial(players[playerInfo.Key].team);
-            player.SetHealth(players[playerInfo.Key].health);
-
-            // If the game object is controlled by this client, change text color to distinguish from other players.
-            if (playerInfo.Key == myPlayerId)
-                player.SetTextColor(Color.green);
+            // Spawn a player game object.
+            players[playerInfo.Key].playerObject = SpawnPlayerObject(playerInfo.Key);
 
             // Temporarily hide the game object until the game starts.
             players[playerInfo.Key].playerObject.SetActive(false);
@@ -240,13 +247,33 @@ public class TacticsClient : MonoBehaviour
         Debug.Log("The game is about to start within " + time + " seconds.");
     }
 
+    // Spawn a player game object.
+    GameObject SpawnPlayerObject(int playerId)
+    {
+        // Create a player game object.
+        GameObject playerGameObject = Instantiate(playerPiecePrefab, Vector3.zero, Quaternion.identity);
+
+        // Set the properties of the player game object.
+        Player player = playerGameObject.GetComponent<Player>();
+        player.SetName(players[playerId].name);
+        player.SetCharacterType(players[playerId].characterClass);
+        player.SetTeamMaterial(players[playerId].team);
+        player.SetHealth(players[playerId].health);
+
+        // If the game object is controlled by this client, change text color to distinguish it from other clients.
+        if (playerId == myPlayerId)
+            player.SetTextColor(Color.green);
+
+        return playerGameObject;
+    }
+
     // Disable the "The game is about to start wihtin ... seconds" text after a couple of seconds.
     IEnumerator DisableTextGameAboutToStart(int time)
     {
         // Wait for seconds.
         yield return new WaitForSeconds(time);
 
-        // Enable the "The game is about to start wihtin ... seconds" text. 
+        // Disable the "The game is about to start wihtin ... seconds" text. 
         gameAboutToStartText.SetActive(false);
 
         // Show the player game objects.
@@ -259,10 +286,10 @@ public class TacticsClient : MonoBehaviour
         gamePhrasePanel.SetActive(true);
     }
 
-    // GAME PHASE
+    // === GAME PHASE ===
 
     // RPC called by the server to tell this client the size of the map.
-    public void SetMapSize(int x, int y) 
+    public void SetMapSize(int x, int y)
     {
         // Get info of the map.
         mapXSize = x;
@@ -274,40 +301,48 @@ public class TacticsClient : MonoBehaviour
         gameBoard.sizeX = x;
         gameBoard.sizeY = y;
         gameBoard.GenerateNewGameBoard();
+
+        Debug.Log("Generated a gameboard with size " + x + "x" + "y.");
     }
 
     // RPC called by the server to tell this client position [x,y] is blocked.
-    public void SetBlockedSpace(int x, int y) 
+    public void SetBlockedSpace(int x, int y)
     {
         boardState[x, y] = -1;
 
         // Create a blocked space object on the game board.
         GameObject blockedSpaceObject = Instantiate<GameObject>(blockedSpacePrefab, gameBoard.transform.position + new Vector3(1 + 2 * x, 1 + 2 * y, -2.0f), gameBoard.transform.rotation, gameBoard.transform);
+
+        Debug.Log("Position [" + x + "," + y + "] is blocked.");
     }
 
     // RPC called by the server to tell this client to update the position of a player.
-    public void SetPlayerPosition(int playerId, int x, int y) 
+    public void SetPlayerPosition(int playerId, int x, int y)
     {
         players[playerId].xPos = x;
         players[playerId].yPos = y;
 
         players[playerId].playerObject.transform.position = gameBoard.transform.position + new Vector3(1 + 2 * x, 1 + 2 * y, -2.0f);
+
+        Debug.Log(players[playerId].name + "(" + playerId + ") has moved to position [" + x + "," + y + "].");
     }
 
     // RPC called by the server to tell this client it is a start of a player's turn.
-    public void StartTurn(int playerId) 
+    public void StartTurn(int playerId)
     {
         guiLogic.GetComponent<GamePhraseLogic>().UpdatePlayersTurn(playerId);
+
+        Debug.Log(players[playerId].name + "(" + playerId + ")'s turn starts.");
     }
 
     // RPC called by the server to tell this client a player has made an attack at position [x,y].
     public void AttackMade(int playerId, int x, int y)
     {
-        Debug.Log("Player " + playerId + " has made an attack at position [" + x + "," + y + "]");
+        Debug.Log(players[playerId].name + "(" + playerId + ") has made an attack at position [" + x + "," + y + "].");
     }
 
     // RPC called by the server to tell this client to display a chat message.
-    public void DisplayChatMessage(string message) 
+    public void DisplayChatMessage(string message)
     {
         guiLogic.GetComponent<GamePhraseLogic>().UpdateChatBox(message);
 
@@ -315,10 +350,12 @@ public class TacticsClient : MonoBehaviour
     }
 
     // RPC called by the server to tell this client to update a player's health.
-    public void UpdateHealth(int playerId, int newHealth) 
+    public void UpdateHealth(int playerId, int newHealth)
     {
         players[playerId].health = newHealth;
 
         players[playerId].playerObject.GetComponent<Player>().SetHealth(newHealth);
+
+        Debug.Log(players[playerId].name + "(" + playerId + ")'s new health is " + newHealth + ".");
     }
 }
