@@ -1345,6 +1345,7 @@ GameObject:
   - component: {fileID: 1385401857}
   - component: {fileID: 1385401858}
   - component: {fileID: 1385401859}
+  - component: {fileID: 1385401860}
   m_Layer: 0
   m_Name: ExampleClient
   m_TagString: Untagged
@@ -1380,11 +1381,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clientNet: {fileID: 0}
   loginScreen: {fileID: 248918549}
-  cubes:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  myProjectile: {fileID: 0}
 --- !u!114 &1385401859
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1400,6 +1397,20 @@ MonoBehaviour:
   isServer: 0
   remoteVoiceChatContainerObject: {fileID: 0}
   remoteVoiceChatPrefab: {fileID: 0}
+--- !u!114 &1385401860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1385401856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58ba503148d8a7d49b1b826a933f910f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  camera: {fileID: 393346514}
+  client: {fileID: 1385401858}
 --- !u!1 &1443252314
 GameObject:
   m_ObjectHideFlags: 0

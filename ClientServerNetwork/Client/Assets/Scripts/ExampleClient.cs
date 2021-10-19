@@ -13,9 +13,7 @@ public class ExampleClient : MonoBehaviour
 
     public GameObject loginScreen;
 
-    //public GameObject myPlayer;
-
-    public GameObject[] cubes = new GameObject[4];
+    public GameObject playerGameObject;
 
     // Initialize the client
     void Awake()
@@ -87,21 +85,10 @@ public class ExampleClient : MonoBehaviour
     {
         Debug.Log("OnNetStatusDisconnecting called");
 
-        /*
-        if (myPlayer)
+        if (playerGameObject)
         {
-            clientNet.Destroy(myPlayer.GetComponent<NetworkSync>().GetId());
-            myPlayer = null;
-        }
-        */
-
-        for(int i = 0; i < 4; i++)
-        {
-            if(cubes[i])
-            {
-                clientNet.Destroy(cubes[i].GetComponent<NetworkSync>().GetId());
-                cubes[i] = null;
-            }
+            clientNet.Destroy(playerGameObject.GetComponent<NetworkSync>().GetId());
+            playerGameObject = null;
         }
     }
 
@@ -115,21 +102,10 @@ public class ExampleClient : MonoBehaviour
         
         loginInProcess = false;
 
-        /*
-        if (myPlayer)
+        if (playerGameObject)
         {
-            clientNet.Destroy(myPlayer.GetComponent<NetworkSync>().GetId());
-            myPlayer = null;
-        }
-        */
-            
-        for(int i = 0; i < 4; i++)
-        {
-            if(cubes[i])
-            {
-                clientNet.Destroy(cubes[i].GetComponent<NetworkSync>().GetId());
-                cubes[i] = null;
-            }
+            clientNet.Destroy(playerGameObject.GetComponent<NetworkSync>().GetId());
+            playerGameObject = null;
         }
     }
 
@@ -140,35 +116,15 @@ public class ExampleClient : MonoBehaviour
 
         // Tell the server we are ready
 
-        /*
-        myPlayer = clientNet.Instantiate("Player", Vector3.zero, Quaternion.identity);
-        myPlayer.GetComponent<NetworkSync>().AddToArea(1);
-        */
-
-        
-        // Spawn cubes
-        for(int i = 0; i < 4; i++)
-        {
-            cubes[i] = clientNet.Instantiate("Player", Vector3.up * 3.0f * i, Quaternion.identity);
-            cubes[i].GetComponent<NetworkSync>().AddToArea(1);
-        }
+        playerGameObject = clientNet.Instantiate("Player", Vector3.zero, Quaternion.identity);
+        playerGameObject.GetComponent<NetworkSync>().AddToArea(1);
     }
 
     void OnDestroy()
     {
-        /*
-        if (myPlayer)
+        if (playerGameObject)
         {
-            clientNet.Destroy(myPlayer.GetComponent<NetworkSync>().GetId());
-        }
-        */
-
-        for(int i = 0; i < 4; i++)
-        {
-            if(cubes[i])
-            {
-                clientNet.Destroy(cubes[i].GetComponent<NetworkSync>().GetId());
-            }
+            clientNet.Destroy(playerGameObject.GetComponent<NetworkSync>().GetId());
         }
 
         if (clientNet.IsConnected())
