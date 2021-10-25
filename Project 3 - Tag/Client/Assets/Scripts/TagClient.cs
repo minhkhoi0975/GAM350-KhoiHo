@@ -151,9 +151,15 @@ public class TagClient : MonoBehaviour
     {
         Debug.Log("OnChangeArea called");
 
-        // Tell the server we are ready
+        // Create a character for this client.
         myPlayerGameObject = clientNet.Instantiate("PlayerCharacter", Vector3.zero, Quaternion.identity);
-        //Instantiate(gameObject, Vector3.zero, Quaternion.identity);
+
+        // Make the camera focus on this client.
+        CameraMovement cameraMovement = Camera.main.GetComponent<CameraMovement>();
+        if(cameraMovement)
+        {
+            cameraMovement.FocusedGameObject = myPlayerGameObject;
+        }
 
         myPlayerGameObject.GetComponent<NetworkSync>().AddToArea(1);
     }
