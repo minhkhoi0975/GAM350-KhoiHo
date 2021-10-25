@@ -4,16 +4,33 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class ExampleClient : MonoBehaviour
+public class TagClient : MonoBehaviour
 {
     public ClientNetwork clientNet;
-    
+
     // Are we in the process of logging into a server
     private bool loginInProcess = false;
 
     public GameObject loginScreen;
 
-    public GameObject myPlayer;
+    public class Player
+    {
+        public int playerId = 0;
+        public string name = "";
+        public bool isHunter = false;
+    }
+
+    // List of players that are in the game.
+    public Dictionary<int, Player> players = new Dictionary<int, Player>();
+
+    // The id of this client.
+    public int myPlayerId;
+
+    // The id of the current hunter.
+    public int currentHunterId;
+
+    // Reference to the character game object of this client.
+    public GameObject myPlayerGameObject;
 
     float deltaTime = 0;
     // Initialize the client
@@ -44,9 +61,9 @@ public class ExampleClient : MonoBehaviour
             return;
         }
         loginInProcess = true;
-        
+
         ClientNetwork.port = aPort;
-        
+
         // Attempt to connect to the server with the given address and port
         clientNet.Connect(aServerAddress, ClientNetwork.port, "", "", "", 0);
     }
@@ -105,10 +122,10 @@ public class ExampleClient : MonoBehaviour
     {
         Debug.Log("OnNetStatusDisconnecting called");
 
-        if (myPlayer)
+        if (myPlayerGameObject)
         {
-            clientNet.Destroy(myPlayer.GetComponent<NetworkSync>().GetId());
-            myPlayer = null;
+            clientNet.Destroy(myPlayerGameObject.GetComponent<NetworkSync>().GetId());
+            myPlayerGameObject = null;
         }
     }
 
@@ -119,13 +136,13 @@ public class ExampleClient : MonoBehaviour
 
         // Restart the demo scene
         SceneManager.LoadScene("Client");
-        
+
         loginInProcess = false;
 
-        if (myPlayer)
+        if (myPlayerGameObject)
         {
-            clientNet.Destroy(myPlayer.GetComponent<NetworkSync>().GetId());
-            myPlayer = null;
+            clientNet.Destroy(myPlayerGameObject.GetComponent<NetworkSync>().GetId());
+            myPlayerGameObject = null;
         }
     }
 
@@ -135,23 +152,78 @@ public class ExampleClient : MonoBehaviour
         Debug.Log("OnChangeArea called");
 
         // Tell the server we are ready
-        myPlayer = clientNet.Instantiate("Player", Vector3.zero, Quaternion.identity);
+        myPlayerGameObject = clientNet.Instantiate("PlayerCharacter", Vector3.zero, Quaternion.identity);
         //Instantiate(gameObject, Vector3.zero, Quaternion.identity);
 
-        myPlayer.GetComponent<NetworkSync>().AddToArea(1);
+        myPlayerGameObject.GetComponent<NetworkSync>().AddToArea(1);
     }
 
     void OnDestroy()
     {
-        if (myPlayer)
+        if (myPlayerGameObject)
         {
-            clientNet.Destroy(myPlayer.GetComponent<NetworkSync>().GetId());
+            clientNet.Destroy(myPlayerGameObject.GetComponent<NetworkSync>().GetId());
         }
         if (clientNet.IsConnected())
         {
             clientNet.Disconnect("Peace out");
         }
     }
+
+    // Set the player ID for this client.
+    public void SetPlayerId(int playerId)
+    {
+        myPlayerId = playerId;
+        players[myPlayerId] = new Player();
+        players[myPlayerId].playerId = playerId;
+
+        Debug.Log("Your playerID is: " + playerId);
+    }
+
+    // A player has joined the game.
+    public void NewPlayerConnected(int playerId)
+    {
+        // Create a player info for the new player that has just joined the server.
+        players[playerId] = new Player();
+        players[playerId].playerId = playerId;
+
+        Debug.Log("Player " + playerId + " has entered the game.");
+    }
+
+    // RPC called by the server to tell this client a player's name has been changed
+    public void PlayerNameChanged(int playerId, string name)
+    {
+        // Set the name of the client.
+        string oldName = players[playerId].name;
+        players[playerId].name = name;
+
+        Debug.Log(oldName + "(" + playerId + ") has changed their name to " + players[playerId].name + ".");
+    }
+
+    public void ChangeHunter(int playerId)
+    {
+        if (players.ContainsKey(currentHunterId))
+        {
+            players[currentHunterId].isHunter = false;
+        }
+
+        players[playerId].isHunter = true;
+        currentHunterId = playerId;
+
+        // Set the material of the hunter and the preys.
+        if(myPlayerId == currentHunterId)
+        {
+            myPlayerGameObject.GetComponent<CharacterAppearance>().SetMaterial(true);
+            clientNet.CallRPC("SetMaterial", UCNetwork.MessageReceiver.AllClients, myPlayerGameObject.GetComponent<NetworkSync>().GetId(), true);
+        }
+        else
+        {
+            myPlayerGameObject.GetComponent<CharacterAppearance>().SetMaterial(false);
+            clientNet.CallRPC("SetMaterial", UCNetwork.MessageReceiver.AllClients, myPlayerGameObject.GetComponent<NetworkSync>().GetId(), false);
+        }
+
+        Debug.Log("MyPlayerID: " + myPlayerId);
+        Debug.Log("HunterID: " + playerId);
+        Debug.Log("Player " + playerId + "has become a hunter.");
+    }
 }
-
-

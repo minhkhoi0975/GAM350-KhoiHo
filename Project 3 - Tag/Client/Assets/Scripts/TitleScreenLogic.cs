@@ -6,7 +6,7 @@ public class TitleScreenLogic : MonoBehaviour {
 
     public Text server;
     public Text port;
-    public ExampleClient client;
+    public TagClient client;
 
     public void Connect()
     {

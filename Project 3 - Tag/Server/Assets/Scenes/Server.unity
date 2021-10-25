@@ -217,7 +217,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serverNet: {fileID: 0}
-  portNumber: 605
+  portNumber: 603
   playerObject: {fileID: 2129613723317610652, guid: 894763eca4eb9984f951c6cd98696302,
     type: 3}
 --- !u!114 &1130796022
