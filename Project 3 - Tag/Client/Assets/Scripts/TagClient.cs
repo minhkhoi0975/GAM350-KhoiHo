@@ -101,20 +101,6 @@ public class TagClient : MonoBehaviour
 
         // Add this client to an area
         clientNet.AddToArea(1);
-
-        clientNet.CallRPC("DoNukeEffect", UCNetwork.MessageReceiver.ServerOnly, -1);
-        //DoNukeEffect();
-
-        Debug.Log("Send time: " + Time.realtimeSinceStartup);
-        deltaTime = Time.realtimeSinceStartup;
-    }
-
-    public void DoNukeEffect()
-    {
-        Debug.Log("TESTING");
-        Debug.Log("Receive time: " + Time.realtimeSinceStartup);
-        deltaTime -= Time.realtimeSinceStartup;
-        Debug.Log("PING: " + deltaTime);
     }
 
     // When the client starts disconnecting from the server
@@ -162,6 +148,8 @@ public class TagClient : MonoBehaviour
         }
 
         myPlayerGameObject.GetComponent<NetworkSync>().AddToArea(1);
+
+        clientNet.CallRPC("SetGameObjectNetworkId", UCNetwork.MessageReceiver.ServerOnly, -1, myPlayerId, myPlayerGameObject.GetComponent<NetworkSync>().GetId());
     }
 
     void OnDestroy()

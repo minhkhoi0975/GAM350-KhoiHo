@@ -196,7 +196,6 @@ GameObject:
   - component: {fileID: 1130796022}
   - component: {fileID: 1130796021}
   - component: {fileID: 1130796023}
-  - component: {fileID: 1130796024}
   m_Layer: 0
   m_Name: ExampleServer
   m_TagString: Untagged
@@ -248,18 +247,6 @@ MonoBehaviour:
   maxConnections: 100
   writeToLog: 1
   logFile: ServerLog.txt
---- !u!114 &1130796024
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1130796020}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a64912b9c341aa84c87e8515a1cf0b17, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1130796030
 Transform:
   m_ObjectHideFlags: 0
