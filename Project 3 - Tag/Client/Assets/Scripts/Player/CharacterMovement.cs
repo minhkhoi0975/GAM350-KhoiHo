@@ -27,7 +27,7 @@ public class CharacterMovement : MonoBehaviour
     }
 
     // Change the movement speed of the character.
-    public void ChangeMovementSpeed(float newMovementSpeed)
+    public void SetMovementSpeed(float newMovementSpeed)
     {
         movementSpeed = newMovementSpeed;
     }

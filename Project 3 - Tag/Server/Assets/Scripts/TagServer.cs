@@ -11,10 +11,6 @@ public class TagServer : MonoBehaviour
 
     public int portNumber = 603;
 
-    public GameObject playerObject;
-
-    Dictionary<int, GameObject> playerGameObjects = new Dictionary<int, GameObject>();
-
     // Data about a player/client.
     public class Player
     {
@@ -24,11 +20,10 @@ public class TagServer : MonoBehaviour
 
         // Data about character.
         public int playerId = 0;
-        public string name = "";
         public bool isHunter = false;
 
         // Data about character game object.
-        public int gameObjectNetworkId;
+        public int gameObjectNetworkId = -1;
         public Vector3 position;
         public Quaternion rotation;
     }
@@ -43,8 +38,21 @@ public class TagServer : MonoBehaviour
     Player currentHunter;
 
     // If a player has become the Hunter, the player cannot catch a prey for a couple of seconds.
-    public float hunterCooldown = 3.0f;
-    float currentHunterCooldown = 0.0f;
+    public float hunterCooldown = 10.0f;
+    bool canHunterGoHunting = false;
+
+    // The movement speeds of the hunter and the preys.
+    public float hunterMovementSpeed = 450.0f;
+    public float preyMovementSpeed = 150.0f;
+
+    enum GameState
+    {
+        Waiting,        // The current number of players has not reached minimumNumberOfPlayers.
+        Playing         // The game has already started.
+    }
+    GameState currentGameState = GameState.Waiting;
+
+    public int minimumNumberOfPlayers = 4; // How many players have to enter the game before the game starts?
 
     // Initialize the server
     void Awake()
@@ -88,32 +96,26 @@ public class TagServer : MonoBehaviour
     // A client has finished connecting to the server
     void OnClientConnected(long aClientId)
     {
-        Player newPlayer = null;
-
-        foreach (Player player in players)
-        {
-            if (player.clientId == aClientId)
-            {
-                player.isConnected = true;
-                player.playerId = lastPlayerId++;
-                serverNet.CallRPC("SetPlayerId", aClientId, -1, player.playerId);
-
-                newPlayer = player;
-            }
-        }
-
-        if (newPlayer == null)
+        Player newPlayer = GetPlayerByClientId(aClientId);
+        if(newPlayer == null)
         {
             Debug.Log("OnClientConnected: Unable to find unknown player for client " + aClientId);
             return;
         }
+
+        newPlayer.isConnected = true;
+        newPlayer.playerId = lastPlayerId++;
+        serverNet.CallRPC("SetPlayerId", aClientId, -1, newPlayer.playerId);
 
         // A client has connected, send the data about other connected clients
         for (int i = 0; i < players.Count; i++)
         {
             if (players[i].clientId != aClientId)
             {
-                // Tell the other client that this player has connected
+                // Let this client know about other clients.
+                serverNet.CallRPC("NewPlayerConnected", aClientId, -1, players[i].playerId);
+
+                // Let other clients know about this client.
                 serverNet.CallRPC("NewPlayerConnected", players[i].clientId, -1, newPlayer.playerId);
             }
         }
@@ -126,6 +128,7 @@ public class TagServer : MonoBehaviour
         if (disconnectedPlayer == null)
             return;
 
+        serverNet.CallRPC("ClientDisconnected", UCNetwork.MessageReceiver.AllClients, -1, disconnectedPlayer.playerId);
         players.Remove(disconnectedPlayer);
     }
 
@@ -149,15 +152,7 @@ public class TagServer : MonoBehaviour
     // A network object has been instantiated by a client
     void OnInstantiateNetworkObject(ServerNetwork.IntantiateObjectData aObjectData)
     {
-        // Get the network object information, store in a dictionary
-        ServerNetwork.NetworkObject obj = serverNet.GetNetObjById(aObjectData.netObjId);
-        playerGameObjects[aObjectData.netObjId] = Instantiate(playerObject, obj.position, obj.rotation);
-
-        if (CanGameStart())
-        {
-            int randomPlayerId = UnityEngine.Random.Range(0, players.Count);
-            ChangeHunter(randomPlayerId);
-        }
+        
     }
 
     // A client has been added to a new area
@@ -169,7 +164,22 @@ public class TagServer : MonoBehaviour
     // An object has been added to a new area
     void AddedObjectToArea(int aNetworkId)
     {
-
+        /*
+        Player newPlayer = FindPlayerWithGameObjectNetworkId(aNetworkId);
+        if (newPlayer != null)
+        {
+            for (int i = 0; i < players.Count; i++)
+            {
+                if (players[i].clientId != newPlayer.clientId)
+                {
+                    if (players[i] == currentHunter)
+                    {
+                        serverNet.CallRPC("SetMaterial", newPlayer.clientId, players[i].gameObjectNetworkId, true);
+                    }
+                }
+            }
+        }
+        */
     }
 
     // Initialization data should be sent to a network object
@@ -184,62 +194,21 @@ public class TagServer : MonoBehaviour
 
     }
 
-    // Set the name of a client.
-    public void SetName(string aName)
-    {
-        Player player = GetPlayerByClientId(serverNet.SendingClientId);
-        if (player == null)
-        {
-            // If we can't find the player for this client, who are they? kick them
-            Debug.Log("Unable to get player for unknown client " + serverNet.SendingClientId);
-            serverNet.Kick(serverNet.SendingClientId);
-        }
-
-        player.name = aName;
-        serverNet.CallRPC("PlayerNameChanged", UCNetwork.MessageReceiver.AllClients, -1, player.playerId, player.name);
-    }
-
     private void Update()
     {
-        // Dictionary<int, ServerNetwork.NetworkObject> allObjs = serverNet.GetAllObjects();
-
-        // Update the player cooldown.
-        if(hunterCooldown > 0.0f)
-        {
-            hunterCooldown -= Time.deltaTime;
-        }
-
-        // Check whether the hunter catches a prey.
-        Player prey;
-        if (hunterCooldown <= 0.0f && HunterCatchesPrey(out prey))
-        {
-            ChangeHunter(prey.playerId);
-        }
-    }
-
-    private void FixedUpdate()
-    {
-
     }
 
     public void NetObjectUpdated(int aNetId)
     {
-        Debug.Log("Object has been updated:" + aNetId);
-
-        ServerNetwork.NetworkObject obj = serverNet.GetNetObjById(aNetId);
-        playerGameObjects[aNetId].transform.position = obj.position;
-        playerGameObjects[aNetId].transform.localRotation = obj.rotation;
-
-        /*
-        //...
-        long ownerClientId = serverNet.GetOwnerClientId(aNetId);
-        serverNet.CallRPC("IsHunter", ownerClientId, aNetId, false);
-        //...
-        //serverNet.CallRPC("IsHunter", otherClientId, otherNetId, true);
-        */
-
         // Update the position of the player game object.
         UpdateGameObjectTransform(aNetId);
+
+        // Check whether the hunter catches a prey.
+        Player prey;
+        if (canHunterGoHunting && HunterCatchesPrey(out prey))
+        {
+            SetHunter(prey.playerId);
+        }
     }
 
     // Does the hunter catch a prey?
@@ -257,6 +226,8 @@ public class TagServer : MonoBehaviour
             if (player != currentHunter && Vector3.Distance(player.position, currentHunter.position) <= 1.0f)
             {
                 prey = player;
+
+                Debug.Log(currentHunter.playerId + " has just caught " + prey.playerId);
                 return true;
             }
         }
@@ -266,12 +237,14 @@ public class TagServer : MonoBehaviour
     }
 
     // Change the hunter.
-    public void ChangeHunter(int playerId)
+    public void SetHunter(int playerId)
     {
         // The current hunter is no longer a hunter.
         if (currentHunter != null)
         {
             currentHunter.isHunter = false;
+            serverNet.CallRPC("SetMovementSpeed", UCNetwork.MessageReceiver.AllClients, currentHunter.gameObjectNetworkId, preyMovementSpeed);
+            serverNet.CallRPC("SetMaterial", UCNetwork.MessageReceiver.AllClients, currentHunter.gameObjectNetworkId, false);
         }
 
         // Make the player that matches the ID become the next hunter.
@@ -281,53 +254,82 @@ public class TagServer : MonoBehaviour
             {
                 player.isHunter = true;
                 currentHunter = player;
+                serverNet.CallRPC("SetMovementSpeed", UCNetwork.MessageReceiver.AllClients, currentHunter.gameObjectNetworkId, hunterMovementSpeed);
+                serverNet.CallRPC("SetMaterial", UCNetwork.MessageReceiver.AllClients, currentHunter.gameObjectNetworkId, true);
                 break;
             }
         }
 
-        // Set cooldown for the new hunter.
-        currentHunterCooldown = hunterCooldown;
+        // Make the new hunter wait for a couple of seconds before they can start hunting.
+        StartCoroutine(HunterCoolDown());
 
-        Debug.Log("Player " + playerId + " has become a hunter.");
-        serverNet.CallRPC("ChangeHunter", UCNetwork.MessageReceiver.AllClients, -1, playerId);
+        Debug.Log("Player " + playerId + " has become the hunter.");
+        serverNet.CallRPC("SetHunter", UCNetwork.MessageReceiver.AllClients, -1, playerId);
     }
 
-    // Can the game start?
-    public bool CanGameStart()
+    // The hunter must wait for a couple of seconds before they can hunt for a prey.
+    IEnumerator HunterCoolDown()
+    {
+        canHunterGoHunting = false;
+        yield return new WaitForSeconds(hunterCooldown);
+        canHunterGoHunting = true;
+    }
+
+    // RPC when a client's character has been spawned.
+    public void PlayerGameObjectSpawned(int playerId, int gameObjectNetworkId)
+    {
+        for (int i = 0; i < players.Count; i++)
+        {
+            if(players[i].playerId == playerId)
+            {
+                players[i].gameObjectNetworkId = gameObjectNetworkId;
+                Debug.Log("Player " + playerId + " created a game object with network ID " + gameObjectNetworkId);
+                break;
+            }      
+        }
+
+        // Check whether the game can start.
+        if (currentGameState == GameState.Waiting && CanStartGame())
+        {
+            StartGame();
+            Debug.Log("The game has started.");
+        }
+    }
+
+    // Can the hunt begin?
+    public bool CanStartGame()
     {
         int connectedPlayerCount = 0;
-        foreach(Player player in players)
+        for (int i = 0; i < players.Count; i++)
         {
-            if(player.isConnected)
+            if (players[i].isConnected && players[i].gameObjectNetworkId != -1)
             {
                 connectedPlayerCount++;
             }
         }
 
         Debug.Log("Number of connected players: " + connectedPlayerCount);
-        if (connectedPlayerCount > 1)
+        if (connectedPlayerCount >= minimumNumberOfPlayers)
         {
             Debug.Log("The game can start.");
             return true;
         }
         else
         {
-            Debug.Log("The game needs 1 more player.");
+            Debug.Log("The game needs more players.");
             return false;
         }
     }
 
-    // Set the game object network ID of a player.
-    public void SetGameObjectNetworkId(int playerId, int gameObjectNetworkId)
+    // Start the game.
+    public void StartGame()
     {
-        foreach(Player player in players)
-        {
-            if(player.playerId == playerId)
-            {
-                player.gameObjectNetworkId = gameObjectNetworkId;
-            }
-            return;
-        }
+        // Change the state of the game.
+        currentGameState = GameState.Playing;
+
+        // Select a random client to be the hunter.
+        int randomIndex = UnityEngine.Random.Range(0, players.Count);
+        SetHunter(players[randomIndex].playerId);
     }
 
     // Find the player whose game object matches the network ID.
@@ -352,9 +354,9 @@ public class TagServer : MonoBehaviour
         // If the player is found, update the position and rotation of the game object.
         if (player != null)
         {
-            ServerNetwork.NetworkObject obj = serverNet.GetNetObjById(networkId);
-            player.position = obj.position;
-            player.rotation = obj.rotation;
+            ServerNetwork.NetworkObject networkObject = serverNet.GetNetObjById(networkId);
+            player.position = networkObject.position;
+            player.rotation = networkObject.rotation;
 
             Debug.Log("Gameobject " + networkId + " Position: " + player.position + " Rotation: " + player.rotation);
         }

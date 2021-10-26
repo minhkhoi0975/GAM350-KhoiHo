@@ -15,9 +15,8 @@ public class TagClient : MonoBehaviour
 
     public class Player
     {
-        public int playerId = 0;
-        public string name = "";
-        public bool isHunter = false;
+        public int playerId = -1;
+        public int gameObjectNetworkId = -1;
     }
 
     // List of players that are in the game.
@@ -66,31 +65,6 @@ public class TagClient : MonoBehaviour
 
         // Attempt to connect to the server with the given address and port
         clientNet.Connect(aServerAddress, ClientNetwork.port, "", "", "", 0);
-    }
-
-    // CALLBACK FUNCTIONS
-    //  The following functions will be called by the ClientNetwork script while the game is running:
-
-    // Network status changes
-    void OnNetStatusNone()
-    {
-        Debug.Log("OnNetStatusNone called");
-    }
-    void OnNetStatusInitiatedConnect()
-    {
-        Debug.Log("OnNetStatusInitiatedConnect called");
-    }
-    void OnNetStatusReceivedInitiation()
-    {
-        Debug.Log("OnNetStatusReceivedInitiation called");
-    }
-    void OnNetStatusRespondedAwaitingApproval()
-    {
-        Debug.Log("OnNetStatusRespondedAwaitingApproval called");
-    }
-    void OnNetStatusRespondedConnect()
-    {
-        Debug.Log("OnNetStatusRespondedConnect called");
     }
 
     // When the client has finished connecting to the server
@@ -149,7 +123,7 @@ public class TagClient : MonoBehaviour
 
         myPlayerGameObject.GetComponent<NetworkSync>().AddToArea(1);
 
-        clientNet.CallRPC("SetGameObjectNetworkId", UCNetwork.MessageReceiver.ServerOnly, -1, myPlayerId, myPlayerGameObject.GetComponent<NetworkSync>().GetId());
+        clientNet.CallRPC("PlayerGameObjectSpawned", UCNetwork.MessageReceiver.ServerOnly, -1, myPlayerId, myPlayerGameObject.GetComponent<NetworkSync>().GetId());
     }
 
     void OnDestroy()
@@ -171,7 +145,7 @@ public class TagClient : MonoBehaviour
         players[myPlayerId] = new Player();
         players[myPlayerId].playerId = playerId;
 
-        Debug.Log("Your playerID is: " + playerId);
+        Debug.Log("Your player ID is: " + playerId);
     }
 
     // A player has joined the game.
@@ -184,40 +158,26 @@ public class TagClient : MonoBehaviour
         Debug.Log("Player " + playerId + " has entered the game.");
     }
 
-    // RPC called by the server to tell this client a player's name has been changed
-    public void PlayerNameChanged(int playerId, string name)
+    public void ClientDisconnected(int playerId)
     {
-        // Set the name of the client.
-        string oldName = players[playerId].name;
-        players[playerId].name = name;
-
-        Debug.Log(oldName + "(" + playerId + ") has changed their name to " + players[playerId].name + ".");
+        players.Remove(playerId);
     }
 
-    public void ChangeHunter(int playerId)
+    // The hunter has been changed.
+    public void SetHunter(int playerId)
     {
-        if (players.ContainsKey(currentHunterId))
-        {
-            players[currentHunterId].isHunter = false;
-        }
-
-        players[playerId].isHunter = true;
         currentHunterId = playerId;
 
         // Set the material of the hunter and the preys.
         if(myPlayerId == currentHunterId)
         {
             myPlayerGameObject.GetComponent<CharacterAppearance>().SetMaterial(true);
-            clientNet.CallRPC("SetMaterial", UCNetwork.MessageReceiver.AllClients, myPlayerGameObject.GetComponent<NetworkSync>().GetId(), true);
         }
         else
         {
             myPlayerGameObject.GetComponent<CharacterAppearance>().SetMaterial(false);
-            clientNet.CallRPC("SetMaterial", UCNetwork.MessageReceiver.AllClients, myPlayerGameObject.GetComponent<NetworkSync>().GetId(), false);
         }
 
-        Debug.Log("MyPlayerID: " + myPlayerId);
-        Debug.Log("HunterID: " + playerId);
-        Debug.Log("Player " + playerId + "has become a hunter.");
+        Debug.Log("Player " + playerId + "has become the hunter.");
     }
 }
