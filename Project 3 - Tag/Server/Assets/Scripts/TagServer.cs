@@ -265,8 +265,8 @@ public class TagServer : MonoBehaviour
                 player.isHunter = true;
                 currentHunter = player;
 
-                // Set the movement speed for the new hunter.
-                serverNet.CallRPC("SetMovementSpeed", currentHunter.clientId, currentHunter.gameObjectNetworkId, hunterMovementSpeed);
+                // The new hunter cannot move until the cooldown reaches 0.
+                serverNet.CallRPC("SetMovementSpeed", currentHunter.clientId, currentHunter.gameObjectNetworkId, 0.0f);
 
                 // Change the appearance of the new hunter.
                 serverNet.CallRPC("SetMaterial", UCNetwork.MessageReceiver.AllClients, currentHunter.gameObjectNetworkId, true);
@@ -286,6 +286,7 @@ public class TagServer : MonoBehaviour
     {
         canHunterGoHunting = false;
         yield return new WaitForSeconds(hunterCooldown);
+        serverNet.CallRPC("SetMovementSpeed", currentHunter.clientId, currentHunter.gameObjectNetworkId, hunterMovementSpeed);
         canHunterGoHunting = true;
     }
 

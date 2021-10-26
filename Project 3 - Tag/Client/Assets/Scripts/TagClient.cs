@@ -184,6 +184,6 @@ public class TagClient : MonoBehaviour
             myPlayerGameObject.GetComponent<CharacterAppearance>().SetMaterial(false);
         }
 
-        Debug.Log("Player " + playerId + "has become the hunter.");
+        Debug.Log("Player " + playerId + " has become the hunter.");
     }
 }
