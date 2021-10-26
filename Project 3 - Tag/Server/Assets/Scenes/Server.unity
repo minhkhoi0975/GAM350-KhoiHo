@@ -216,7 +216,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serverNet: {fileID: 0}
-  portNumber: 605
+  portNumber: 603
   hunterCooldown: 10
   hunterMovementSpeed: 200
   preyMovementSpeed: 150
