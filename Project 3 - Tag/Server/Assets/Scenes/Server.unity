@@ -197,7 +197,7 @@ GameObject:
   - component: {fileID: 1130796021}
   - component: {fileID: 1130796023}
   m_Layer: 0
-  m_Name: ExampleServer
+  m_Name: TagServer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -216,9 +216,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serverNet: {fileID: 0}
-  portNumber: 603
-  playerObject: {fileID: 2129613723317610652, guid: 894763eca4eb9984f951c6cd98696302,
-    type: 3}
+  portNumber: 605
+  hunterCooldown: 10
+  hunterMovementSpeed: 200
+  preyMovementSpeed: 150
+  minimumNumberOfPlayers: 3
 --- !u!114 &1130796022
 MonoBehaviour:
   m_ObjectHideFlags: 0

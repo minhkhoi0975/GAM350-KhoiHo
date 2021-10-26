@@ -10,29 +10,9 @@ using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
 {
-    [SerializeField] GameObject focusedGameObject; // The game object the camera looks at.
-    public GameObject FocusedGameObject
-    {
-        get
-        {
-            return focusedGameObject;
-        }
-        set
-        {
-            focusedGameObject = value;
-            cameraOffset = this.transform.position - focusedGameObject.transform.position;
-        }
-    }
+    public GameObject focusedGameObject; // The game object the camera looks at.
 
-    private Vector3 cameraOffset;
-
-    private void Awake()
-    {
-        if (focusedGameObject)
-        {
-            cameraOffset = this.transform.position - focusedGameObject.transform.position;
-        }
-    }
+    public Vector3 cameraOffset = new Vector3(0.0f, 187.6f, -30f);
 
     // Update is called once per frame
     void LateUpdate()
@@ -49,4 +29,3 @@ public class CameraMovement : MonoBehaviour
         }
     }
 }
-

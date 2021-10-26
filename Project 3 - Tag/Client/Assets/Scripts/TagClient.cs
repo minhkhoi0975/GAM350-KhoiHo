@@ -31,6 +31,9 @@ public class TagClient : MonoBehaviour
     // Reference to the character game object of this client.
     public GameObject myPlayerGameObject;
 
+    // Where can the player characters be spawned?
+    public List<Transform> playerStartPositions;
+
     float deltaTime = 0;
     // Initialize the client
     void Awake()
@@ -111,14 +114,17 @@ public class TagClient : MonoBehaviour
     {
         Debug.Log("OnChangeArea called");
 
+        // Randomly select a start point.
+        Transform startPoint = playerStartPositions[Random.Range(0, playerStartPositions.Count)];
+
         // Create a character for this client.
-        myPlayerGameObject = clientNet.Instantiate("PlayerCharacter", Vector3.zero, Quaternion.identity);
+        myPlayerGameObject = clientNet.Instantiate("PlayerCharacter", startPoint.position, startPoint.rotation);
 
         // Make the camera focus on this client.
         CameraMovement cameraMovement = Camera.main.GetComponent<CameraMovement>();
         if(cameraMovement)
         {
-            cameraMovement.FocusedGameObject = myPlayerGameObject;
+            cameraMovement.focusedGameObject = myPlayerGameObject;
         }
 
         myPlayerGameObject.GetComponent<NetworkSync>().AddToArea(1);

@@ -42,7 +42,7 @@ public class TagServer : MonoBehaviour
     bool canHunterGoHunting = false;
 
     // The movement speeds of the hunter and the preys.
-    public float hunterMovementSpeed = 450.0f;
+    public float hunterMovementSpeed = 200.0f;
     public float preyMovementSpeed = 150.0f;
 
     enum GameState
@@ -130,6 +130,12 @@ public class TagServer : MonoBehaviour
 
         serverNet.CallRPC("ClientDisconnected", UCNetwork.MessageReceiver.AllClients, -1, disconnectedPlayer.playerId);
         players.Remove(disconnectedPlayer);
+
+        // If the disconnected player is the hunter, choose a random player to be the hunter.
+        if(disconnectedPlayer == currentHunter)
+        {
+            StartGame();
+        }
     }
 
     // Get the player for the given client id
@@ -191,7 +197,7 @@ public class TagServer : MonoBehaviour
     // A game object has been destroyed
     void OnDestroyNetworkObject(int aObjectId)
     {
-
+        
     }
 
     private void Update()
@@ -243,7 +249,11 @@ public class TagServer : MonoBehaviour
         if (currentHunter != null)
         {
             currentHunter.isHunter = false;
-            serverNet.CallRPC("SetMovementSpeed", UCNetwork.MessageReceiver.AllClients, currentHunter.gameObjectNetworkId, preyMovementSpeed);
+
+            // Reset the movement speed of this character.
+            serverNet.CallRPC("SetMovementSpeed", currentHunter.clientId, currentHunter.gameObjectNetworkId, preyMovementSpeed);
+
+            // Reset the appearance of this character.
             serverNet.CallRPC("SetMaterial", UCNetwork.MessageReceiver.AllClients, currentHunter.gameObjectNetworkId, false);
         }
 
@@ -254,7 +264,11 @@ public class TagServer : MonoBehaviour
             {
                 player.isHunter = true;
                 currentHunter = player;
-                serverNet.CallRPC("SetMovementSpeed", UCNetwork.MessageReceiver.AllClients, currentHunter.gameObjectNetworkId, hunterMovementSpeed);
+
+                // Set the movement speed for the new hunter.
+                serverNet.CallRPC("SetMovementSpeed", currentHunter.clientId, currentHunter.gameObjectNetworkId, hunterMovementSpeed);
+
+                // Change the appearance of the new hunter.
                 serverNet.CallRPC("SetMaterial", UCNetwork.MessageReceiver.AllClients, currentHunter.gameObjectNetworkId, true);
                 break;
             }
@@ -283,6 +297,10 @@ public class TagServer : MonoBehaviour
             if(players[i].playerId == playerId)
             {
                 players[i].gameObjectNetworkId = gameObjectNetworkId;
+
+                // Set the movement speed of the character.
+                serverNet.CallRPC("SetMovementSpeed", players[i].clientId, gameObjectNetworkId, preyMovementSpeed);
+
                 Debug.Log("Player " + playerId + " created a game object with network ID " + gameObjectNetworkId);
                 break;
             }      
@@ -308,17 +326,7 @@ public class TagServer : MonoBehaviour
             }
         }
 
-        Debug.Log("Number of connected players: " + connectedPlayerCount);
-        if (connectedPlayerCount >= minimumNumberOfPlayers)
-        {
-            Debug.Log("The game can start.");
-            return true;
-        }
-        else
-        {
-            Debug.Log("The game needs more players.");
-            return false;
-        }
+        return connectedPlayerCount >= minimumNumberOfPlayers;
     }
 
     // Start the game.
@@ -330,20 +338,6 @@ public class TagServer : MonoBehaviour
         // Select a random client to be the hunter.
         int randomIndex = UnityEngine.Random.Range(0, players.Count);
         SetHunter(players[randomIndex].playerId);
-    }
-
-    // Find the player whose game object matches the network ID.
-    public Player FindPlayerWithGameObjectNetworkId(int gameObjectNetworkId)
-    {
-        foreach (Player player in players)
-        {
-            if (player.gameObjectNetworkId == gameObjectNetworkId)
-            {
-                return player;
-            }
-        }
-
-        return null;
     }
 
     // Update the transform of a player game object.
@@ -360,5 +354,19 @@ public class TagServer : MonoBehaviour
 
             Debug.Log("Gameobject " + networkId + " Position: " + player.position + " Rotation: " + player.rotation);
         }
+    }
+
+    // Find the player whose game object matches the network ID.
+    public Player FindPlayerWithGameObjectNetworkId(int gameObjectNetworkId)
+    {
+        foreach (Player player in players)
+        {
+            if (player.gameObjectNetworkId == gameObjectNetworkId)
+            {
+                return player;
+            }
+        }
+
+        return null;
     }
 }
