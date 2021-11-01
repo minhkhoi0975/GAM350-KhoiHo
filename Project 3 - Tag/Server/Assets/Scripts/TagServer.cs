@@ -20,6 +20,7 @@ public class TagServer : MonoBehaviour
 
         // Data about character.
         public int playerId = 0;
+        public string name = "";
         public bool isHunter = false;
 
         // Data about character game object.
@@ -37,13 +38,11 @@ public class TagServer : MonoBehaviour
     // The current hunter.
     Player currentHunter;
 
-    // If a player has become the Hunter, the player cannot catch a prey for a couple of seconds.
-    public float hunterCooldown = 10.0f;
-    bool canHunterGoHunting = false;
+    // Reference to game rules.
+    public GameRules gameRules;
 
-    // The movement speeds of the hunter and the preys.
-    public float hunterMovementSpeed = 200.0f;
-    public float preyMovementSpeed = 150.0f;
+    // Return true when the cooldown reaches 0.
+    bool canHunterGoHunting = false;
 
     enum GameState
     {
@@ -67,6 +66,12 @@ public class TagServer : MonoBehaviour
         {
             serverNet = (ServerNetwork)gameObject.AddComponent(typeof(ServerNetwork));
             Debug.Log("ServerNetwork component added.");
+        }
+
+        // Initialization of the game rules.
+        if(gameRules == null)
+        {
+            gameRules = new GameRules();
         }
 
         //serverNet.EnableLogging("rpcLog.txt");
@@ -97,7 +102,7 @@ public class TagServer : MonoBehaviour
     void OnClientConnected(long aClientId)
     {
         Player newPlayer = GetPlayerByClientId(aClientId);
-        if(newPlayer == null)
+        if (newPlayer == null)
         {
             Debug.Log("OnClientConnected: Unable to find unknown player for client " + aClientId);
             return;
@@ -112,11 +117,13 @@ public class TagServer : MonoBehaviour
         {
             if (players[i].clientId != aClientId)
             {
-                // Let this client know about other clients.
+                // Let this client know about other clients' data.
                 serverNet.CallRPC("NewPlayerConnected", aClientId, -1, players[i].playerId);
+                serverNet.CallRPC("PlayerNameChanged", aClientId, -1, players[i].playerId, players[i].name);
 
-                // Let other clients know about this client.
+                // Let other clients know about this client's data.
                 serverNet.CallRPC("NewPlayerConnected", players[i].clientId, -1, newPlayer.playerId);
+                serverNet.CallRPC("PlayerNameChanged", players[i].clientId, -1, newPlayer.playerId, newPlayer.name);
             }
         }
     }
@@ -128,37 +135,47 @@ public class TagServer : MonoBehaviour
         if (disconnectedPlayer == null)
             return;
 
+        // Destroy the character of the disconnected client.
+        serverNet.Destroy(disconnectedPlayer.gameObjectNetworkId);
+
+        // Tell the clients that a player has left the game.
         serverNet.CallRPC("ClientDisconnected", UCNetwork.MessageReceiver.AllClients, -1, disconnectedPlayer.playerId);
+
         players.Remove(disconnectedPlayer);
 
         // If the disconnected player is the hunter, choose a random player to be the hunter.
-        if(disconnectedPlayer == currentHunter)
+        if (disconnectedPlayer == currentHunter)
         {
             StartGame();
         }
+
+        Debug.Log("A client has disconnected from the game.");
     }
 
-    // Get the player for the given client id
-    Player GetPlayerByClientId(long aClientId)
+    // RPC from the client to set the name of thier player
+    public void SetName(int playerId, string aName)
     {
-        for (int i = 0; i < players.Count; i++)
+        Player player = GetPlayerByPlayerId(playerId);
+        if (player == null)
         {
-            if (players[i].clientId == aClientId)
-            {
-                return players[i];
-            }
+            // If we can't find the player for this client, who are they? kick them
+            Debug.Log("Unable to get player for unknown client " + serverNet.SendingClientId);
+            serverNet.Kick(serverNet.SendingClientId);
+            return;
         }
 
-        // If we can't find the player for this client, who are they? kick them
-        Debug.Log("Unable to get player for unknown client " + aClientId);
-        serverNet.Kick(aClientId);
-        return null;
+        player.name = aName;
+
+        serverNet.CallRPC("PlayerNameChanged", UCNetwork.MessageReceiver.AllClients, -1, player.playerId, player.name);
+        serverNet.CallRPC("SetName", UCNetwork.MessageReceiver.AllClients, player.gameObjectNetworkId, player.name);
+
+        Debug.Log(player.playerId + " has set their name to " + player.name);
     }
 
     // A network object has been instantiated by a client
     void OnInstantiateNetworkObject(ServerNetwork.IntantiateObjectData aObjectData)
     {
-        
+
     }
 
     // A client has been added to a new area
@@ -197,7 +214,7 @@ public class TagServer : MonoBehaviour
     // A game object has been destroyed
     void OnDestroyNetworkObject(int aObjectId)
     {
-        
+
     }
 
     private void Update()
@@ -225,8 +242,8 @@ public class TagServer : MonoBehaviour
             prey = null;
             return false;
         }
-            
-        foreach(Player player in players)
+
+        foreach (Player player in players)
         {
             // The diameter of a capsule is 1.0f, so we use 1.0f here.
             if (player != currentHunter && Vector3.Distance(player.position, currentHunter.position) <= 1.0f)
@@ -250,28 +267,30 @@ public class TagServer : MonoBehaviour
         {
             currentHunter.isHunter = false;
 
+            // Reset the field of view of the client.
+            serverNet.CallRPC("SetFieldOfView", currentHunter.clientId, -1, gameRules.preyFieldOfView);
+
             // Reset the movement speed of this character.
-            serverNet.CallRPC("SetMovementSpeed", currentHunter.clientId, currentHunter.gameObjectNetworkId, preyMovementSpeed);
+            serverNet.CallRPC("SetMovementSpeed", currentHunter.clientId, currentHunter.gameObjectNetworkId, gameRules.preyMovementSpeed);
 
             // Reset the appearance of this character.
             serverNet.CallRPC("SetMaterial", UCNetwork.MessageReceiver.AllClients, currentHunter.gameObjectNetworkId, false);
         }
 
-        // Make the player that matches the ID become the next hunter.
-        foreach(Player player in players)
+        Player newHunter = GetPlayerByPlayerId(playerId);
+        if (newHunter != null)
         {
-            if(player.playerId == playerId)
-            {
-                player.isHunter = true;
-                currentHunter = player;
+            newHunter.isHunter = true;
+            currentHunter = newHunter;
 
-                // The new hunter cannot move until the cooldown reaches 0.
-                serverNet.CallRPC("SetMovementSpeed", currentHunter.clientId, currentHunter.gameObjectNetworkId, 0.0f);
+            // Set the field of view of the new hunter.
+            serverNet.CallRPC("SetFieldOfView", currentHunter.clientId, -1, gameRules.hunterFieldOfView);
 
-                // Change the appearance of the new hunter.
-                serverNet.CallRPC("SetMaterial", UCNetwork.MessageReceiver.AllClients, currentHunter.gameObjectNetworkId, true);
-                break;
-            }
+            // The new hunter cannot move until the cooldown reaches 0.
+            serverNet.CallRPC("SetMovementSpeed", currentHunter.clientId, currentHunter.gameObjectNetworkId, 0.0f);
+
+            // Change the appearance of the new hunter.
+            serverNet.CallRPC("SetMaterial", UCNetwork.MessageReceiver.AllClients, currentHunter.gameObjectNetworkId, true);
         }
 
         // Make the new hunter wait for a couple of seconds before they can start hunting.
@@ -285,26 +304,41 @@ public class TagServer : MonoBehaviour
     IEnumerator HunterCoolDown()
     {
         canHunterGoHunting = false;
-        yield return new WaitForSeconds(hunterCooldown);
-        serverNet.CallRPC("SetMovementSpeed", currentHunter.clientId, currentHunter.gameObjectNetworkId, hunterMovementSpeed);
+        yield return new WaitForSeconds(gameRules.hunterCooldown);
+        serverNet.CallRPC("SetMovementSpeed", currentHunter.clientId, currentHunter.gameObjectNetworkId, gameRules.hunterMovementSpeed);
         canHunterGoHunting = true;
     }
 
-    // RPC when a client's character has been spawned.
+    // Called when a client successfully instantiates their network game object.
     public void PlayerGameObjectSpawned(int playerId, int gameObjectNetworkId)
     {
-        for (int i = 0; i < players.Count; i++)
+        // Let the server know the network id of the game object the client takes control.
+        Player newPlayer = GetPlayerByPlayerId(playerId);
+        if (newPlayer != null)
         {
-            if(players[i].playerId == playerId)
+            newPlayer.gameObjectNetworkId = gameObjectNetworkId;
+            Debug.Log("Player " + playerId + " created a game object with network ID " + gameObjectNetworkId);
+
+            // Set the movement speed of the character.
+            serverNet.CallRPC("SetMovementSpeed", newPlayer.clientId, gameObjectNetworkId, gameRules.preyMovementSpeed);
+
+            // Set the FOV of the client.
+            serverNet.CallRPC("SetFieldOfView", newPlayer.clientId, -1, gameRules.preyFieldOfView);
+
+            // Let the new player know other clients' name.
+            foreach (Player otherPlayer in players)
             {
-                players[i].gameObjectNetworkId = gameObjectNetworkId;
+                if (otherPlayer != newPlayer)
+                {
+                    serverNet.CallRPC("SetName", newPlayer.clientId, otherPlayer.gameObjectNetworkId, otherPlayer.name);
+                }
+            }
 
-                // Set the movement speed of the character.
-                serverNet.CallRPC("SetMovementSpeed", players[i].clientId, gameObjectNetworkId, preyMovementSpeed);
-
-                Debug.Log("Player " + playerId + " created a game object with network ID " + gameObjectNetworkId);
-                break;
-            }      
+            // Let the new player know who the hunter is.
+            if (currentHunter != null)
+            {
+                serverNet.CallRPC("SetMaterial", newPlayer.clientId, currentHunter.gameObjectNetworkId, true);
+            }
         }
 
         // Check whether the game can start.
@@ -318,6 +352,7 @@ public class TagServer : MonoBehaviour
     // Can the hunt begin?
     public bool CanStartGame()
     {
+        // Count the current number of players.
         int connectedPlayerCount = 0;
         for (int i = 0; i < players.Count; i++)
         {
@@ -342,32 +377,63 @@ public class TagServer : MonoBehaviour
     }
 
     // Update the transform of a player game object.
-    public void UpdateGameObjectTransform(int networkId)
-    {  
-        Player player = FindPlayerWithGameObjectNetworkId(networkId);
+    public void UpdateGameObjectTransform(int aNetworkId)
+    {
+        Player player = GetPlayerByGameObjectNetworkId(aNetworkId);
 
         // If the player is found, update the position and rotation of the game object.
         if (player != null)
         {
-            ServerNetwork.NetworkObject networkObject = serverNet.GetNetObjById(networkId);
+            ServerNetwork.NetworkObject networkObject = serverNet.GetNetObjById(aNetworkId);
             player.position = networkObject.position;
             player.rotation = networkObject.rotation;
-
-            Debug.Log("Gameobject " + networkId + " Position: " + player.position + " Rotation: " + player.rotation);
         }
     }
 
-    // Find the player whose game object matches the network ID.
-    public Player FindPlayerWithGameObjectNetworkId(int gameObjectNetworkId)
+    // Get the player for the given client id
+    Player GetPlayerByClientId(long aClientId)
+    {
+        for (int i = 0; i < players.Count; i++)
+        {
+            if (players[i].clientId == aClientId)
+            {
+                return players[i];
+            }
+        }
+
+        // If we can't find the player for this client, who are they? kick them
+        Debug.Log("Unable to get player for unknown client " + aClientId);
+        serverNet.Kick(aClientId);
+        return null;
+    }
+
+    // Get the player with the given player ID.
+    public Player GetPlayerByPlayerId(int aPlayerId)
+    {
+        for (int i = 0; i < players.Count; i++)
+        {
+            if (players[i].playerId == aPlayerId)
+            {
+                return players[i];
+            }
+        }
+
+        Debug.Log("Unable to get player with playerId" + aPlayerId);
+        return null;
+    }
+
+    // Get the player whose game object matches the network ID.
+    public Player GetPlayerByGameObjectNetworkId(int aNetworkId)
     {
         foreach (Player player in players)
         {
-            if (player.gameObjectNetworkId == gameObjectNetworkId)
+            if (player.gameObjectNetworkId == aNetworkId)
             {
                 return player;
             }
         }
 
+        Debug.Log("Unable to get player whose game object's network id is " + aNetworkId);
         return null;
     }
 }

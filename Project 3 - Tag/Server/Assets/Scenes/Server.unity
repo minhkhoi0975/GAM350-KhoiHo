@@ -217,10 +217,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverNet: {fileID: 0}
   portNumber: 603
-  hunterCooldown: 10
-  hunterMovementSpeed: 200
+  hunterCooldown: 5
+  hunterMovementSpeed: 300
   preyMovementSpeed: 150
-  minimumNumberOfPlayers: 3
+  minimumNumberOfPlayers: 2
 --- !u!114 &1130796022
 MonoBehaviour:
   m_ObjectHideFlags: 0

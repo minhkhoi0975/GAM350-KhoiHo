@@ -12,10 +12,12 @@ public class TagClient : MonoBehaviour
     private bool loginInProcess = false;
 
     public GameObject loginScreen;
+    public Text nameText;
 
     public class Player
     {
         public int playerId = -1;
+        public string name;
         public int gameObjectNetworkId = -1;
     }
 
@@ -47,11 +49,6 @@ public class TagClient : MonoBehaviour
         {
             clientNet = (ClientNetwork)gameObject.AddComponent(typeof(ClientNetwork));
         }
-    }
-
-    private void Start()
-    {
-        //Instantiate(myPlayer);
     }
 
     // Start the process to login to a server
@@ -118,18 +115,23 @@ public class TagClient : MonoBehaviour
         Transform startPoint = playerStartPositions[Random.Range(0, playerStartPositions.Count)];
 
         // Create a character for this client.
-        myPlayerGameObject = clientNet.Instantiate("PlayerCharacter", startPoint.position, startPoint.rotation);
+        myPlayerGameObject = clientNet.Instantiate("Player", startPoint.position, startPoint.rotation);
 
         // Make the camera focus on this client.
-        CameraMovement cameraMovement = Camera.main.GetComponent<CameraMovement>();
+        CameraMovement cameraMovement = Camera.current.GetComponent<CameraMovement>();
         if(cameraMovement)
         {
-            cameraMovement.focusedGameObject = myPlayerGameObject;
+            cameraMovement.focusedGameObject = myPlayerGameObject.GetComponentInChildren<Rigidbody>().gameObject;
         }
 
         myPlayerGameObject.GetComponent<NetworkSync>().AddToArea(1);
 
+        // Tell the server that the game object has been completely created.
         clientNet.CallRPC("PlayerGameObjectSpawned", UCNetwork.MessageReceiver.ServerOnly, -1, myPlayerId, myPlayerGameObject.GetComponent<NetworkSync>().GetId());
+
+        // Tell the server to set the name of the character.
+        myPlayerGameObject.GetComponentInChildren<PlayerName>().SetName(nameText.text);
+        clientNet.CallRPC("SetName", UCNetwork.MessageReceiver.ServerOnly, -1, myPlayerId, nameText.text);
     }
 
     void OnDestroy()
@@ -164,8 +166,19 @@ public class TagClient : MonoBehaviour
         Debug.Log("Player " + playerId + " has entered the game.");
     }
 
+    public void PlayerNameChanged(int playerId, string name)
+    {
+        // Set the name of the client.
+        string oldName = players[playerId].name;
+        players[playerId].name = name;
+
+        Debug.Log(oldName + "(" + playerId + ") has changed their name to " + players[playerId].name + ".");
+    }
+
     public void ClientDisconnected(int playerId)
     {
+        // Remove the player gamee object that matches the player id.
+
         players.Remove(playerId);
     }
 
@@ -185,5 +198,11 @@ public class TagClient : MonoBehaviour
         }
 
         Debug.Log("Player " + playerId + " has become the hunter.");
+    }
+
+    // Set the FOV of this client.
+    public void SetFieldOfView(float newFieldOfView)
+    {
+        Camera.current.fieldOfView = newFieldOfView;
     }
 }
