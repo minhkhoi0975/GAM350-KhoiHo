@@ -179,30 +179,6 @@ public class TagServer : MonoBehaviour
         Debug.Log(player.playerId + " has set their name to " + player.name);
     }
 
-    // A network object has been instantiated by a client
-    void OnInstantiateNetworkObject(ServerNetwork.IntantiateObjectData aObjectData)
-    {
-        
-    }
-
-    // A client has been added to a new area
-    void OnAddArea(ServerNetwork.AreaChangeInfo aInfo)
-    {
-
-    }
-
-    // An object has been added to a new area
-    void AddedObjectToArea(int aNetworkId)
-    {
-
-    }
-
-    // Initialization data should be sent to a network object
-    void InitializeNetworkObject(ServerNetwork.InitializationInfo aInfo)
-    {
-
-    }
-
     public void NetObjectUpdated(int aNetId)
     {
         // Update the position of the player game object.

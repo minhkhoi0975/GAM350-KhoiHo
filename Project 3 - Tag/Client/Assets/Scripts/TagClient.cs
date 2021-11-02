@@ -90,8 +90,7 @@ public class TagClient : MonoBehaviour
         // Add this client to an area
         clientNet.AddToArea(1);
     }
-
-    /*
+  
     // When the client starts disconnecting from the server
     void OnNetStatusDisconnecting()
     {
@@ -103,7 +102,6 @@ public class TagClient : MonoBehaviour
             myPlayerGameObject = null;
         }
     }
-    */
 
     // When the client has finished disconnecting from the server
     void OnNetStatusDisconnected()
@@ -200,7 +198,6 @@ public class TagClient : MonoBehaviour
     public void ClientDisconnected(int playerId)
     {
         // Remove the player gamee object that matches the player id.
-
         players.Remove(playerId);
     }
 
