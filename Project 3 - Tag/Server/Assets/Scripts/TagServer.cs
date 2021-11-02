@@ -1,4 +1,11 @@
-﻿using System;
+﻿/**
+ * TagServer.cs
+ * Description: This script handles the logic of the game in the server.
+ * Programmer: Khoi Ho
+ * Credit(s): Professor Carrigg (for providing the example source code).
+ */
+
+using System;
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
@@ -152,7 +159,7 @@ public class TagServer : MonoBehaviour
         Debug.Log("A client has disconnected from the game.");
     }
 
-    // RPC from the client to set the name of thier player
+    // RPC from the client to set the name of their player
     public void SetName(int playerId, string aName)
     {
         Player player = GetPlayerByPlayerId(playerId);
@@ -175,7 +182,7 @@ public class TagServer : MonoBehaviour
     // A network object has been instantiated by a client
     void OnInstantiateNetworkObject(ServerNetwork.IntantiateObjectData aObjectData)
     {
-
+        
     }
 
     // A client has been added to a new area
@@ -187,38 +194,13 @@ public class TagServer : MonoBehaviour
     // An object has been added to a new area
     void AddedObjectToArea(int aNetworkId)
     {
-        /*
-        Player newPlayer = FindPlayerWithGameObjectNetworkId(aNetworkId);
-        if (newPlayer != null)
-        {
-            for (int i = 0; i < players.Count; i++)
-            {
-                if (players[i].clientId != newPlayer.clientId)
-                {
-                    if (players[i] == currentHunter)
-                    {
-                        serverNet.CallRPC("SetMaterial", newPlayer.clientId, players[i].gameObjectNetworkId, true);
-                    }
-                }
-            }
-        }
-        */
+
     }
 
     // Initialization data should be sent to a network object
     void InitializeNetworkObject(ServerNetwork.InitializationInfo aInfo)
     {
 
-    }
-
-    // A game object has been destroyed
-    void OnDestroyNetworkObject(int aObjectId)
-    {
-
-    }
-
-    private void Update()
-    {
     }
 
     public void NetObjectUpdated(int aNetId)
@@ -309,7 +291,7 @@ public class TagServer : MonoBehaviour
         canHunterGoHunting = true;
     }
 
-    // Called when a client successfully instantiates their network game object.
+    // Called when a new client successfully instantiates their character game object.
     public void PlayerGameObjectSpawned(int playerId, int gameObjectNetworkId)
     {
         // Let the server know the network id of the game object the client takes control.

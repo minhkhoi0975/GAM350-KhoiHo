@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2351375424207198659}
   - component: {fileID: 6039398469638014173}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Physics
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56,7 +56,7 @@ GameObject:
   - component: {fileID: 8523915818603451958}
   - component: {fileID: 3402671132803351811}
   - component: {fileID: 7121909540227018585}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -139,7 +139,7 @@ GameObject:
   - component: {fileID: 8155378840273849926}
   - component: {fileID: 5036564103360480415}
   - component: {fileID: 7004928759896539977}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -240,9 +240,9 @@ GameObject:
   - component: {fileID: 592452074864387023}
   - component: {fileID: 4071357625225051527}
   - component: {fileID: 5548725047405886601}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -457,6 +457,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Arrow
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 8fcb47092b270c0439c7047ee1b98d52,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8fcb47092b270c0439c7047ee1b98d52, type: 3}

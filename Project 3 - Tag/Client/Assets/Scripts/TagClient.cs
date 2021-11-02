@@ -11,9 +11,17 @@ public class TagClient : MonoBehaviour
     // Are we in the process of logging into a server
     private bool loginInProcess = false;
 
-    public GameObject loginScreen;
+    // GUI
+    public GameObject loginPanel;
     public Text nameText;
+    public GameObject hudPanel;
 
+    // Main camera
+    public Camera mainCamera;
+
+    // Minimap camera
+    public Camera minimapCamera;
+    
     public class Player
     {
         public int playerId = -1;
@@ -49,6 +57,11 @@ public class TagClient : MonoBehaviour
         {
             clientNet = (ClientNetwork)gameObject.AddComponent(typeof(ClientNetwork));
         }
+
+        if(!mainCamera)
+        {
+            mainCamera = Camera.main;
+        }
     }
 
     // Start the process to login to a server
@@ -70,13 +83,15 @@ public class TagClient : MonoBehaviour
     // When the client has finished connecting to the server
     void OnNetStatusConnected()
     {
-        loginScreen.SetActive(false);
+        loginPanel.SetActive(false);
+        hudPanel.SetActive(true);
         Debug.Log("OnNetStatusConnected called");
 
         // Add this client to an area
         clientNet.AddToArea(1);
     }
 
+    /*
     // When the client starts disconnecting from the server
     void OnNetStatusDisconnecting()
     {
@@ -88,6 +103,7 @@ public class TagClient : MonoBehaviour
             myPlayerGameObject = null;
         }
     }
+    */
 
     // When the client has finished disconnecting from the server
     void OnNetStatusDisconnected()
@@ -117,13 +133,19 @@ public class TagClient : MonoBehaviour
         // Create a character for this client.
         myPlayerGameObject = clientNet.Instantiate("Player", startPoint.position, startPoint.rotation);
 
-        // Make the camera focus on this client.
-        CameraMovement cameraMovement = Camera.current.GetComponent<CameraMovement>();
+        // Make the cameras focus on this client.
+        CameraMovement cameraMovement = mainCamera.GetComponent<CameraMovement>();
         if(cameraMovement)
         {
             cameraMovement.focusedGameObject = myPlayerGameObject.GetComponentInChildren<Rigidbody>().gameObject;
         }
+        CameraMovement minimapCameraMovement = minimapCamera.GetComponent<CameraMovement>();
+        if (minimapCameraMovement)
+        {
+            minimapCameraMovement.focusedGameObject = myPlayerGameObject.GetComponentInChildren<Rigidbody>().gameObject;
+        }
 
+        // Add the player game object to area 1.
         myPlayerGameObject.GetComponent<NetworkSync>().AddToArea(1);
 
         // Tell the server that the game object has been completely created.
@@ -186,17 +208,6 @@ public class TagClient : MonoBehaviour
     public void SetHunter(int playerId)
     {
         currentHunterId = playerId;
-
-        // Set the material of the hunter and the preys.
-        if(myPlayerId == currentHunterId)
-        {
-            myPlayerGameObject.GetComponent<CharacterAppearance>().SetMaterial(true);
-        }
-        else
-        {
-            myPlayerGameObject.GetComponent<CharacterAppearance>().SetMaterial(false);
-        }
-
         Debug.Log("Player " + playerId + " has become the hunter.");
     }
 
