@@ -1,4 +1,11 @@
-﻿using UnityEngine;
+﻿/**
+ * TagClient.cs
+ * Description: This script handles the logic of the game on the client side.
+ * Programmer: Khoi Ho
+ * Credit(s): Professor Carrigg (for providing the example source code).
+ */
+
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
@@ -128,10 +135,10 @@ public class TagClient : MonoBehaviour
         // Randomly select a start point.
         Transform startPoint = playerStartPositions[Random.Range(0, playerStartPositions.Count)];
 
-        // Create a character for this client.
+        // Create a network object for this client.
         myPlayerGameObject = clientNet.Instantiate("Player", startPoint.position, startPoint.rotation);
 
-        // Make the cameras focus on this client.
+        // Make the cameras focus on the client's network object.
         CameraMovement cameraMovement = mainCamera.GetComponent<CameraMovement>();
         if(cameraMovement)
         {
@@ -146,10 +153,10 @@ public class TagClient : MonoBehaviour
         // Add the player game object to area 1.
         myPlayerGameObject.GetComponent<NetworkSync>().AddToArea(1);
 
-        // Tell the server that the game object has been completely created.
+        // Tell the server that the game object has been successfully created.
         clientNet.CallRPC("PlayerGameObjectSpawned", UCNetwork.MessageReceiver.ServerOnly, -1, myPlayerId, myPlayerGameObject.GetComponent<NetworkSync>().GetId());
 
-        // Tell the server to set the name of the character.
+        // Tell the server to set the name of the game object.
         myPlayerGameObject.GetComponentInChildren<PlayerName>().SetName(nameText.text);
         clientNet.CallRPC("SetName", UCNetwork.MessageReceiver.ServerOnly, -1, myPlayerId, nameText.text);
     }
@@ -211,6 +218,6 @@ public class TagClient : MonoBehaviour
     // Set the FOV of this client.
     public void SetFieldOfView(float newFieldOfView)
     {
-        Camera.current.fieldOfView = newFieldOfView;
+        mainCamera.fieldOfView = newFieldOfView;
     }
 }

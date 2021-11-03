@@ -1,6 +1,6 @@
 ﻿/**
  * TagServer.cs
- * Description: This script handles the logic of the game in the server.
+ * Description: This script handles the logic of the game on the server side.
  * Programmer: Khoi Ho
  * Credit(s): Professor Carrigg (for providing the example source code).
  */
@@ -135,19 +135,17 @@ public class TagServer : MonoBehaviour
         }
     }
 
-    // A client has disconnected
+    // A client has disconnected from the game.
     void OnClientDisconnected(long aClientId)
     {
         Player disconnectedPlayer = GetPlayerByClientId(aClientId);
         if (disconnectedPlayer == null)
             return;
 
-        // Destroy the character of the disconnected client.
-        serverNet.Destroy(disconnectedPlayer.gameObjectNetworkId);
-
         // Tell the clients that a player has left the game.
         serverNet.CallRPC("ClientDisconnected", UCNetwork.MessageReceiver.AllClients, -1, disconnectedPlayer.playerId);
 
+        // Remove the disconnected player from the list of players.
         players.Remove(disconnectedPlayer);
 
         // If the disconnected player is the hunter, choose a random player to be the hunter.
@@ -159,10 +157,40 @@ public class TagServer : MonoBehaviour
         Debug.Log("A client has disconnected from the game.");
     }
 
-    // RPC from the client to set the name of their player
-    public void SetName(int playerId, string aName)
+    // A network object has been instantiated by a client
+    void OnInstantiateNetworkObject(ServerNetwork.IntantiateObjectData aObjectData)
     {
-        Player player = GetPlayerByPlayerId(playerId);
+        Debug.Log("Network object " + aObjectData.netObjId + " has been instantiated.");
+    }
+
+    // A client has been added to a new area
+    void OnAddArea(ServerNetwork.AreaChangeInfo aInfo)
+    {
+        Debug.Log(aInfo.networkId + " has been added to area " + aInfo.areaId);
+    }
+
+    // An object has been added to a new area
+    void AddedObjectToArea(int aNetworkId)
+    {
+        Debug.Log("Network object " + aNetworkId + " has been added to a new area.");
+    }
+
+    // Initialization data should be sent to a network object
+    void InitializeNetworkObject(ServerNetwork.InitializationInfo aInfo)
+    {
+        Debug.Log("Network object " + aInfo.netObjId + " has been initialized.");
+    }
+
+    // A game object has been destroyed
+    void OnDestroyNetworkObject(int aObjectId)
+    {
+        Debug.Log("Network object " + aObjectId + " has been destroyed.");
+    }
+
+    // RPC from the client to set the name of their player
+    public void SetName(int aPlayerId, string aName)
+    {
+        Player player = GetPlayerByPlayerId(aPlayerId);
         if (player == null)
         {
             // If we can't find the player for this client, who are they? kick them
@@ -218,7 +246,7 @@ public class TagServer : MonoBehaviour
     }
 
     // Change the hunter.
-    public void SetHunter(int playerId)
+    public void SetHunter(int aPlayerId)
     {
         // The current hunter is no longer a hunter.
         if (currentHunter != null)
@@ -235,7 +263,7 @@ public class TagServer : MonoBehaviour
             serverNet.CallRPC("SetMaterial", UCNetwork.MessageReceiver.AllClients, currentHunter.gameObjectNetworkId, false);
         }
 
-        Player newHunter = GetPlayerByPlayerId(playerId);
+        Player newHunter = GetPlayerByPlayerId(aPlayerId);
         if (newHunter != null)
         {
             newHunter.isHunter = true;
@@ -254,8 +282,8 @@ public class TagServer : MonoBehaviour
         // Make the new hunter wait for a couple of seconds before they can start hunting.
         StartCoroutine(HunterCoolDown());
 
-        Debug.Log("Player " + playerId + " has become the hunter.");
-        serverNet.CallRPC("SetHunter", UCNetwork.MessageReceiver.AllClients, -1, playerId);
+        Debug.Log("Player " + aPlayerId + " has become the hunter.");
+        serverNet.CallRPC("SetHunter", UCNetwork.MessageReceiver.AllClients, -1, aPlayerId);
     }
 
     // The hunter must wait for a couple of seconds before they can hunt for a prey.
@@ -268,17 +296,17 @@ public class TagServer : MonoBehaviour
     }
 
     // Called when a new client successfully instantiates their character game object.
-    public void PlayerGameObjectSpawned(int playerId, int gameObjectNetworkId)
+    public void PlayerGameObjectSpawned(int aPlayerId, int aNetObjId)
     {
         // Let the server know the network id of the game object the client takes control.
-        Player newPlayer = GetPlayerByPlayerId(playerId);
+        Player newPlayer = GetPlayerByPlayerId(aPlayerId);
         if (newPlayer != null)
         {
-            newPlayer.gameObjectNetworkId = gameObjectNetworkId;
-            Debug.Log("Player " + playerId + " created a game object with network ID " + gameObjectNetworkId);
+            newPlayer.gameObjectNetworkId = aNetObjId;
+            Debug.Log("Player " + aPlayerId + " created a game object with network ID " + aNetObjId);
 
             // Set the movement speed of the character.
-            serverNet.CallRPC("SetMovementSpeed", newPlayer.clientId, gameObjectNetworkId, gameRules.preyMovementSpeed);
+            serverNet.CallRPC("SetMovementSpeed", newPlayer.clientId, aNetObjId, gameRules.preyMovementSpeed);
 
             // Set the FOV of the client.
             serverNet.CallRPC("SetFieldOfView", newPlayer.clientId, -1, gameRules.preyFieldOfView);
@@ -326,6 +354,10 @@ public class TagServer : MonoBehaviour
     // Start the game.
     public void StartGame()
     {
+        // No player? Cannot start the game.
+        if (players.Count == 0)
+            return;
+
         // Change the state of the game.
         currentGameState = GameState.Playing;
 
