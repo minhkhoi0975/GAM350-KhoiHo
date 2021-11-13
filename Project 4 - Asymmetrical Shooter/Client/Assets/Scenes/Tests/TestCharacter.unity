@@ -319,6 +319,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 928457654610190964, guid: c3004e8deda382e40a4e4cd966a837eb,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2672283437859250542, guid: c3004e8deda382e40a4e4cd966a837eb,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3838056518195125055, guid: c3004e8deda382e40a4e4cd966a837eb,
         type: 3}
       propertyPath: m_RootOrder
@@ -374,12 +384,29 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3965715685635478984, guid: c3004e8deda382e40a4e4cd966a837eb,
+        type: 3}
+      propertyPath: networkSync
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4071357625225051527, guid: c3004e8deda382e40a4e4cd966a837eb,
+        type: 3}
+      propertyPath: networkSync
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6355503175121449431, guid: c3004e8deda382e40a4e4cd966a837eb,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7417730105418172715, guid: c3004e8deda382e40a4e4cd966a837eb,
         type: 3}
       propertyPath: m_Name
       value: PlayerCharacter
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2672283437859250542, guid: c3004e8deda382e40a4e4cd966a837eb, type: 3}
+    - {fileID: 928457654610190964, guid: c3004e8deda382e40a4e4cd966a837eb, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: c3004e8deda382e40a4e4cd966a837eb, type: 3}
 --- !u!1 &1569049785
 GameObject:
@@ -587,7 +614,7 @@ GameObject:
   - component: {fileID: 2102651952}
   m_Layer: 0
   m_Name: Plane
-  m_TagString: Untagged
+  m_TagString: Environment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

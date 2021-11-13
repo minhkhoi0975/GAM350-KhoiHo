@@ -10,13 +10,14 @@ using UnityEngine;
 
 [RequireComponent(typeof(CharacterMovement))]
 [RequireComponent(typeof(CharacterCameraMovement))]
+[RequireComponent(typeof(CharacterCombat))]
 public class PlayerInput : MonoBehaviour
 {
-    public NetworkSync networkSync;  // Reference to NetworkSync component.
-
-    public CharacterMovement characterMovement;  // Reference to the character movement component.
-
-    public CharacterCameraMovement characterCameraMovement;  // Reference to the character camera movement component.
+    // References to components.
+    public NetworkSync networkSync;  
+    public CharacterMovement characterMovement;
+    public CharacterCameraMovement characterCameraMovement;
+    public CharacterCombat characterCombat;
 
     float horizontalAxis, verticalAxis;
 
@@ -38,13 +39,18 @@ public class PlayerInput : MonoBehaviour
         {
             characterCameraMovement = GetComponent<CharacterCameraMovement>();
         }
+
+        if(!characterCombat)
+        {
+            characterCombat = GetComponent<CharacterCombat>();
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
         // Client only controls their character, not other clients'.
-        if (!networkSync.owned)
+        if (networkSync && networkSync.enabled && !networkSync.owned)
             return;
 
         // Get movement input.
@@ -63,14 +69,21 @@ public class PlayerInput : MonoBehaviour
         {
             characterMovement.Jump();
         }
+
+        // Fire a projectile.
+        if(Input.GetButtonDown("Fire1"))
+        {
+            characterCombat.FireProjectile();
+        }
     }
 
     private void FixedUpdate()
     {
         // Client only controls their character, not other clients'.
-        if (!networkSync.owned)
+        if (networkSync && networkSync.enabled && !networkSync.owned)
             return;
 
+        // Move character.
         Vector3 worldMovementDirection = new Vector3(horizontalAxis, 0.0f, verticalAxis);
         characterMovement.Move(worldMovementDirection);
     }

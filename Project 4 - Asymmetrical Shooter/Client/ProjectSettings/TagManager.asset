@@ -6,6 +6,9 @@ TagManager:
   tags:
   - ResourceNode
   - OtherShip
+  - Projectile
+  - Environment
+  - Character
   layers:
   - Default
   - TransparentFX

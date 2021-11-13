@@ -15,11 +15,28 @@ public class Projectile : MonoBehaviour
     [SerializeField] float movementSpeed = 5.0f;
 
     // The movement direction of the projectile.
-    Vector3 movementDirection;
+    [SerializeField] Vector3 movementDirection;
+    public void SetMovementDirection(Vector3 aMovementDirection)
+    {
+        movementDirection = aMovementDirection;
+    }
 
     // The maximuim age of the projectile. When the projectile reaches this age, it is automatically destroyed.
     [SerializeField] float age = 5.0f;
     float currentAge = 0.0f;
+
+    // Handle collision
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.CompareTag("Environment"))
+        {
+            DestroyProjectile();
+        }
+        else if(collision.gameObject.CompareTag("Character"))
+        {
+
+        }
+    }
 
     private void Awake()
     {
@@ -39,19 +56,34 @@ public class Projectile : MonoBehaviour
         currentAge += Time.deltaTime;
         if(currentAge >= age)
         {
-            networkSync.Destroy();
+            DestroyProjectile();
         }
     }
 
     private void FixedUpdate()
     {
-        if (!networkSync.owned)
+        if (networkSync && networkSync.enabled && !networkSync.owned)
             return;
 
         if(movementSpeed > 0.0f && movementDirection.magnitude > 0.0f)
         {
             movementDirection = movementDirection.normalized;
             rigidBody.velocity = movementDirection * movementSpeed;
+        }
+    }
+
+    public void DestroyProjectile()
+    {
+        // Destroy projectile in offline mode.
+        if (!networkSync || !networkSync.enabled)
+        {
+            Destroy(gameObject);
+        }
+
+        // Destroy projectile in online mode.
+        else if (networkSync.owned)
+        {
+            networkSync.Destroy();
         }
     }
 }

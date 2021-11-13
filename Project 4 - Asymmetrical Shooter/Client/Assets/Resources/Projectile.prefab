@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 7634460365676303246}
   m_Layer: 0
   m_Name: Projectile
-  m_TagString: Untagged
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -128,9 +128,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8e40d3225487c145a7ff3cb3eaecc72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  networkSync: {fileID: 0}
-  rigidBody: {fileID: 0}
-  movementSpeed: 5
+  networkSync: {fileID: 3638042005854010606}
+  rigidBody: {fileID: 2935452866218917994}
+  movementSpeed: 20
+  movementDirection: {x: 0, y: 0, z: 0}
   age: 5
 --- !u!114 &3638042005854010606
 MonoBehaviour:

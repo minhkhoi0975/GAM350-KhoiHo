@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6039398469638014173}
   m_Layer: 3
   m_Name: Physics
-  m_TagString: Untagged
+  m_TagString: Character
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -89,6 +89,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17e62967430c2a342a57d9123d72d2e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  networkSync: {fileID: 2672283437859250542}
 --- !u!1 &2718477645515467969
 GameObject:
   m_ObjectHideFlags: 0
@@ -172,6 +173,36 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &3862522402432307394
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4256820265631658497}
+  m_Layer: 0
+  m_Name: Gun
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4256820265631658497
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3862522402432307394}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 1.075}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2080487153109596431}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6355503175121449431
 GameObject:
   m_ObjectHideFlags: 0
@@ -200,7 +231,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 2.05, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 4256820265631658497}
   m_Father: {fileID: 3838056518195125055}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -267,12 +299,13 @@ GameObject:
   - component: {fileID: 1676303360886025193}
   - component: {fileID: 592452074864387023}
   - component: {fileID: 7387618826283332414}
+  - component: {fileID: 2614905083603558693}
   - component: {fileID: 4071357625225051527}
   - component: {fileID: 2672283437859250542}
   - component: {fileID: 928457654610190964}
   m_Layer: 3
   m_Name: Player
-  m_TagString: Player
+  m_TagString: Character
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -342,6 +375,21 @@ MonoBehaviour:
   camera: {fileID: 4246585019340098960}
   sensitivityX: 20
   sensitivityY: 20
+--- !u!114 &2614905083603558693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7417730105418172715}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fea6adf28affd0c4aa02a274b85aa644, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  networkSync: {fileID: 0}
+  camera: {fileID: 4246585019340098960}
+  muzzleTransform: {fileID: 4256820265631658497}
 --- !u!114 &4071357625225051527
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -357,6 +405,7 @@ MonoBehaviour:
   networkSync: {fileID: 2672283437859250542}
   characterMovement: {fileID: 592452074864387023}
   characterCameraMovement: {fileID: 7387618826283332414}
+  characterCombat: {fileID: 2614905083603558693}
 --- !u!114 &2672283437859250542
 MonoBehaviour:
   m_ObjectHideFlags: 0

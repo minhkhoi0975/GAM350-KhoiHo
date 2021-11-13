@@ -10,6 +10,10 @@ using UnityEngine;
 
 public class CharacterFoot : MonoBehaviour
 {
+    // Reference to the network sync component.
+    // Only update whether the character is grounded if the character is owned by this character object.
+    [SerializeField] NetworkSync networkSync;
+
     bool isGrounded = false;
     public bool IsGrounded
     {
@@ -34,6 +38,9 @@ public class CharacterFoot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (networkSync && networkSync.enabled && !networkSync.owned)
+            return;
+
         UpdateIsGrounded();
     }
 

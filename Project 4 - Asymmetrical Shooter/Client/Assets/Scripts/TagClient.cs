@@ -32,6 +32,7 @@ public class TagClient : MonoBehaviour
     public class Player
     {
         public int playerId = -1;
+        public int teamId = 0;
         public string name;
         public int gameObjectNetworkId = -1;
     }
@@ -132,6 +133,16 @@ public class TagClient : MonoBehaviour
     {
         Debug.Log("OnChangeArea called");
 
+        SpawnShooter();
+
+        // Tell the server to set the name of the game object.
+        //myPlayerGameObject.GetComponentInChildren<PlayerName>().SetName(nameText.text);
+        clientNet.CallRPC("SetName", UCNetwork.MessageReceiver.ServerOnly, -1, myPlayerId, nameText.text);
+    }
+
+    // If this client is a shooter, create a character game object for this client.
+    void SpawnShooter()
+    {
         // Randomly select a start point.
         Transform startPoint = playerStartPositions[Random.Range(0, playerStartPositions.Count)];
 
@@ -148,7 +159,7 @@ public class TagClient : MonoBehaviour
             mainCamera.gameObject.SetActive(false);
         }
 
-        // Make minimap camera focus on the client's network object.
+        // Make minimap camera focus on the shooter's network object.
         CameraMovement minimapCameraMovement = minimapCamera.GetComponent<CameraMovement>();
         if (minimapCameraMovement)
         {
@@ -160,10 +171,6 @@ public class TagClient : MonoBehaviour
 
         // Tell the server that the game object has been successfully created.
         clientNet.CallRPC("PlayerGameObjectSpawned", UCNetwork.MessageReceiver.ServerOnly, -1, myPlayerId, myPlayerGameObject.GetComponent<NetworkSync>().GetId());
-
-        // Tell the server to set the name of the game object.
-        myPlayerGameObject.GetComponentInChildren<PlayerName>().SetName(nameText.text);
-        clientNet.CallRPC("SetName", UCNetwork.MessageReceiver.ServerOnly, -1, myPlayerId, nameText.text);
     }
 
     void OnDestroy()
@@ -189,15 +196,17 @@ public class TagClient : MonoBehaviour
     }
 
     // A player has joined the game.
-    public void NewPlayerConnected(int playerId)
+    public void NewPlayerConnected(int playerId, int teamId)
     {
         // Create a player info for the new player that has just joined the server.
         players[playerId] = new Player();
         players[playerId].playerId = playerId;
+        players[playerId].teamId = teamId;
 
         Debug.Log("Player " + playerId + " has entered the game.");
     }
 
+    // A player has changed their name.
     public void PlayerNameChanged(int playerId, string name)
     {
         // Set the name of the client.
