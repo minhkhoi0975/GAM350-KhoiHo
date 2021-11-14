@@ -271,6 +271,19 @@ public class TagServer : MonoBehaviour
         serverNet.CallRPC("SpawnProjectileOnline", player.clientId, gameObjNetId, position, direction);
     }
 
+    // Spawn an NPC.
+    public void SpawnNPC(int playerId, Vector3 position)
+    {
+        Player player = GetPlayerByPlayerId(playerId);
+        if (player == null)
+            return;
+
+        if (player.teamId == 2)
+        {
+            serverNet.CallRPC("SpawnNPC", players[playerId].clientId, -1, position);
+        }
+    }
+
     // Get the player for the given client id
     Player GetPlayerByClientId(long aClientId)
     {

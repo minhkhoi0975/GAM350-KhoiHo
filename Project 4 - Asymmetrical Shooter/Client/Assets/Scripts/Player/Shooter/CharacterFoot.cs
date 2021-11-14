@@ -53,6 +53,6 @@ public class CharacterFoot : MonoBehaviour
         isGrounded = Physics.Raycast(transform.position, Vector3.down, out groundInfo, 0.1f);
         previousFootPosition = transform.position;
 
-        Debug.Log(isGrounded ? "Grounded" : "Not Grounded");
+        // Debug.Log(isGrounded ? "Grounded" : "Not Grounded");
     }
 }

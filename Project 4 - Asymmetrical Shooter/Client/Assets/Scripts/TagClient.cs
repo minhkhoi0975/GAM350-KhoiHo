@@ -28,6 +28,9 @@ public class TagClient : MonoBehaviour
 
     // Minimap camera
     public Camera minimapCamera;
+
+    // Spawner camera
+    public Camera spawnerCamera;
     
     public class Player
     {
@@ -133,7 +136,18 @@ public class TagClient : MonoBehaviour
     {
         Debug.Log("OnChangeArea called");
 
-        SpawnShooter();
+        if (players[myPlayerId].teamId == 1)
+        {
+            SpawnShooter();
+        }
+        else if(players[myPlayerId].teamId == 2)
+        {
+            // Switch from main menu camera to spawner camera.
+            spawnerCamera.gameObject.SetActive(true);
+            spawnerCamera.enabled = true;
+
+            mainCamera.gameObject.SetActive(false);
+        }
 
         // Tell the server to set the name of the game object.
         //myPlayerGameObject.GetComponentInChildren<PlayerName>().SetName(nameText.text);
@@ -195,6 +209,12 @@ public class TagClient : MonoBehaviour
         Debug.Log("Your player ID is: " + playerId);
     }
 
+    // Set the team ID for this client.
+    public void SetTeamId(int teamId)
+    {
+        players[myPlayerId].teamId = teamId;
+    }
+
     // A player has joined the game.
     public void NewPlayerConnected(int playerId, int teamId)
     {
@@ -222,16 +242,9 @@ public class TagClient : MonoBehaviour
         players.Remove(playerId);
     }
 
-    // The hunter has been changed.
-    public void SetHunter(int playerId)
+    public void SpawnNPC(Vector3 position)
     {
-        currentHunterId = playerId;
-        Debug.Log("Player " + playerId + " has become the hunter.");
-    }
-
-    // Set the FOV of this client.
-    public void SetFieldOfView(float newFieldOfView)
-    {
-        mainCamera.fieldOfView = newFieldOfView;
+        GameObject npc = clientNet.Instantiate("NPC", position, Quaternion.identity);
+        clientNet.AddObjectToArea(npc.GetComponent<NetworkSync>().GetId(), 1);
     }
 }
