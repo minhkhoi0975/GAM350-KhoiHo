@@ -42,21 +42,13 @@ public class CharacterCombat : MonoBehaviour
         // Offline mode.
         if (!networkSync || !networkSync.enabled)
         {
-            GameObject projectile = Instantiate(projectilePrefab, muzzleTransform.position, Quaternion.LookRotation(camera.transform.forward));
-            projectile.GetComponent<Projectile>().SetMovementDirection(camera.transform.forward);
+            GameObject projectile = Instantiate(projectilePrefab, muzzleTransform.position, muzzleTransform.rotation);
         }
 
         // Online mode.
         else
         {
-            networkSync.clientNet.CallRPC("SpawnProjectile", UCNetwork.MessageReceiver.ServerOnly, -1, networkSync.GetId(), muzzleTransform.position, camera.transform.forward);
+            networkSync.clientNet.CallRPC("SpawnProjectile", UCNetwork.MessageReceiver.ServerOnly, -1, networkSync.GetId(), muzzleTransform.position, camera.transform.rotation);
         }
-    }
-
-    public void SpawnProjectileOnline(Vector3 position, Vector3 direction)
-    {
-        GameObject projectile = networkSync.clientNet.Instantiate("Projectile", position, Quaternion.LookRotation(direction));
-        projectile.GetComponent<Projectile>().SetMovementDirection(direction);
-        networkSync.clientNet.AddObjectToArea(projectile.GetComponent<NetworkSync>().GetId(), 1);
     }
 }

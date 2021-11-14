@@ -223,7 +223,10 @@ MonoBehaviour:
     preyMovementSpeed: 150
     hunterFieldOfView: 3
     preyFieldOfView: 10
-  minimumNumberOfPlayers: 2
+  projectileHitboxPrefab: {fileID: 7191365844828760862, guid: f870ad68f45e60f4ca159cb056869880,
+    type: 3}
+  characterHitboxPrefab: {fileID: 2205269193104358868, guid: 292abae95e4f89e409ac80959aab6223,
+    type: 3}
 --- !u!114 &1130796022
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -149,6 +149,10 @@ public class TagClient : MonoBehaviour
             mainCamera.gameObject.SetActive(false);
         }
 
+        // Lock cursor.
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+
         // Tell the server to set the name of the game object.
         //myPlayerGameObject.GetComponentInChildren<PlayerName>().SetName(nameText.text);
         clientNet.CallRPC("SetName", UCNetwork.MessageReceiver.ServerOnly, -1, myPlayerId, nameText.text);

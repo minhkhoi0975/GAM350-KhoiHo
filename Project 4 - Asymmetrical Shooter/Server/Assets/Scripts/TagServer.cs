@@ -296,6 +296,8 @@ public class TagServer : MonoBehaviour
         {
             if(projectileOverlap.Contains(characterHitBox.Value.GetComponent<Collider>()))
             {
+                // TODO: Handle damage
+
                 // Destroy the projectile.
                 serverNet.Destroy(aProjectileNetId);
 
@@ -333,13 +335,15 @@ public class TagServer : MonoBehaviour
     }
 
     // Spawn a projectile.
-    public void SpawnProjectile(int gameObjNetId, Vector3 position, Vector3 direction)
+    public void SpawnProjectile(int shooterNetObj, Vector3 position, Quaternion rotation)
     {
-        PlayerData player = GetPlayerByGameObjectNetworkId(gameObjNetId);
+        PlayerData player = GetPlayerByGameObjectNetworkId(shooterNetObj);
         if (player == null)
             return;
 
-        serverNet.CallRPC("SpawnProjectileOnline", player.clientId, gameObjNetId, position, direction);
+        // serverNet.CallRPC("SpawnProjectileOnline", player.clientId, gameObjNetId, position, direction);
+        ServerNetwork.NetworkObject projectile = serverNet.InstantiateNetworkObject("Projectile", position, rotation, player.clientId, "");
+        serverNet.AddObjectToArea(projectile.networkId, 1);
     }
 
     // Spawn an NPC.
@@ -351,7 +355,10 @@ public class TagServer : MonoBehaviour
 
         if (player.teamId == 2)
         {
-            serverNet.CallRPC("SpawnNPC", players[playerId].clientId, -1, position);
+            // serverNet.CallRPC("SpawnNPC", players[playerId].clientId, -1, position);
+
+            ServerNetwork.NetworkObject npc = serverNet.InstantiateNetworkObject("NPC", position, Quaternion.identity, player.clientId, "");
+            serverNet.AddObjectToArea(npc.networkId, 1);
         }
     }
 
