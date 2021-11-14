@@ -358,7 +358,7 @@ MonoBehaviour:
   rigidBody: {fileID: 1676303360886025193}
   characterFoot: {fileID: 3965715685635478984}
   movementSpeed: 20
-  jumpForce: 750
+  jumpForce: 1000
   gravity: -50
 --- !u!114 &7387618826283332414
 MonoBehaviour:
@@ -374,7 +374,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   camera: {fileID: 4246585019340098960}
   sensitivityX: 20
-  sensitivityY: 20
+  sensitivityY: 30
 --- !u!114 &2614905083603558693
 MonoBehaviour:
   m_ObjectHideFlags: 0
