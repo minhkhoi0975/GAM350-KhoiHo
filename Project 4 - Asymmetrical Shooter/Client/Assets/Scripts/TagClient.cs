@@ -161,7 +161,7 @@ public class TagClient : MonoBehaviour
         Transform startPoint = playerStartPositions[Random.Range(0, playerStartPositions.Count)];
 
         // Create a network object for this client.
-        myPlayerGameObject = clientNet.Instantiate("Player", startPoint.position, startPoint.rotation);
+        myPlayerGameObject = clientNet.Instantiate("Shooter", startPoint.position, startPoint.rotation);
 
         // Switch from main menu camera to character's camera.
         Camera characterCamera = myPlayerGameObject.GetComponentInChildren<Camera>(true);
