@@ -33,7 +33,7 @@ public class CharacterCameraMovement : MonoBehaviour
         cameraPitch -= mouseY * sensitivityY * Time.deltaTime;
 
         // Clamp the camera pitch between -90 degees and 90 degrees.
-        // cameraPitch = Mathf.Clamp(cameraPitch, -90.0f, 90.0f);
+        cameraPitch = Mathf.Clamp(cameraPitch, -90.0f, 90.0f);
 
         camera.transform.localRotation = Quaternion.Euler(cameraPitch, 0.0f, 0.0f);
 
@@ -42,6 +42,5 @@ public class CharacterCameraMovement : MonoBehaviour
 
         float cameraYaw = transform.rotation.eulerAngles.y + mouseX * sensitivityX * Time.deltaTime;
         transform.rotation = Quaternion.Euler(0.0f, cameraYaw, 0.0f);
-
     }
 }

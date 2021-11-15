@@ -69,8 +69,17 @@ public class CharacterMovement : MonoBehaviour
             // Normalize the movement direction to make sure that the character does not move more quickly or slowly than usual.
             relativeMovementDirection = relativeMovementDirection.normalized;
 
+            // Convert relative direction into world direction.
+            Vector3 worldMovementDirection = transform.TransformVector(relativeMovementDirection).normalized;
+
+            // If the character is on a slope, project worldMovementDirection on slope surface.
+            if (characterFoot.IsOnSlope)
+            {
+                worldMovementDirection = Vector3.ProjectOnPlane(worldMovementDirection, characterFoot.GroundInfo.normal).normalized;
+            }
+
             // Move the character.
-            rigidBody.AddRelativeForce(relativeMovementDirection * movementSpeed * Time.fixedDeltaTime, ForceMode.VelocityChange);
+            rigidBody.AddForce(worldMovementDirection * movementSpeed * Time.fixedDeltaTime, ForceMode.VelocityChange);
         }
     }
 

@@ -159,6 +159,18 @@ public class TagServer : MonoBehaviour
         if (disconnectedPlayer == null)
             return;
 
+        // Make sure that the shooter's character object is completely removed, in case the client fails to do so.
+        if (disconnectedPlayer.shooterObjNetId != -1)
+        {
+            ServerNetwork.NetworkObject shooter = serverNet.GetNetObjById(disconnectedPlayer.shooterObjNetId);
+            if (shooter != null)
+            {
+                serverNet.Destroy(shooter.networkId);
+            }
+
+            serverNet.Destroy(disconnectedPlayer.shooterObjNetId);
+        }
+
         // Tell the clients that a player has left the game.
         serverNet.CallRPC("ClientDisconnected", UCNetwork.MessageReceiver.AllClients, -1, disconnectedPlayer.playerId);
 
@@ -294,7 +306,7 @@ public class TagServer : MonoBehaviour
 
         foreach (KeyValuePair<int, GameObject> characterHitBox in characterHitboxes)
         {
-            if(projectileOverlap.Contains(characterHitBox.Value.GetComponent<Collider>()))
+            if (projectileOverlap.Contains(characterHitBox.Value.GetComponent<Collider>()))
             {
                 // TODO: Handle damage
 
@@ -341,7 +353,6 @@ public class TagServer : MonoBehaviour
         if (player == null)
             return;
 
-        // serverNet.CallRPC("SpawnProjectileOnline", player.clientId, gameObjNetId, position, direction);
         ServerNetwork.NetworkObject projectile = serverNet.InstantiateNetworkObject("Projectile", position, rotation, player.clientId, "");
         serverNet.AddObjectToArea(projectile.networkId, 1);
     }
@@ -355,8 +366,6 @@ public class TagServer : MonoBehaviour
 
         if (player.teamId == 2)
         {
-            // serverNet.CallRPC("SpawnNPC", players[playerId].clientId, -1, position);
-
             ServerNetwork.NetworkObject npc = serverNet.InstantiateNetworkObject("NPC", position, Quaternion.identity, player.clientId, "");
             serverNet.AddObjectToArea(npc.networkId, 1);
         }
