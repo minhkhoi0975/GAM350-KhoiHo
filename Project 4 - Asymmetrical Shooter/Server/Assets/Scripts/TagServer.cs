@@ -364,11 +364,33 @@ public class TagServer : MonoBehaviour
         if (player == null)
             return;
 
-        if (player.teamId == 2)
+        if (player.teamId == 2 && GetNPCCount() < GetShooterCount() * gameRules.npcCountMultiplier)
         {
             ServerNetwork.NetworkObject npc = serverNet.InstantiateNetworkObject("NPC", position, Quaternion.identity, player.clientId, "");
             serverNet.AddObjectToArea(npc.networkId, 1);
         }
+    }
+
+    // Get the number of NPCs.
+    int GetNPCCount()
+    {
+        return characterHitboxes.Count - GetShooterCount();
+    }
+
+    // Get the number of shooters.
+    int GetShooterCount()
+    {
+        int shooterCount = 0;
+
+        foreach(PlayerData player in players)
+        {
+            if(player != null && player.teamId == 1)
+            {
+                shooterCount++;
+            }
+        }
+
+        return shooterCount;
     }
 
     // Get the player for the given client id
