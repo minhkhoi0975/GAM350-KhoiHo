@@ -16,4 +16,13 @@ public class GameRules
 
     // The maximum number of NPCs that can appear at the same time = Number of shooters * npcCountMultiplier.
     public int npcCountMultiplier = 5;
+
+    // Health of shooters.
+    public float shooterHealth = 100.0f;
+
+    // Health of NPCs.
+    public float npcHealth = 50.0f;
+
+    // Damage from a projectile.
+    public float projectileDamage = 20.0f;
 }

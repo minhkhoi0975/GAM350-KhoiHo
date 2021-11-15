@@ -123,9 +123,17 @@ public class AIController : MonoBehaviour
         RaycastHit hitInfo;
         bool hit = Physics.Raycast(transform.position, transform.forward, out hitInfo, Mathf.Infinity);
 
-        if (!hit || hitInfo.rigidbody.transform.gameObject == targetPlayerCharacter)
+        if (!hit)
         {
             return true;
+        }
+        else
+        {
+            Rigidbody rigidBody = hitInfo.rigidbody;
+            if(rigidBody && rigidBody.gameObject == targetPlayerCharacter)
+            {
+                return true;
+            }
         }
 
         return false;

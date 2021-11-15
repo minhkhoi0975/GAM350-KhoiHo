@@ -29,10 +29,10 @@ public class TagClient : MonoBehaviour
     // Minimap camera
     public Camera minimapCamera;
 
-    // Spawner camera
+    // Camera of a spawner.
     public Camera spawnerCamera;
     
-    public class Player
+    public class PlayerData
     {
         public int playerId = -1;
         public int teamId = 0;
@@ -41,21 +41,17 @@ public class TagClient : MonoBehaviour
     }
 
     // List of players that are in the game.
-    public Dictionary<int, Player> players = new Dictionary<int, Player>();
+    public Dictionary<int, PlayerData> players = new Dictionary<int, PlayerData>();
 
     // The id of this client.
-    public int myPlayerId;
-
-    // The id of the current hunter.
-    public int currentHunterId;
+    [HideInInspector] public int myPlayerId;
 
     // Reference to the character game object of this client.
-    public GameObject myPlayerGameObject;
+    [HideInInspector] public GameObject myPlayerGameObject;
 
     // Where can the player characters be spawned?
     public List<Transform> playerStartPositions;
 
-    float deltaTime = 0;
     // Initialize the client
     void Awake()
     {
@@ -73,6 +69,13 @@ public class TagClient : MonoBehaviour
         {
             mainCamera = Camera.main;
         }
+    }
+
+    private void Start()
+    {
+        // Enable cursor, in case the client goes back to the main menu.
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     // Start the process to login to a server
@@ -187,8 +190,8 @@ public class TagClient : MonoBehaviour
         // Add the player game object to area 1.
         myPlayerGameObject.GetComponent<NetworkSync>().AddToArea(1);
 
-        // Tell the server that the game object has been successfully created.
-        clientNet.CallRPC("PlayerGameObjectSpawned", UCNetwork.MessageReceiver.ServerOnly, -1, myPlayerId, myPlayerGameObject.GetComponent<NetworkSync>().GetId());
+        // Tell the server that the a shooter character has been spawned.
+        clientNet.CallRPC("ShooterGameObjectSpawned", UCNetwork.MessageReceiver.ServerOnly, -1, myPlayerId, myPlayerGameObject.GetComponent<NetworkSync>().GetId());
     }
 
     void OnDestroy()
@@ -207,7 +210,7 @@ public class TagClient : MonoBehaviour
     public void SetPlayerId(int playerId)
     {
         myPlayerId = playerId;
-        players[myPlayerId] = new Player();
+        players[myPlayerId] = new PlayerData();
         players[myPlayerId].playerId = playerId;
 
         Debug.Log("Your player ID is: " + playerId);
@@ -223,7 +226,7 @@ public class TagClient : MonoBehaviour
     public void NewPlayerConnected(int playerId, int teamId)
     {
         // Create a player info for the new player that has just joined the server.
-        players[playerId] = new Player();
+        players[playerId] = new PlayerData();
         players[playerId].playerId = playerId;
         players[playerId].teamId = teamId;
 
@@ -240,15 +243,10 @@ public class TagClient : MonoBehaviour
         Debug.Log(oldName + "(" + playerId + ") has changed their name to " + players[playerId].name + ".");
     }
 
+    // RPC when a client has disconnected from the server.
     public void ClientDisconnected(int playerId)
     {
-        // Remove the player gamee object that matches the player id.
+        // Remove the player that matches the player id.
         players.Remove(playerId);
-    }
-
-    public void SpawnNPC(Vector3 position)
-    {
-        GameObject npc = clientNet.Instantiate("NPC", position, Quaternion.identity);
-        clientNet.AddObjectToArea(npc.GetComponent<NetworkSync>().GetId(), 1);
     }
 }
