@@ -206,6 +206,10 @@ public class TagClient : MonoBehaviour
         }
     }
 
+    // ----------------- 
+    // RPC CALLS
+    // -----------------
+
     // Set the player ID for this client.
     public void SetPlayerId(int playerId)
     {
