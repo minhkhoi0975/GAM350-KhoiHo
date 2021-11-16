@@ -15,6 +15,13 @@ public class CharacterCombat : MonoBehaviour
 
     // Reference to the character's camera.
     [SerializeField] Camera camera;
+    public Camera Camera
+    {
+        get
+        {
+            return camera;
+        }
+    }
 
     // Muzzle transform stores information about where the projectile will be spawned.
     [SerializeField] Transform muzzleTransform;

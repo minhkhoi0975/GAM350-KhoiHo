@@ -130,7 +130,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   networkSync: {fileID: 3638042005854010606}
   rigidBody: {fileID: 2935452866218917994}
-  movementSpeed: 50
+  movementSpeed: 60
   age: 5
 --- !u!114 &3638042005854010606
 MonoBehaviour:

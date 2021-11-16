@@ -61,11 +61,11 @@ public class AIController : MonoBehaviour
 
         if (targetPlayerCharacter)
         {
-            // Move to the player character.
+            // Chase the player character.
             navMeshAgent.SetDestination(targetPlayerCharacter.transform.position);
 
             // If the firing conditions are good, fire a projectile.
-            if (IsAimingGood() && CanSeePlayer() && readyToFire)
+            if (CanSeeEnemy() && IsFacingEnemy() && readyToFire)
             {
                 StartCoroutine("FireProjectile");
             }
@@ -102,29 +102,38 @@ public class AIController : MonoBehaviour
         targetPlayerCharacter = closestPlayerCharacter;
     }
 
-    bool IsAimingGood()
+    // Return true if the NPC's facing the player character.
+    bool IsFacingEnemy()
     {
         if (!targetPlayerCharacter)
             return false;
 
-        // Calculate the dot product of the AI character's forward vector and the ideal aiming vector.
-        float AimingDotProduct = Vector3.Dot(transform.forward, (targetPlayerCharacter.transform.position - this.transform.position).normalized);
+        // Calculate the 2D dot product of the NPC's forward vector and the ideal aiming vector.
+        Vector2 forwardDirection2D = new Vector2(transform.forward.x, transform.forward.z).normalized;
+
+        Vector3 idealLookDirection = (targetPlayerCharacter.transform.position - this.transform.position).normalized;
+        Vector2 idealLookDirection2D = new Vector2(idealLookDirection.x, idealLookDirection.z).normalized;
+
+        float aimingDotProduct = Vector2.Dot(forwardDirection2D, idealLookDirection2D);
+        Debug.Log(aimingDotProduct);
 
         // Check if the dot product is equal to or greater than the minimum dot product.
-        return AimingDotProduct >= 0.85f;
+        return aimingDotProduct >= 0.85f;
     }
 
-    // Return true if there is no obstacle between the two characters.
-    bool CanSeePlayer()
+    // Return true if the NPC can see the character.
+    bool CanSeeEnemy()
     {
         if (!targetPlayerCharacter)
             return false;
 
         RaycastHit hitInfo;
-        bool hit = Physics.Raycast(transform.position, transform.forward, out hitInfo, Mathf.Infinity);
+        bool hit = Physics.Raycast(characterCombat.Camera.transform.position, targetPlayerCharacter.GetComponent<Rigidbody>().worldCenterOfMass - characterCombat.Camera.transform.position, out hitInfo, Mathf.Infinity);
+        Debug.DrawRay(characterCombat.Camera.transform.position, targetPlayerCharacter.GetComponent<Rigidbody>().worldCenterOfMass - characterCombat.Camera.transform.position, Color.green);
 
         if (!hit)
         {
+            Debug.Log("Ray does not hit anything.");
             return true;
         }
         else
@@ -132,15 +141,21 @@ public class AIController : MonoBehaviour
             Rigidbody rigidBody = hitInfo.rigidbody;
             if(rigidBody && rigidBody.gameObject == targetPlayerCharacter)
             {
+                Debug.Log("Ray hits the enemy.");
                 return true;
             }
         }
 
+        Debug.Log("Ray hit an obstacle: " + hitInfo.collider.gameObject.name);
         return false;
     }
 
     IEnumerator FireProjectile()
     {
+        // Make the camera aim at the player character.
+        characterCombat.Camera.transform.rotation = Quaternion.LookRotation(targetPlayerCharacter.GetComponent<Rigidbody>().worldCenterOfMass - characterCombat.Camera.transform.position);
+
+        // Fire projectile.
         characterCombat.FireProjectile();
 
         // Delay.

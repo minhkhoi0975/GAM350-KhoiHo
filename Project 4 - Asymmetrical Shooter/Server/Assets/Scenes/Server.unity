@@ -218,8 +218,11 @@ MonoBehaviour:
   serverNet: {fileID: 0}
   portNumber: 603
   gameRules:
-    preyMovementSpeed: 100
+    preyMovementSpeed: 80
     npcCountMultiplier: 5
+    shooterHealth: 100
+    npcHealth: 50
+    projectileDamage: 20
   hitboxData:
     projectileHitboxPrefab: {fileID: 7191365844828760862, guid: f870ad68f45e60f4ca159cb056869880,
       type: 3}
