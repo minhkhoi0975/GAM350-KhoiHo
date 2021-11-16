@@ -384,7 +384,7 @@ public class TagServer : MonoBehaviour
             Debug.Log("Player " + aPlayerId + " created a game object with network ID " + aNetObjId);
 
             // Set the movement speed of the shooter.
-            serverNet.CallRPC("SetMovementSpeed", newPlayer.clientId, aNetObjId, gameRules.preyMovementSpeed);
+            serverNet.CallRPC("SetMovementSpeed", newPlayer.clientId, aNetObjId, gameRules.shooterMovementSpeed);
 
             // Let the new player know other clients' name.
             foreach (PlayerData otherPlayer in players)
