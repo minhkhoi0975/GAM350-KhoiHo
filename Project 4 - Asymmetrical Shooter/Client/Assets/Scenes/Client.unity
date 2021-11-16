@@ -7902,8 +7902,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 10, y: 174}
-  m_SizeDelta: {x: 341, y: 136}
+  m_AnchoredPosition: {x: 0.000030518, y: 178}
+  m_SizeDelta: {x: 450.4584, y: 136}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &815843808
 MonoBehaviour:
@@ -7938,7 +7938,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Welcome to Tag!
+  m_Text: Welcome to Asymmetrical Shooter!
 --- !u!222 &815843809
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -12781,7 +12781,7 @@ GameObject:
   - component: {fileID: 1385401858}
   - component: {fileID: 1385401859}
   m_Layer: 0
-  m_Name: TagClient
+  m_Name: AsymmetricalShooterClient
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12821,7 +12821,6 @@ MonoBehaviour:
   minimapCamera: {fileID: 983554058}
   spawnerCamera: {fileID: 522409364}
   myPlayerId: 0
-  currentHunterId: 0
   myPlayerGameObject: {fileID: 0}
   playerStartPositions:
   - {fileID: 2078609644}
