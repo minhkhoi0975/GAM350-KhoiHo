@@ -173,20 +173,23 @@ public class TagServer : MonoBehaviour
     {
         ServerNetwork.NetworkObject networkObject = serverNet.GetNetObjById(aObjectData.netObjId);
 
+        // Get the client id responsible for the creation of the hit box.
+        long instigatorClientId = serverNet.GetOwnerClientId(aObjectData.netObjId);
+
         // If the instantiated network object is a projectile, create a hitbox for the projectile.
         if (networkObject.prefabName == "Projectile")
         {
-            hitboxData.ProjectileHitboxes[networkObject.networkId] = new Projectile(Instantiate(hitboxData.ProjectileHitboxPrefab, networkObject.position, networkObject.rotation), gameRules.projectileDamage);
+            hitboxData.ProjectileHitboxes[networkObject.networkId] = new Projectile(Instantiate(hitboxData.ProjectileHitboxPrefab, networkObject.position, networkObject.rotation), gameRules.projectileDamage, instigatorClientId);
         }
 
         // If the instantiated network object is a character (either a shooter or an NPC), create a hitbox for the character.
         else if (networkObject.prefabName == "Shooter")
         {
-            hitboxData.ShooterHitboxes[networkObject.networkId] = new Character(Instantiate(hitboxData.CharacterHitboxPrefab, networkObject.position, networkObject.rotation), gameRules.shooterHealth);
+            hitboxData.ShooterHitboxes[networkObject.networkId] = new Character(Instantiate(hitboxData.CharacterHitboxPrefab, networkObject.position, networkObject.rotation), gameRules.shooterHealth, instigatorClientId);
         }
         else if(networkObject.prefabName == "NPC")
         {
-            hitboxData.NPCHitboxes[networkObject.networkId] = new Character(Instantiate(hitboxData.CharacterHitboxPrefab, networkObject.position, networkObject.rotation), gameRules.npcHealth);
+            hitboxData.NPCHitboxes[networkObject.networkId] = new Character(Instantiate(hitboxData.CharacterHitboxPrefab, networkObject.position, networkObject.rotation), gameRules.npcHealth, instigatorClientId);
         }
     }
 
@@ -284,10 +287,16 @@ public class TagServer : MonoBehaviour
         if (projectileOverlap.Count == 0)
             return;
 
+        // Get the instigator client id which is used to prevent the character shooting themselves.
+        long projectileInstigatorId = hitboxData.ProjectileHitboxes[aProjectileNetId].instigatorClientId;
+
         // Check if the projectile hits a shooter.
         foreach (KeyValuePair<int, Character> shooterHitbox in hitboxData.ShooterHitboxes)
         {
-            if (projectileOverlap.Contains(shooterHitbox.Value.gameObject.GetComponent<Collider>()))
+            Collider shooterCollider = shooterHitbox.Value.gameObject.GetComponent<Collider>();
+            long shooterInstigatorId = shooterHitbox.Value.instigatorClientId;
+
+            if (projectileOverlap.Contains(shooterCollider) && projectileInstigatorId != shooterInstigatorId)
             {
                 // Reduce health of the shooter.
                 shooterHitbox.Value.health -= gameRules.projectileDamage;
@@ -311,18 +320,21 @@ public class TagServer : MonoBehaviour
         }
 
         // Check if the projectile hits an NPC.
-        foreach (KeyValuePair<int, Character> npcHitBox in hitboxData.NPCHitboxes)
+        foreach (KeyValuePair<int, Character> npcHitbox in hitboxData.NPCHitboxes)
         {
-            if (projectileOverlap.Contains(npcHitBox.Value.gameObject.GetComponent<Collider>()))
+            Collider npcCollider = npcHitbox.Value.gameObject.GetComponent<Collider>();
+            long npcInstigatorId = npcHitbox.Value.instigatorClientId;
+
+            if (projectileOverlap.Contains(npcCollider) && projectileInstigatorId != npcInstigatorId)
             {
                 // Reduce health of the npc.
-                npcHitBox.Value.health -= gameRules.projectileDamage;
+                npcHitbox.Value.health -= gameRules.projectileDamage;
 
                 // If the NPC dies, destroy the NPC.
-                if (npcHitBox.Value.health <= 0)
+                if (npcHitbox.Value.health <= 0)
                 {
-                    serverNet.Destroy(npcHitBox.Key);
-                    DestroyHitbox(npcHitBox.Key);
+                    serverNet.Destroy(npcHitbox.Key);
+                    DestroyHitbox(npcHitbox.Key);
                 }
 
                 // Remove the projectile hitbox.

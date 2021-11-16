@@ -12,11 +12,15 @@ public class Character
 {
     public GameObject gameObject;
     public float health;
-    
-    public Character(GameObject aGameObject, float aHealth)
+
+    // The client id that is responsible for the instantiation of this character.
+    public long instigatorClientId;
+
+    public Character(GameObject aGameObject, float aHealth, long aInstigatorClientId)
     {
         gameObject = aGameObject;
         health = aHealth;
+        instigatorClientId = aInstigatorClientId;
     }
 
     public static implicit operator GameObject(Character characterData)
@@ -30,10 +34,14 @@ public class Projectile
     public GameObject gameObject;
     public float damage;
 
-    public Projectile(GameObject aGameObject, float aDamage)
+    // The client id that is responsible for the instantiation of this projectile.
+    public long instigatorClientId;
+
+    public Projectile(GameObject aGameObject, float aDamage, long aInstigatorClientId)
     {
         gameObject = aGameObject;
         damage = aDamage;
+        instigatorClientId = aInstigatorClientId;
     }
 
     public static implicit operator GameObject(Projectile projectile)

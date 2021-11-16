@@ -302,9 +302,9 @@ GameObject:
   - component: {fileID: 592452074864387023}
   - component: {fileID: 7387618826283332414}
   - component: {fileID: 2614905083603558693}
+  - component: {fileID: 4522081104807331134}
   - component: {fileID: 2672283437859250542}
   - component: {fileID: 928457654610190964}
-  - component: {fileID: 4522081104807331134}
   m_Layer: 3
   m_Name: NPC
   m_TagString: Character
@@ -355,11 +355,11 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
+  m_Speed: 5
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 20
+  m_StoppingDistance: 10
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -414,6 +414,22 @@ MonoBehaviour:
   networkSync: {fileID: 0}
   camera: {fileID: 4246585019340098960}
   muzzleTransform: {fileID: 4256820265631658497}
+--- !u!114 &4522081104807331134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7417730105418172715}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4d3dfe4dc56db2468335ef47cd0eb58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  networkSync: {fileID: 0}
+  characterCombat: {fileID: 2614905083603558693}
+  navMeshAgent: {fileID: 1490732643573394485}
+  fireDelayInSeconds: 3
 --- !u!114 &2672283437859250542
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -447,22 +463,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faf62335a1654464e80af73363a75391, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4522081104807331134
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7417730105418172715}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d4d3dfe4dc56db2468335ef47cd0eb58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  networkSync: {fileID: 0}
-  characterCombat: {fileID: 2614905083603558693}
-  navMeshAgent: {fileID: 1490732643573394485}
-  fireDelayInSeconds: 3
 --- !u!1 &8047306216738116526
 GameObject:
   m_ObjectHideFlags: 0
