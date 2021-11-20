@@ -357,9 +357,9 @@ public class TagServer : MonoBehaviour
     // -----------------------
 
     // RPC from a client to set their name.
-    public void SetName(int aPlayerId, string aName)
+    public void SetName(string aName)
     {
-        PlayerData player = GetPlayerByPlayerId(aPlayerId);
+        PlayerData player = GetPlayerByClientId(serverNet.SendingClientId);
         if (player == null)
         {
             // If we can't find the player for this client, who are they? kick them
@@ -371,31 +371,42 @@ public class TagServer : MonoBehaviour
         player.name = aName;
 
         serverNet.CallRPC("PlayerNameChanged", UCNetwork.MessageReceiver.AllClients, -1, player.playerId, player.name);
-        serverNet.CallRPC("SetName", UCNetwork.MessageReceiver.AllClients, player.shooterObjNetId, player.name);
+
+        // If the player is a shooter, also change the name tag.
+        if(player.teamId == 1)
+        {
+            serverNet.CallRPC("SetNameTag", UCNetwork.MessageReceiver.AllClients, player.shooterObjNetId, "[" + player.name + "]");
+        }
 
         Debug.Log(player.playerId + " has set their name to " + player.name);
     }
 
     // RPC when a shooter successfully instantiates their character game object.
-    public void ShooterGameObjectSpawned(int aPlayerId, int aNetObjId)
+    public void ShooterGameObjectSpawned(int aShooterNetObjId)
     {
         // Let the server know the network id of the game object the client takes control.
-        PlayerData newPlayer = GetPlayerByPlayerId(aPlayerId);
-        if (newPlayer != null)
+        PlayerData newPlayer = GetPlayerByClientId(serverNet.SendingClientId);
+        if (newPlayer == null)
+            return;
+
+        newPlayer.shooterObjNetId = aShooterNetObjId;
+
+        // Set the movement speed of the shooter.
+        serverNet.CallRPC("SetMovementSpeed", newPlayer.clientId, aShooterNetObjId, gameRules.shooterMovementSpeed);
+    }
+
+    // RPC when a new client requests the server to display all shooters' game tags.
+    public void NewClientRequestsGameTags()
+    {
+        PlayerData newPlayer = GetPlayerByClientId(serverNet.SendingClientId);
+        if (newPlayer == null)
+            return;
+
+        foreach (PlayerData otherPlayer in players)
         {
-            newPlayer.shooterObjNetId = aNetObjId;
-            Debug.Log("Player " + aPlayerId + " created a game object with network ID " + aNetObjId);
-
-            // Set the movement speed of the shooter.
-            serverNet.CallRPC("SetMovementSpeed", newPlayer.clientId, aNetObjId, gameRules.shooterMovementSpeed);
-
-            // Let the new player know other clients' name.
-            foreach (PlayerData otherPlayer in players)
+            if (otherPlayer != newPlayer && otherPlayer.teamId == 1)
             {
-                if (otherPlayer != newPlayer)
-                {
-                    serverNet.CallRPC("SetName", newPlayer.clientId, otherPlayer.shooterObjNetId, otherPlayer.name);
-                }
+                serverNet.CallRPC("SetName", newPlayer.clientId, otherPlayer.shooterObjNetId, "[" + otherPlayer.name + "]");
             }
         }
     }
@@ -420,9 +431,9 @@ public class TagServer : MonoBehaviour
     }
 
     // RPC to spawn an NPC.
-    public void SpawnNPC(int playerId, Vector3 position)
+    public void SpawnNPC(Vector3 position)
     {
-        PlayerData player = GetPlayerByPlayerId(playerId);
+        PlayerData player = GetPlayerByClientId(serverNet.SendingClientId);
         if (player == null)
             return;
 

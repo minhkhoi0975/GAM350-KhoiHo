@@ -45,7 +45,7 @@ public class SpawnNPC : MonoBehaviour
         // Spawn in online mode.
         else
         {
-            client.clientNet.CallRPC("SpawnNPC", UCNetwork.MessageReceiver.ServerOnly, -1, client.myPlayerId, hit.position);
+            client.clientNet.CallRPC("SpawnNPC", UCNetwork.MessageReceiver.ServerOnly, -1, hit.position);
         }
     }
 }

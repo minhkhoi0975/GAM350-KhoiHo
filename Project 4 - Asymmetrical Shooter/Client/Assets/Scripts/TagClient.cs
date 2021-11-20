@@ -163,8 +163,11 @@ public class TagClient : MonoBehaviour
             hudLogic.DisplayHUD(false);
         }
 
+        // Tell the server to display shooters' name tags.
+        clientNet.CallRPC("NewClientRequestsGameTags", UCNetwork.MessageReceiver.ServerOnly, -1);
+
         // Tell the server to set the name of the client.
-        clientNet.CallRPC("SetName", UCNetwork.MessageReceiver.ServerOnly, -1, myPlayerId, mainMenuLogic.playerName.text);
+        clientNet.CallRPC("SetName", UCNetwork.MessageReceiver.ServerOnly, -1, mainMenuLogic.playerName.text);
     }
 
     // If this client is a shooter, create a character game object for this client.
@@ -175,6 +178,9 @@ public class TagClient : MonoBehaviour
 
         // Create a network object for this client.
         myPlayerGameObject = clientNet.Instantiate("Shooter", startPoint.position, startPoint.rotation);
+
+        // Hide this player's gametag.
+        myPlayerGameObject.GetComponentInChildren<TextMesh>().gameObject.SetActive(false);
 
         // Switch from main menu camera to character's camera.
         Camera characterCamera = myPlayerGameObject.GetComponentInChildren<Camera>(true);
@@ -197,7 +203,7 @@ public class TagClient : MonoBehaviour
         myPlayerGameObject.GetComponent<NetworkSync>().AddToArea(1);
 
         // Tell the server that the a shooter character has been spawned.
-        clientNet.CallRPC("ShooterGameObjectSpawned", UCNetwork.MessageReceiver.ServerOnly, -1, myPlayerId, myPlayerGameObject.GetComponent<NetworkSync>().GetId());
+        clientNet.CallRPC("ShooterGameObjectSpawned", UCNetwork.MessageReceiver.ServerOnly, -1, myPlayerGameObject.GetComponent<NetworkSync>().GetId());
     }
 
     void OnDestroy()
