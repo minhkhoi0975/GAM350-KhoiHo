@@ -287,7 +287,7 @@ public class TagServer : MonoBehaviour
         if (projectileOverlap.Count == 0)
             return;
 
-        // Get the instigator client id which is used to prevent the character shooting themselves.
+        // Get the client id of the projectile's instigator.
         long projectileInstigatorId = hitboxData.ProjectileHitboxes[aProjectileNetId].instigatorClientId;
 
         // Check if the projectile hits a shooter.
@@ -298,14 +298,17 @@ public class TagServer : MonoBehaviour
 
             if (projectileOverlap.Contains(shooterCollider) && projectileInstigatorId != shooterInstigatorId)
             {
+                // Get the client id of the shooter that takes damage.
+                PlayerData hitPlayer = GetPlayerByGameObjectNetworkId(shooterHitbox.Key);
+
                 // Reduce health of the shooter.
                 shooterHitbox.Value.health -= gameRules.projectileDamage;
+                serverNet.CallRPC("SetHealth", hitPlayer.clientId, -1, shooterHitbox.Value.health);
 
                 // If the shooter dies, kick them out of server.
                 if(shooterHitbox.Value.health <= 0)
                 {
-                    PlayerData kickedPlayer = GetPlayerByGameObjectNetworkId(shooterHitbox.Key);
-                    serverNet.Kick(kickedPlayer.clientId);
+                    serverNet.Kick(hitPlayer.clientId);
                 }
 
                 // Remove the projectile hitbox.

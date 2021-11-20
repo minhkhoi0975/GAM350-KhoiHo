@@ -20,8 +20,9 @@ public class TagClient : MonoBehaviour
 
     // GUI
     public GameObject loginPanel;
-    public Text nameText;
     public GameObject hudPanel;
+    public TitleScreenLogic mainMenuLogic;
+    public HUDLogic hudLogic;
 
     // Main menu camera
     public Camera mainCamera;
@@ -141,24 +142,29 @@ public class TagClient : MonoBehaviour
 
         if (players[myPlayerId].teamId == 1)
         {
+            // Spawn a character.
             SpawnShooter();
+
+            // Lock cursor.
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+
+            // Display HUD for shooter.
+            hudLogic.DisplayHUD(true);
         }
         else if(players[myPlayerId].teamId == 2)
         {
             // Switch from main menu camera to spawner camera.
             spawnerCamera.gameObject.SetActive(true);
             spawnerCamera.enabled = true;
-
             mainCamera.gameObject.SetActive(false);
+
+            // Display HUD for spawner.
+            hudLogic.DisplayHUD(false);
         }
 
-        // Lock cursor.
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
-
-        // Tell the server to set the name of the game object.
-        //myPlayerGameObject.GetComponentInChildren<PlayerName>().SetName(nameText.text);
-        clientNet.CallRPC("SetName", UCNetwork.MessageReceiver.ServerOnly, -1, myPlayerId, nameText.text);
+        // Tell the server to set the name of the client.
+        clientNet.CallRPC("SetName", UCNetwork.MessageReceiver.ServerOnly, -1, myPlayerId, mainMenuLogic.playerName.text);
     }
 
     // If this client is a shooter, create a character game object for this client.
@@ -247,7 +253,13 @@ public class TagClient : MonoBehaviour
         Debug.Log(oldName + "(" + playerId + ") has changed their name to " + players[playerId].name + ".");
     }
 
-    // RPC when a client has disconnected from the server.
+    // Health changed.
+    public void SetHealth(float newHealth)
+    {
+        hudLogic.SetHealth(newHealth);
+    }
+
+    // A client has disconnected from the server.
     public void ClientDisconnected(int playerId)
     {
         // Remove the player that matches the player id.
