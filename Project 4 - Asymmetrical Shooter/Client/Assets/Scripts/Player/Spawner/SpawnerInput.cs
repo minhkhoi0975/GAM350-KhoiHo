@@ -11,6 +11,8 @@ using UnityEngine;
 [RequireComponent(typeof(Camera))]
 [RequireComponent(typeof(SpawnerCameraMovement))]
 [RequireComponent(typeof(SpawnNPC))]
+[RequireComponent(typeof(InputLock))]
+
 public class SpawnerInput : MonoBehaviour
 {
     // Reference to the camera.
@@ -21,6 +23,9 @@ public class SpawnerInput : MonoBehaviour
 
     // Reference to SpawnNPC component.
     public SpawnNPC spawner;
+
+    // Used for locking input.
+    public InputLock inputLock;
 
     private void Awake()
     {
@@ -38,11 +43,19 @@ public class SpawnerInput : MonoBehaviour
         {
             spawner = GetComponent<SpawnNPC>();
         }
+
+        if(!inputLock)
+        {
+            inputLock = GetComponent<InputLock>();
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (inputLock.isLocked)
+            return;
+
         // Move camera.
         cameraMovement.Move(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
 

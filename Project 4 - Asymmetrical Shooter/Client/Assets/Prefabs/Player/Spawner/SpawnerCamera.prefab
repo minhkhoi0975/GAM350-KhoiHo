@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4730650304299417810}
   - component: {fileID: 3629832006370961048}
   - component: {fileID: 8853109717863070455}
+  - component: {fileID: 251573683916200859}
   m_Layer: 0
   m_Name: SpawnerCamera
   m_TagString: Untagged
@@ -112,6 +113,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 530629836e4b822419adde2340f38db7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  client: {fileID: 0}
 --- !u!114 &8853109717863070455
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -124,5 +126,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 382aef9af40df5f4594a73b2444de2e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  camera: {fileID: 0}
   cameraMovement: {fileID: 4730650304299417810}
   spawner: {fileID: 3629832006370961048}
+  inputLock: {fileID: 0}
+--- !u!114 &251573683916200859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4274908829610604809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 746026bfa81405f48972823d3009a13d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isLocked: 0

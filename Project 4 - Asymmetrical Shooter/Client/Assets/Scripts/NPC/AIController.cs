@@ -78,7 +78,7 @@ public class AIController : MonoBehaviour
         float closestDistance = 0.0f;                 // The distance from this AI character to ClosestPlayerCharacter.
 
         // Get all PlayerCharacterInput components.
-        PlayerInput[] playerCharacterInputComponents = FindObjectsOfType<PlayerInput>();
+        ShooterInput[] playerCharacterInputComponents = FindObjectsOfType<ShooterInput>();
         for (int i = 0; i < playerCharacterInputComponents.Length; i++)
         {
             // Assign the first result to be the closest player character.

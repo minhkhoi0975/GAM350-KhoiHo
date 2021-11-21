@@ -1,6 +1,6 @@
 /**
  * PlayerInput.cs
- * Description: This script handles the input from the player.
+ * Description: This script handles the input from a shooter.
  * Programmer: Khoi Ho
  */
 
@@ -11,13 +11,17 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterMovement))]
 [RequireComponent(typeof(CharacterCameraMovement))]
 [RequireComponent(typeof(CharacterCombat))]
-public class PlayerInput : MonoBehaviour
+[RequireComponent(typeof(InputLock))]
+public class ShooterInput : MonoBehaviour
 {
     // References to components.
     public NetworkSync networkSync;  
     public CharacterMovement characterMovement;
     public CharacterCameraMovement characterCameraMovement;
     public CharacterCombat characterCombat;
+
+    // Used for locking input.
+    public InputLock inputLock;
 
     float horizontalAxis, verticalAxis;
 
@@ -44,11 +48,19 @@ public class PlayerInput : MonoBehaviour
         {
             characterCombat = GetComponent<CharacterCombat>();
         }
+
+        if(!inputLock)
+        {
+            inputLock = GetComponent<InputLock>();
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (inputLock.isLocked)
+            return;
+
         // Client only controls their character, not other clients'.
         if (networkSync && networkSync.enabled && !networkSync.owned)
             return;
@@ -79,6 +91,9 @@ public class PlayerInput : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (inputLock.isLocked)
+            return;
+
         // Client only controls their character, not other clients'.
         if (networkSync && networkSync.enabled && !networkSync.owned)
             return;

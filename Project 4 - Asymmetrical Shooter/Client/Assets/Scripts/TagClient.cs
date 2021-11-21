@@ -47,8 +47,14 @@ public class TagClient : MonoBehaviour
     // The id of this client.
     [HideInInspector] public int myPlayerId;
 
-    // Reference to the character game object of this client.
+    // The game object that the player controls.
+    // + If the player is a shooter, then myPlayerGameObject is a character.
+    // + If the player is a spawner, then myPlayerGameObject is spawnerCamera.
     [HideInInspector] public GameObject myPlayerGameObject;
+
+    // Reference to the InputLock component of myPlayerGameObject.
+    // We need this component to lock player input when chat message box is enabled.
+    [HideInInspector] public InputLock inputLock;
 
     // Where can the player characters be spawned?
     public List<Transform> playerStartPositions;
@@ -154,6 +160,8 @@ public class TagClient : MonoBehaviour
         }
         else if(players[myPlayerId].teamId == 2)
         {
+            myPlayerGameObject = spawnerCamera.gameObject;
+
             // Switch from main menu camera to spawner camera.
             spawnerCamera.gameObject.SetActive(true);
             spawnerCamera.enabled = true;
@@ -163,8 +171,11 @@ public class TagClient : MonoBehaviour
             hudLogic.DisplayHUD(false);
         }
 
+        // Reference InputLock component.
+        inputLock = myPlayerGameObject.GetComponent<InputLock>();
+
         // Tell the server to display shooters' name tags.
-        clientNet.CallRPC("NewClientRequestsGameTags", UCNetwork.MessageReceiver.ServerOnly, -1);
+        clientNet.CallRPC("NewClientRequestsNameTags", UCNetwork.MessageReceiver.ServerOnly, -1);
 
         // Tell the server to set the name of the client.
         clientNet.CallRPC("SetName", UCNetwork.MessageReceiver.ServerOnly, -1, mainMenuLogic.playerName.text);
@@ -259,16 +270,22 @@ public class TagClient : MonoBehaviour
         Debug.Log(oldName + "(" + playerId + ") has changed their name to " + players[playerId].name + ".");
     }
 
+    // A client has disconnected from the server.
+    public void ClientDisconnected(int playerId)
+    {
+        // Remove the player that matches the player id.
+        players.Remove(playerId);
+    }
+
     // Health changed.
     public void SetHealth(float newHealth)
     {
         hudLogic.SetHealth(newHealth);
     }
 
-    // A client has disconnected from the server.
-    public void ClientDisconnected(int playerId)
+    // Receive a chat message.
+    public void ReceiveChatMessage(string message)
     {
-        // Remove the player that matches the player id.
-        players.Remove(playerId);
+        hudLogic.ReceiveChatMessage(message);
     }
 }

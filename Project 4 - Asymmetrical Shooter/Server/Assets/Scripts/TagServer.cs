@@ -5,12 +5,8 @@
  * Credit(s): Professor Carrigg (for providing the example source code).
  */
 
-using System;
-using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using LitJson;
+using UnityEngine;
 
 public class TagServer : MonoBehaviour
 {
@@ -395,8 +391,8 @@ public class TagServer : MonoBehaviour
         serverNet.CallRPC("SetMovementSpeed", newPlayer.clientId, aShooterNetObjId, gameRules.shooterMovementSpeed);
     }
 
-    // RPC when a new client requests the server to display all shooters' game tags.
-    public void NewClientRequestsGameTags()
+    // RPC when a new client requests the server to display all shooters' name tags.
+    public void NewClientRequestsNameTags()
     {
         PlayerData newPlayer = GetPlayerByClientId(serverNet.SendingClientId);
         if (newPlayer == null)
@@ -406,7 +402,7 @@ public class TagServer : MonoBehaviour
         {
             if (otherPlayer != newPlayer && otherPlayer.teamId == 1)
             {
-                serverNet.CallRPC("SetName", newPlayer.clientId, otherPlayer.shooterObjNetId, "[" + otherPlayer.name + "]");
+                serverNet.CallRPC("SetNameTag", newPlayer.clientId, otherPlayer.shooterObjNetId, "[" + otherPlayer.name + "]");
             }
         }
     }
@@ -444,6 +440,34 @@ public class TagServer : MonoBehaviour
         {
             ServerNetwork.NetworkObject npc = serverNet.InstantiateNetworkObject("NPC", position, Quaternion.identity, player.clientId, "");
             serverNet.AddObjectToArea(npc.networkId, 1);
+        }
+    }
+
+    // RPC to send a message to clients.
+    // All clients: messageType=1. Team members only: messageType=2.
+    public void SendChatMessage(string message, int messageType)
+    {
+        PlayerData player = GetPlayerByClientId(serverNet.SendingClientId);
+        if (player == null)
+            return;
+
+        Debug.Log("Message received: " + message + " (" + messageType + ")");
+
+        if(messageType == 1)
+        {
+            string messageToSend = player.name + ": " + message;
+            serverNet.CallRPC("ReceiveChatMessage", UCNetwork.MessageReceiver.AllClients, -1, messageToSend);
+        }
+        else if(messageType == 2)
+        {
+            string messageToSend = player.name + " [TEAM]: " + message;
+            foreach(PlayerData player2 in players)
+            {
+                if (player2.teamId == player.teamId)
+                {
+                    serverNet.CallRPC("ReceiveChatMessage", player2.clientId, -1, messageToSend);
+                }
+            }
         }
     }
 

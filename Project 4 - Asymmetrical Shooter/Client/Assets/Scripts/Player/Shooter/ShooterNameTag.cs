@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerNameTag : MonoBehaviour
+public class ShooterNameTag : MonoBehaviour
 {
     // Reference to the character game object.
     public GameObject characterGameObject;
