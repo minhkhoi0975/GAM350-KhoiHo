@@ -68,8 +68,6 @@ public class SpawnerInput : MonoBehaviour
         // Spawn an NPC.
         if(Input.GetButtonDown("Fire1"))
         {
-            Debug.Log("Spawned an NPC.");
-
             // Raycast from camera to check if the spawn clicks on a floor.
             RaycastHit hitInfo;
             if (Physics.Raycast(spawnerCamera.ScreenPointToRay(Input.mousePosition), out hitInfo))
