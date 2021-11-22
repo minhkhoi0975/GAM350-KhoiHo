@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterMovement))]
-[RequireComponent(typeof(CharacterCameraMovement))]
+[RequireComponent(typeof(ShooterCameraMovement))]
 [RequireComponent(typeof(CharacterCombat))]
 [RequireComponent(typeof(InputLock))]
 public class ShooterInput : MonoBehaviour
@@ -17,7 +17,7 @@ public class ShooterInput : MonoBehaviour
     // References to components.
     public NetworkSync networkSync;  
     public CharacterMovement characterMovement;
-    public CharacterCameraMovement characterCameraMovement;
+    public ShooterCameraMovement characterCameraMovement;
     public CharacterCombat characterCombat;
 
     // Used for locking input.
@@ -41,7 +41,7 @@ public class ShooterInput : MonoBehaviour
 
         if(!characterCameraMovement)
         {
-            characterCameraMovement = GetComponent<CharacterCameraMovement>();
+            characterCameraMovement = GetComponent<ShooterCameraMovement>();
         }
 
         if(!characterCombat)

@@ -8,7 +8,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TagServer : MonoBehaviour
+public class ASServer : MonoBehaviour
 {
     public ServerNetwork serverNet;
 
@@ -413,8 +413,8 @@ public class TagServer : MonoBehaviour
 
         // The player can only spawn an NPC if:
         // + The player is a spawner.
-        // + Number of NPCs < Number of Shooters * NPC Count Multiplier.
-        if (player.teamId == 2 && hitboxData.NPCHitboxes.Count < hitboxData.ShooterHitboxes.Count * gameRules.npcCountMultiplier)
+        // + The current NPC-shooter ratio does not exceeed maxNpcShooterRatio.
+        if (player.teamId == 2 && hitboxData.NPCHitboxes.Count < hitboxData.ShooterHitboxes.Count * gameRules.maxNpcShooterRatio)
         {
             // Instantiate an NPC.
             ServerNetwork.NetworkObject npc = serverNet.InstantiateNetworkObject("NPC", position, rotation, player.clientId, "");
@@ -473,7 +473,6 @@ public class TagServer : MonoBehaviour
         }
 
         // If we can't find the player for this client, who are they? kick them
-        Debug.Log("Unable to get player for unknown client " + aClientId);
         serverNet.Kick(aClientId);
         return null;
     }
@@ -492,7 +491,6 @@ public class TagServer : MonoBehaviour
             }
         }
 
-        Debug.Log("Unable to get player whose game object's network id is " + aNetworkId);
         return null;
     }
 }

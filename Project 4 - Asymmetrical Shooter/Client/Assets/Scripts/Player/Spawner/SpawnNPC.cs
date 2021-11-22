@@ -11,7 +11,7 @@ using UnityEngine.AI;
 public class SpawnNPC : MonoBehaviour
 {
     // Reference to the client net.
-    public TagClient client;
+    public ASClient client;
 
     // The prefab of NPC to be spawned.
     GameObject prefab;
@@ -25,7 +25,7 @@ public class SpawnNPC : MonoBehaviour
     {
         if(!client)
         {
-            client = FindObjectOfType<TagClient>();
+            client = FindObjectOfType<ASClient>();
         }
     }
 

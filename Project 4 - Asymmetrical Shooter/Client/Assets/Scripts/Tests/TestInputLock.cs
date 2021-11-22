@@ -8,17 +8,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(TagClient))]
+[RequireComponent(typeof(ASClient))]
 public class TestInputLock : MonoBehaviour
 {
     // Reference to client component.
-    public TagClient client;
+    public ASClient client;
 
     public void Awake()
     {
         if(!client)
         {
-            client = GetComponent<TagClient>();
+            client = GetComponent<ASClient>();
         }
     }
 

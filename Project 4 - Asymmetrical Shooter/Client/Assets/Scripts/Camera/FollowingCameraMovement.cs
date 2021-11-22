@@ -1,6 +1,6 @@
 /**
  * CameraMovement.cs
- * Description: This script handles the movement of a camera.
+ * Description: This script handles the movement of a following camera.
  * Programmer: Khoi Ho
  */
 
@@ -8,7 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraMovement : MonoBehaviour
+public class FollowingCameraMovement : MonoBehaviour
 {
     public GameObject focusedGameObject; // The game object the camera looks at.
 

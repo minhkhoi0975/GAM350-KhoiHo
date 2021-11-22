@@ -13,7 +13,7 @@ using UnityEngine.EventSystems;
 public class HUDLogic : MonoBehaviour
 {
     // Reference to client.
-    public TagClient client;
+    public ASClient client;
 
     // References to sub panels.
     [Header("Panels")]

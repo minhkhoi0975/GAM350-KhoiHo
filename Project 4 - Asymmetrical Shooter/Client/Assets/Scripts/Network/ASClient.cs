@@ -11,28 +11,28 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class TagClient : MonoBehaviour
+public class ASClient : MonoBehaviour
 {
     public ClientNetwork clientNet;
 
     // Are we in the process of logging into a server
     private bool loginInProcess = false;
 
-    // GUI
+    [Header("GUI")]
     public GameObject loginPanel;
     public GameObject hudPanel;
     public TitleScreenLogic mainMenuLogic;
     public HUDLogic hudLogic;
 
-    // Main menu camera
+    [Header("Camera")]
     public Camera mainCamera;
-
-    // Minimap camera
     public Camera minimapCamera;
-
-    // Camera of a spawner.
     public Camera spawnerCamera;
-    
+
+    // Where can the player characters be spawned?
+    [Header("Start Positions")]
+    public List<Transform> playerStartPositions;
+
     public class PlayerData
     {
         public int playerId = -1;
@@ -54,9 +54,6 @@ public class TagClient : MonoBehaviour
     // Reference to the InputLock component of myPlayerGameObject.
     // We need this component to lock player input when chat message box is enabled.
     [HideInInspector] public InputLock inputLock;
-
-    // Where can the player characters be spawned?
-    public List<Transform> playerStartPositions;
 
     // Initialize the client
     void Awake()
@@ -253,7 +250,7 @@ public class TagClient : MonoBehaviour
         }
 
         // Make minimap camera focus on the shooter's network object.
-        CameraMovement minimapCameraMovement = minimapCamera.GetComponent<CameraMovement>();
+        FollowingCameraMovement minimapCameraMovement = minimapCamera.GetComponent<FollowingCameraMovement>();
         if (minimapCameraMovement)
         {
             minimapCameraMovement.focusedGameObject = myPlayerGameObject.GetComponentInChildren<Rigidbody>().gameObject;

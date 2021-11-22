@@ -8,7 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterCameraMovement : MonoBehaviour
+public class ShooterCameraMovement : MonoBehaviour
 {
     // Reference to the character's camera.
     public Camera characterCamera;
