@@ -11431,7 +11431,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1385401856}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f26d5b364556e748b998dda9a74b741, type: 3}
+  m_Script: {fileID: 11500000, guid: 297ff3d4702d5ce4cba7b991bdc1b993, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   clientNet: {fileID: 0}
@@ -11442,9 +11442,6 @@ MonoBehaviour:
   mainCamera: {fileID: 393346514}
   minimapCamera: {fileID: 983554058}
   spawnerCamera: {fileID: 522409364}
-  myPlayerId: 0
-  myPlayerGameObject: {fileID: 0}
-  inputLock: {fileID: 0}
   playerStartPositions:
   - {fileID: 2078609644}
   - {fileID: 287536785}
@@ -11452,6 +11449,9 @@ MonoBehaviour:
   - {fileID: 417859972}
   - {fileID: 1855837207}
   - {fileID: 1959107072}
+  myPlayerId: 0
+  myPlayerGameObject: {fileID: 0}
+  inputLock: {fileID: 0}
 --- !u!114 &1385401859
 MonoBehaviour:
   m_ObjectHideFlags: 0
