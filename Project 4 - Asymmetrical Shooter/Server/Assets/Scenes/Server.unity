@@ -216,9 +216,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serverNet: {fileID: 0}
-  portNumber: 603
+  portNumber: 605
   gameRules:
-    preyMovementSpeed: 80
+    shooterMovementSpeed: 80
     npcCountMultiplier: 5
     shooterHealth: 100
     npcHealth: 50

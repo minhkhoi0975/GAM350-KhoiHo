@@ -26,7 +26,7 @@ public class HUDInput : MonoBehaviour
     void Update()
     {
         // Input can only be received after the player connects to the server.
-        if (hudLogic.client.myPlayerId == -1)
+        if (!hudLogic.client.clientNet.IsConnected())
             return;
 
         // Send message to all players.

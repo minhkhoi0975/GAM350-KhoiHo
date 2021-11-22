@@ -128,12 +128,11 @@ public class AIController : MonoBehaviour
             return false;
 
         RaycastHit hitInfo;
-        bool hit = Physics.Raycast(characterCombat.Camera.transform.position, targetPlayerCharacter.GetComponent<Rigidbody>().worldCenterOfMass - characterCombat.Camera.transform.position, out hitInfo, Mathf.Infinity);
-        Debug.DrawRay(characterCombat.Camera.transform.position, targetPlayerCharacter.GetComponent<Rigidbody>().worldCenterOfMass - characterCombat.Camera.transform.position, Color.green);
+        bool hit = Physics.Raycast(characterCombat.CharacterCamera.transform.position, targetPlayerCharacter.GetComponent<Rigidbody>().worldCenterOfMass - characterCombat.CharacterCamera.transform.position, out hitInfo, Mathf.Infinity);
+        Debug.DrawRay(characterCombat.CharacterCamera.transform.position, targetPlayerCharacter.GetComponent<Rigidbody>().worldCenterOfMass - characterCombat.CharacterCamera.transform.position, Color.green);
 
         if (!hit)
         {
-            Debug.Log("Ray does not hit anything.");
             return true;
         }
         else
@@ -141,19 +140,17 @@ public class AIController : MonoBehaviour
             Rigidbody rigidBody = hitInfo.rigidbody;
             if(rigidBody && rigidBody.gameObject == targetPlayerCharacter)
             {
-                Debug.Log("Ray hits the enemy.");
                 return true;
             }
         }
 
-        Debug.Log("Ray hit an obstacle: " + hitInfo.collider.gameObject.name);
         return false;
     }
 
     IEnumerator FireProjectile()
     {
         // Make the camera aim at the player character.
-        characterCombat.Camera.transform.rotation = Quaternion.LookRotation(targetPlayerCharacter.GetComponent<Rigidbody>().worldCenterOfMass - characterCombat.Camera.transform.position);
+        characterCombat.CharacterCamera.transform.rotation = Quaternion.LookRotation(targetPlayerCharacter.GetComponent<Rigidbody>().worldCenterOfMass - characterCombat.CharacterCamera.transform.position);
 
         // Fire projectile.
         characterCombat.FireProjectile();

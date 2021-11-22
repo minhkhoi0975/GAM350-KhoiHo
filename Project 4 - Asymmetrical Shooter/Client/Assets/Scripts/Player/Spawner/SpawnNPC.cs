@@ -29,7 +29,7 @@ public class SpawnNPC : MonoBehaviour
         }
     }
 
-    public void Spawn(Vector3 position)
+    public void Spawn(Vector3 position, Quaternion rotation)
     {
         // Try finding the nearest point on navmesh.
         NavMeshHit hit;
@@ -39,13 +39,13 @@ public class SpawnNPC : MonoBehaviour
         // Spawn in offline mode.
         if(!client || !client.enabled)
         {
-            Instantiate(prefab, hit.position, Quaternion.identity, null);
+            Instantiate(prefab, hit.position, rotation, null);
         }
 
         // Spawn in online mode.
         else
         {
-            client.clientNet.CallRPC("SpawnNPC", UCNetwork.MessageReceiver.ServerOnly, -1, hit.position);
+            client.clientNet.CallRPC("SpawnNPC", UCNetwork.MessageReceiver.ServerOnly, -1, hit.position, rotation);
         }
     }
 }

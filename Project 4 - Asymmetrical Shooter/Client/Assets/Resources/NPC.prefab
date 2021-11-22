@@ -299,8 +299,6 @@ GameObject:
   - component: {fileID: 3838056518195125055}
   - component: {fileID: 1676303360886025193}
   - component: {fileID: 1490732643573394485}
-  - component: {fileID: 592452074864387023}
-  - component: {fileID: 7387618826283332414}
   - component: {fileID: 2614905083603558693}
   - component: {fileID: 4522081104807331134}
   - component: {fileID: 2672283437859250542}
@@ -367,38 +365,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &592452074864387023
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7417730105418172715}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1627024b9c5e9f4fb82a61737856cfd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rigidBody: {fileID: 1676303360886025193}
-  characterFoot: {fileID: 3965715685635478984}
-  movementSpeed: 5
-  jumpForce: 750
-  gravity: -50
---- !u!114 &7387618826283332414
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7417730105418172715}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc13e4e034d4e0c4bb06e0e696b25be8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  camera: {fileID: 4246585019340098960}
-  sensitivityX: 20
-  sensitivityY: 20
 --- !u!114 &2614905083603558693
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -412,7 +378,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   networkSync: {fileID: 0}
-  camera: {fileID: 4246585019340098960}
+  characterCamera: {fileID: 4246585019340098960}
   muzzleTransform: {fileID: 4256820265631658497}
 --- !u!114 &4522081104807331134
 MonoBehaviour:

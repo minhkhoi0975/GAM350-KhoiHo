@@ -8,45 +8,41 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Character
+public class CharacterHitbox
 {
-    public GameObject gameObject;
+    public GameObject hitboxGameObject;
     public float health;
 
-    // The client id that is responsible for the instantiation of this character.
-    public long instigatorClientId;
-
-    public Character(GameObject aGameObject, float aHealth, long aInstigatorClientId)
+    public CharacterHitbox(GameObject aGameObject, float aHealth)
     {
-        gameObject = aGameObject;
+        hitboxGameObject = aGameObject;
         health = aHealth;
-        instigatorClientId = aInstigatorClientId;
     }
 
-    public static implicit operator GameObject(Character characterData)
+    public static implicit operator GameObject(CharacterHitbox characterData)
     {
-        return characterData.gameObject;
+        return characterData.hitboxGameObject;
     }
 }
 
-public class Projectile
+public class ProjectileHitbox
 {
-    public GameObject gameObject;
+    public GameObject hitboxGameObject;
     public float damage;
 
-    // The client id that is responsible for the instantiation of this projectile.
-    public long instigatorClientId;
+    // The network ID of the character that fires the projectile.
+    public int instigatorNetworkId;
 
-    public Projectile(GameObject aGameObject, float aDamage, long aInstigatorClientId)
+    public ProjectileHitbox(GameObject aGameObject, float aDamage, int aInstigatorNetworkId)
     {
-        gameObject = aGameObject;
+        hitboxGameObject = aGameObject;
         damage = aDamage;
-        instigatorClientId = aInstigatorClientId;
+        instigatorNetworkId = aInstigatorNetworkId;
     }
 
-    public static implicit operator GameObject(Projectile projectile)
+    public static implicit operator GameObject(ProjectileHitbox projectile)
     {
-        return projectile.gameObject;
+        return projectile.hitboxGameObject;
     }
 }
 
@@ -74,8 +70,8 @@ public class HitboxData
     }
 
     // Hitboxes of projectiles.
-    Dictionary<int, Projectile> projectileHitboxes = new Dictionary<int, Projectile>();
-    public Dictionary<int, Projectile> ProjectileHitboxes
+    Dictionary<int, ProjectileHitbox> projectileHitboxes = new Dictionary<int, ProjectileHitbox>();
+    public Dictionary<int, ProjectileHitbox> ProjectileHitboxes
     {
         get
         {
@@ -84,8 +80,8 @@ public class HitboxData
     }
 
     // Hitboxes of shooters.
-    Dictionary<int, Character> shooterHitboxes = new Dictionary<int, Character>();
-    public Dictionary<int, Character> ShooterHitboxes
+    Dictionary<int, CharacterHitbox> shooterHitboxes = new Dictionary<int, CharacterHitbox>();
+    public Dictionary<int, CharacterHitbox> ShooterHitboxes
     {
         get
         {
@@ -94,8 +90,8 @@ public class HitboxData
     }
 
     // Hitboxes of NPCs.
-    Dictionary<int, Character> npcHitboxes = new Dictionary<int, Character>();
-    public Dictionary<int, Character> NPCHitboxes
+    Dictionary<int, CharacterHitbox> npcHitboxes = new Dictionary<int, CharacterHitbox>();
+    public Dictionary<int, CharacterHitbox> NPCHitboxes
     {
         get
         {

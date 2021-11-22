@@ -14,16 +14,16 @@ public class CharacterCombat : MonoBehaviour
     [SerializeField] NetworkSync networkSync;
 
     // Reference to the character's camera.
-    [SerializeField] Camera camera;
-    public Camera Camera
+    [SerializeField] Camera characterCamera;
+    public Camera CharacterCamera
     {
         get
         {
-            return camera;
+            return characterCamera;
         }
     }
 
-    // Muzzle transform stores information about where the projectile will be spawned.
+    // Where will the projectile be spawned?
     [SerializeField] Transform muzzleTransform;
 
     // Projectile prefab.
@@ -36,9 +36,9 @@ public class CharacterCombat : MonoBehaviour
             networkSync = GetComponent<NetworkSync>();
         }
 
-        if(!camera)
+        if(!characterCamera)
         {
-            camera = GetComponentInChildren<Camera>(true);
+            characterCamera = GetComponentInChildren<Camera>(true);
         }
 
         projectilePrefab = Resources.Load("Projectile") as GameObject;
@@ -55,7 +55,7 @@ public class CharacterCombat : MonoBehaviour
         // Online mode.
         else
         {
-            networkSync.clientNet.CallRPC("SpawnProjectile", UCNetwork.MessageReceiver.ServerOnly, -1, networkSync.GetId(), muzzleTransform.position, camera.transform.rotation);
+            networkSync.clientNet.CallRPC("SpawnProjectile", UCNetwork.MessageReceiver.ServerOnly, -1, networkSync.GetId(), muzzleTransform.position, characterCamera.transform.rotation);
         }
     }
 }

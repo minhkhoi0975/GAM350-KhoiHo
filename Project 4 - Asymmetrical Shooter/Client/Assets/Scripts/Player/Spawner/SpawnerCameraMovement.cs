@@ -13,8 +13,6 @@ public class SpawnerCameraMovement : MonoBehaviour
     public float moveSpeed = 10.0f;
     public float rotationSpeed = 3.0f;
 
-    private bool canBeRotated = false;
-
     // Move the camera.
     public void Move(float horizontalAxis, float verticalAxis)
     {

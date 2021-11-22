@@ -16,7 +16,7 @@ using UnityEngine;
 public class SpawnerInput : MonoBehaviour
 {
     // Reference to the camera.
-    public Camera camera;
+    public Camera spawnerCamera;
 
     // Reference to SpawnerCameraMovement component.
     public SpawnerCameraMovement cameraMovement;
@@ -29,9 +29,9 @@ public class SpawnerInput : MonoBehaviour
 
     private void Awake()
     {
-        if(!camera)
+        if(!spawnerCamera)
         {
-            camera = GetComponent<Camera>();
+            spawnerCamera = GetComponent<Camera>();
         }
 
         if(!cameraMovement)
@@ -72,11 +72,14 @@ public class SpawnerInput : MonoBehaviour
 
             // Raycast from camera to check if the spawn clicks on a floor.
             RaycastHit hitInfo;
-            if (Physics.Raycast(camera.ScreenPointToRay(Input.mousePosition), out hitInfo))
+            if (Physics.Raycast(spawnerCamera.ScreenPointToRay(Input.mousePosition), out hitInfo))
             {
+                // Set NPC's Y-rotation to be the same as camera's.
+                Quaternion rotation = Quaternion.Euler(0.0f, spawnerCamera.transform.rotation.eulerAngles.y, 0.0f);
+
                 if(hitInfo.collider.CompareTag("Environment"))
                 {
-                    spawner.Spawn(hitInfo.point);
+                    spawner.Spawn(hitInfo.point, rotation);
                 }
                 else
                 {

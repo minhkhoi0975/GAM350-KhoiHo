@@ -3315,7 +3315,6 @@ GameObject:
   - component: {fileID: 393346514}
   - component: {fileID: 393346512}
   - component: {fileID: 393346511}
-  - component: {fileID: 393346513}
   m_Layer: 0
   m_Name: MainCamera
   m_TagString: MainCamera
@@ -3339,20 +3338,6 @@ Behaviour:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 393346510}
   m_Enabled: 1
---- !u!114 &393346513
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 393346510}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a0af02e7f7d153419ba942c80169ebd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  focusedGameObject: {fileID: 0}
-  cameraOffset: {x: 0, y: 187.6, z: -32}
 --- !u!20 &393346514
 Camera:
   m_ObjectHideFlags: 0
@@ -11415,6 +11400,7 @@ GameObject:
   - component: {fileID: 1385401857}
   - component: {fileID: 1385401858}
   - component: {fileID: 1385401859}
+  - component: {fileID: 1385401860}
   m_Layer: 0
   m_Name: AsymmetricalShooterClient
   m_TagString: Untagged
@@ -11483,6 +11469,19 @@ MonoBehaviour:
   - {fileID: 1000010831633188, guid: 32a448e11b95e0c4c809a9c47a017f2f, type: 3}
   remoteVoiceChatContainerObject: {fileID: 0}
   remoteVoiceChatPrefab: {fileID: 0}
+--- !u!114 &1385401860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1385401856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df6a06dff0f5cae49a15048161710466, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  client: {fileID: 1385401859}
 --- !u!1001 &1388732475
 PrefabInstance:
   m_ObjectHideFlags: 0

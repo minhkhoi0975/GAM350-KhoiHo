@@ -38,14 +38,13 @@ public class TagClient : MonoBehaviour
         public int playerId = -1;
         public int teamId = 0;
         public string name;
-        public int gameObjectNetworkId = -1;
     }
 
     // List of players that are in the game.
     public Dictionary<int, PlayerData> players = new Dictionary<int, PlayerData>();
 
     // The id of this client.
-    [HideInInspector] public int myPlayerId;
+    [HideInInspector] public int myPlayerId = -1;
 
     // The game object that the player controls.
     // + If the player is a shooter, then myPlayerGameObject is a character.
@@ -116,12 +115,6 @@ public class TagClient : MonoBehaviour
     void OnNetStatusDisconnecting()
     {
         Debug.Log("OnNetStatusDisconnecting called");
-
-        if (myPlayerGameObject)
-        {
-            clientNet.Destroy(myPlayerGameObject.GetComponent<NetworkSync>().GetId());
-            myPlayerGameObject = null;
-        }
     }
 
     // When the client has finished disconnecting from the server
@@ -133,12 +126,6 @@ public class TagClient : MonoBehaviour
         SceneManager.LoadScene("Client");
 
         loginInProcess = false;
-
-        if (myPlayerGameObject)
-        {
-            clientNet.Destroy(myPlayerGameObject.GetComponent<NetworkSync>().GetId());
-            myPlayerGameObject = null;
-        }
     }
 
     // When the client has successfully told the server to be put into an area
@@ -146,17 +133,13 @@ public class TagClient : MonoBehaviour
     {
         Debug.Log("OnChangeArea called");
 
+        // Tell the server to set the name of the client.
+        clientNet.CallRPC("SetName", UCNetwork.MessageReceiver.ServerOnly, -1, mainMenuLogic.playerName.text);
+
         if (players[myPlayerId].teamId == 1)
         {
-            // Spawn a character.
-            SpawnShooter();
-
-            // Lock cursor.
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
-
-            // Display HUD for shooter.
-            hudLogic.DisplayHUD(true);
+            // Request the server to spawn a character for this shooter.
+            RequestSpawnShooter();
         }
         else if(players[myPlayerId].teamId == 2)
         {
@@ -169,52 +152,22 @@ public class TagClient : MonoBehaviour
 
             // Display HUD for spawner.
             hudLogic.DisplayHUD(false);
-        }
 
-        // Reference InputLock component.
-        inputLock = myPlayerGameObject.GetComponent<InputLock>();
+            // Reference InputLock component.
+            inputLock = myPlayerGameObject.GetComponent<InputLock>();
+        }
 
         // Tell the server to display shooters' name tags.
         clientNet.CallRPC("NewClientRequestsNameTags", UCNetwork.MessageReceiver.ServerOnly, -1);
-
-        // Tell the server to set the name of the client.
-        clientNet.CallRPC("SetName", UCNetwork.MessageReceiver.ServerOnly, -1, mainMenuLogic.playerName.text);
     }
 
-    // If this client is a shooter, create a character game object for this client.
-    void SpawnShooter()
+    void RequestSpawnShooter()
     {
         // Randomly select a start point.
         Transform startPoint = playerStartPositions[Random.Range(0, playerStartPositions.Count)];
 
-        // Create a network object for this client.
-        myPlayerGameObject = clientNet.Instantiate("Shooter", startPoint.position, startPoint.rotation);
-
-        // Hide this player's gametag.
-        myPlayerGameObject.GetComponentInChildren<TextMesh>().gameObject.SetActive(false);
-
-        // Switch from main menu camera to character's camera.
-        Camera characterCamera = myPlayerGameObject.GetComponentInChildren<Camera>(true);
-        if (characterCamera)
-        {
-            characterCamera.gameObject.SetActive(true);
-            characterCamera.enabled = true;
-
-            mainCamera.gameObject.SetActive(false);
-        }
-
-        // Make minimap camera focus on the shooter's network object.
-        CameraMovement minimapCameraMovement = minimapCamera.GetComponent<CameraMovement>();
-        if (minimapCameraMovement)
-        {
-            minimapCameraMovement.focusedGameObject = myPlayerGameObject.GetComponentInChildren<Rigidbody>().gameObject;
-        }
-
-        // Add the player game object to area 1.
-        myPlayerGameObject.GetComponent<NetworkSync>().AddToArea(1);
-
-        // Tell the server that the a shooter character has been spawned.
-        clientNet.CallRPC("ShooterGameObjectSpawned", UCNetwork.MessageReceiver.ServerOnly, -1, myPlayerGameObject.GetComponent<NetworkSync>().GetId());
+        // Request the server to spawn a character for this shooter.
+        clientNet.CallRPC("SpawnShooter", UCNetwork.MessageReceiver.ServerOnly, -1, startPoint.position, startPoint.rotation);
     }
 
     void OnDestroy()
@@ -275,6 +228,46 @@ public class TagClient : MonoBehaviour
     {
         // Remove the player that matches the player id.
         players.Remove(playerId);
+    }
+
+    // The shooter of this client has been successfully spawned.
+    public void ShooterSpawned(int objNetId)
+    {
+        myPlayerGameObject = clientNet.GetGameObject(objNetId);
+        if(!myPlayerGameObject)
+        {
+            clientNet.Disconnect("Character not found.");
+        }
+
+        // Hide the character's game tag on this client.
+        myPlayerGameObject.GetComponentInChildren<TextMesh>().gameObject.SetActive(false);
+
+        // Switch from main menu camera to character's camera.
+        Camera characterCamera = myPlayerGameObject.GetComponentInChildren<Camera>(true);
+        if (characterCamera)
+        {
+            characterCamera.gameObject.SetActive(true);
+            characterCamera.enabled = true;
+
+            mainCamera.gameObject.SetActive(false);
+        }
+
+        // Make minimap camera focus on the shooter's network object.
+        CameraMovement minimapCameraMovement = minimapCamera.GetComponent<CameraMovement>();
+        if (minimapCameraMovement)
+        {
+            minimapCameraMovement.focusedGameObject = myPlayerGameObject.GetComponentInChildren<Rigidbody>().gameObject;
+        }
+
+        // Lock cursor.
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+
+        // Display HUD for shooter.
+        hudLogic.DisplayHUD(true);
+
+        // Reference InputLock component.
+        inputLock = myPlayerGameObject.GetComponent<InputLock>();
     }
 
     // Health changed.

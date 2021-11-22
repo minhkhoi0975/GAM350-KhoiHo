@@ -143,8 +143,6 @@ public class TagServer : MonoBehaviour
             {
                 serverNet.Destroy(shooter.networkId);
             }
-
-            serverNet.Destroy(disconnectedPlayer.shooterObjNetId);
         }
 
         // Tell the clients that a player has left the game.
@@ -159,34 +157,7 @@ public class TagServer : MonoBehaviour
     // A network object has been instantiated by a client
     void OnInstantiateNetworkObject(ServerNetwork.IntantiateObjectData aObjectData)
     {
-        InstantiateHitbox(aObjectData);
-
         Debug.Log("Network object " + aObjectData.netObjId + " has been instantiated.");
-    }
-
-    // Instantiate a hitbox on server side.
-    void InstantiateHitbox(ServerNetwork.IntantiateObjectData aObjectData)
-    {
-        ServerNetwork.NetworkObject networkObject = serverNet.GetNetObjById(aObjectData.netObjId);
-
-        // Get the client id responsible for the creation of the hit box.
-        long instigatorClientId = serverNet.GetOwnerClientId(aObjectData.netObjId);
-
-        // If the instantiated network object is a projectile, create a hitbox for the projectile.
-        if (networkObject.prefabName == "Projectile")
-        {
-            hitboxData.ProjectileHitboxes[networkObject.networkId] = new Projectile(Instantiate(hitboxData.ProjectileHitboxPrefab, networkObject.position, networkObject.rotation), gameRules.projectileDamage, instigatorClientId);
-        }
-
-        // If the instantiated network object is a character (either a shooter or an NPC), create a hitbox for the character.
-        else if (networkObject.prefabName == "Shooter")
-        {
-            hitboxData.ShooterHitboxes[networkObject.networkId] = new Character(Instantiate(hitboxData.CharacterHitboxPrefab, networkObject.position, networkObject.rotation), gameRules.shooterHealth, instigatorClientId);
-        }
-        else if(networkObject.prefabName == "NPC")
-        {
-            hitboxData.NPCHitboxes[networkObject.networkId] = new Character(Instantiate(hitboxData.CharacterHitboxPrefab, networkObject.position, networkObject.rotation), gameRules.npcHealth, instigatorClientId);
-        }
     }
 
     // A client has been added to a new area
@@ -210,15 +181,17 @@ public class TagServer : MonoBehaviour
     // A game object has been destroyed
     void OnDestroyNetworkObject(int aObjectId)
     {
+        // Destroy a hitbox if it exists.
         DestroyHitbox(aObjectId);
 
         Debug.Log("Network object " + aObjectId + " has been destroyed.");
     }
 
-    // Destroy a hitbox if it exists.
     void DestroyHitbox(int aNetId)
     {
         ServerNetwork.NetworkObject networkObject = serverNet.GetNetObjById(aNetId);
+        if (networkObject == null)
+            return;
 
         if (hitboxData.ProjectileHitboxes.ContainsKey(aNetId))
         {
@@ -247,36 +220,34 @@ public class TagServer : MonoBehaviour
         CheckProjectileCollision(aNetId);
     }
 
-    // Update the transform of a hitbox.
     void UpdateHitboxTransform(int aNetId)
     {
         ServerNetwork.NetworkObject networkObject = serverNet.GetNetObjById(aNetId);
 
         if (hitboxData.ProjectileHitboxes.ContainsKey(aNetId))
         {
-            hitboxData.ProjectileHitboxes[aNetId].gameObject.transform.position = networkObject.position;
-            hitboxData.ProjectileHitboxes[aNetId].gameObject.transform.rotation = networkObject.rotation;
+            hitboxData.ProjectileHitboxes[aNetId].hitboxGameObject.transform.position = networkObject.position;
+            hitboxData.ProjectileHitboxes[aNetId].hitboxGameObject.transform.rotation = networkObject.rotation;
         }
         else if (hitboxData.ShooterHitboxes.ContainsKey(aNetId))
         {
-            hitboxData.ShooterHitboxes[aNetId].gameObject.transform.position = networkObject.position;
-            hitboxData.ShooterHitboxes[aNetId].gameObject.transform.rotation = networkObject.rotation;
+            hitboxData.ShooterHitboxes[aNetId].hitboxGameObject.transform.position = networkObject.position;
+            hitboxData.ShooterHitboxes[aNetId].hitboxGameObject.transform.rotation = networkObject.rotation;
         }
         else if (hitboxData.NPCHitboxes.ContainsKey(aNetId))
         {
-            hitboxData.NPCHitboxes[aNetId].gameObject.transform.position = networkObject.position;
-            hitboxData.NPCHitboxes[aNetId].gameObject.transform.rotation = networkObject.rotation;
+            hitboxData.NPCHitboxes[aNetId].hitboxGameObject.transform.position = networkObject.position;
+            hitboxData.NPCHitboxes[aNetId].hitboxGameObject.transform.rotation = networkObject.rotation;
         }
     }
 
-    // Check collision of a projectile.
     void CheckProjectileCollision(int aProjectileNetId)
     {
-        if (!hitboxData.ProjectileHitboxes.ContainsKey(aProjectileNetId) || !hitboxData.ProjectileHitboxes[aProjectileNetId].gameObject)
+        if (!hitboxData.ProjectileHitboxes.ContainsKey(aProjectileNetId) || !hitboxData.ProjectileHitboxes[aProjectileNetId].hitboxGameObject)
             return;
 
-        SphereCollider projectileCollider = hitboxData.ProjectileHitboxes[aProjectileNetId].gameObject.GetComponent<SphereCollider>();
-        
+        SphereCollider projectileCollider = hitboxData.ProjectileHitboxes[aProjectileNetId].hitboxGameObject.GetComponent<SphereCollider>();
+
         // Get all characters that collide with the projectile.
         // The layer mask of characters is 6.
         List<Collider> projectileOverlap = new List<Collider>(Physics.OverlapSphere(projectileCollider.transform.position, projectileCollider.radius, 1 << 6));
@@ -284,47 +255,42 @@ public class TagServer : MonoBehaviour
             return;
 
         // Get the client id of the projectile's instigator.
-        long projectileInstigatorId = hitboxData.ProjectileHitboxes[aProjectileNetId].instigatorClientId;
+        int projectileInstigatorNetId = hitboxData.ProjectileHitboxes[aProjectileNetId].instigatorNetworkId;
+
+        // This variable is used to prevent the projectile from colliding the character that fires it.
+        bool projectileHitsTarget = false;
 
         // Check if the projectile hits a shooter.
-        foreach (KeyValuePair<int, Character> shooterHitbox in hitboxData.ShooterHitboxes)
+        foreach (KeyValuePair<int, CharacterHitbox> shooterHitbox in hitboxData.ShooterHitboxes)
         {
-            Collider shooterCollider = shooterHitbox.Value.gameObject.GetComponent<Collider>();
-            long shooterInstigatorId = shooterHitbox.Value.instigatorClientId;
+            Collider shooterCollider = shooterHitbox.Value.hitboxGameObject.GetComponent<Collider>();
 
-            if (projectileOverlap.Contains(shooterCollider) && projectileInstigatorId != shooterInstigatorId)
+            if (projectileOverlap.Contains(shooterCollider) && projectileInstigatorNetId != shooterHitbox.Key)
             {
                 // Get the client id of the shooter that takes damage.
-                PlayerData hitPlayer = GetPlayerByGameObjectNetworkId(shooterHitbox.Key);
+                PlayerData hitPlayer = GetPlayerByShooterObjNetId(shooterHitbox.Key);
 
                 // Reduce health of the shooter.
                 shooterHitbox.Value.health -= gameRules.projectileDamage;
                 serverNet.CallRPC("SetHealth", hitPlayer.clientId, -1, shooterHitbox.Value.health);
 
                 // If the shooter dies, kick them out of server.
-                if(shooterHitbox.Value.health <= 0)
+                if (shooterHitbox.Value.health <= 0)
                 {
                     serverNet.Kick(hitPlayer.clientId);
                 }
 
-                // Remove the projectile hitbox.
-                Destroy(hitboxData.ProjectileHitboxes[aProjectileNetId]);
-                hitboxData.ProjectileHitboxes.Remove(aProjectileNetId);
-
-                // Destroy the projectile.
-                serverNet.Destroy(aProjectileNetId);
-
-                return;
+                projectileHitsTarget = true;
+                break;
             }
         }
 
         // Check if the projectile hits an NPC.
-        foreach (KeyValuePair<int, Character> npcHitbox in hitboxData.NPCHitboxes)
+        foreach (KeyValuePair<int, CharacterHitbox> npcHitbox in hitboxData.NPCHitboxes)
         {
-            Collider npcCollider = npcHitbox.Value.gameObject.GetComponent<Collider>();
-            long npcInstigatorId = npcHitbox.Value.instigatorClientId;
+            Collider npcCollider = npcHitbox.Value.hitboxGameObject.GetComponent<Collider>();
 
-            if (projectileOverlap.Contains(npcCollider) && projectileInstigatorId != npcInstigatorId)
+            if (projectileOverlap.Contains(npcCollider) && projectileInstigatorNetId != npcHitbox.Key)
             {
                 // Reduce health of the npc.
                 npcHitbox.Value.health -= gameRules.projectileDamage;
@@ -336,15 +302,19 @@ public class TagServer : MonoBehaviour
                     DestroyHitbox(npcHitbox.Key);
                 }
 
-                // Remove the projectile hitbox.
-                Destroy(hitboxData.ProjectileHitboxes[aProjectileNetId]);
-                hitboxData.ProjectileHitboxes.Remove(aProjectileNetId);
-
-                // Destroy the projectile.
-                serverNet.Destroy(aProjectileNetId);
-
-                return;
+                projectileHitsTarget = true;
+                break;
             }
+        }
+
+        if (projectileHitsTarget)
+        {
+            // Remove the projectile hitbox.
+            Destroy(hitboxData.ProjectileHitboxes[aProjectileNetId]);
+            hitboxData.ProjectileHitboxes.Remove(aProjectileNetId);
+
+            // Destroy the projectile.
+            serverNet.Destroy(aProjectileNetId);
         }
     }
 
@@ -368,27 +338,7 @@ public class TagServer : MonoBehaviour
 
         serverNet.CallRPC("PlayerNameChanged", UCNetwork.MessageReceiver.AllClients, -1, player.playerId, player.name);
 
-        // If the player is a shooter, also change the name tag.
-        if(player.teamId == 1)
-        {
-            serverNet.CallRPC("SetNameTag", UCNetwork.MessageReceiver.AllClients, player.shooterObjNetId, "[" + player.name + "]");
-        }
-
         Debug.Log(player.playerId + " has set their name to " + player.name);
-    }
-
-    // RPC when a shooter successfully instantiates their character game object.
-    public void ShooterGameObjectSpawned(int aShooterNetObjId)
-    {
-        // Let the server know the network id of the game object the client takes control.
-        PlayerData newPlayer = GetPlayerByClientId(serverNet.SendingClientId);
-        if (newPlayer == null)
-            return;
-
-        newPlayer.shooterObjNetId = aShooterNetObjId;
-
-        // Set the movement speed of the shooter.
-        serverNet.CallRPC("SetMovementSpeed", newPlayer.clientId, aShooterNetObjId, gameRules.shooterMovementSpeed);
     }
 
     // RPC when a new client requests the server to display all shooters' name tags.
@@ -398,36 +348,64 @@ public class TagServer : MonoBehaviour
         if (newPlayer == null)
             return;
 
-        foreach (PlayerData otherPlayer in players)
+        foreach (PlayerData player in players)
         {
-            if (otherPlayer != newPlayer && otherPlayer.teamId == 1)
+            if (player.teamId == 1 && player != newPlayer)
             {
-                serverNet.CallRPC("SetNameTag", newPlayer.clientId, otherPlayer.shooterObjNetId, "[" + otherPlayer.name + "]");
+                serverNet.CallRPC("SetNameTag", newPlayer.clientId, player.shooterObjNetId, "[" + player.name + "]");
             }
         }
+    }
+
+    // RPC to spawn a shooter.
+    public void SpawnShooter(Vector3 position, Quaternion rotation)
+    {
+        PlayerData player = GetPlayerByClientId(serverNet.SendingClientId);
+        if (player == null || player.teamId != 1)
+            return;
+
+        // Instantiate a character for the shooter.
+        ServerNetwork.NetworkObject shooter = serverNet.InstantiateNetworkObject("Shooter", position, rotation, serverNet.SendingClientId, "");
+        if (shooter == null)
+        {
+            // Kick the player out of the game as their character cannot be spawned.
+            serverNet.Kick(player.clientId);
+            return;
+        }
+
+        player.shooterObjNetId = shooter.networkId;
+
+        // Instantiate a hitbox for the shooter on the server side.
+        hitboxData.ShooterHitboxes[shooter.networkId] = new CharacterHitbox(Instantiate(hitboxData.CharacterHitboxPrefab, shooter.position, shooter.rotation), gameRules.shooterHealth);
+
+        serverNet.AddObjectToArea(shooter.networkId, 1);
+
+        // Set the name tag of the character.
+        serverNet.CallRPC("SetNameTag", UCNetwork.MessageReceiver.AllClients, player.shooterObjNetId, "[" + player.name + "]");
+
+        // Set the movement speed of the character.
+        serverNet.CallRPC("SetMovementSpeed", player.clientId, player.shooterObjNetId, gameRules.shooterMovementSpeed);
+
+        // Tell the client that their character has been successfully spawned.
+        serverNet.CallRPC("ShooterSpawned", player.clientId, -1, shooter.networkId);
     }
 
     // RPC to spawn a projectile.
     public void SpawnProjectile(int characterNetworkId, Vector3 position, Quaternion rotation)
     {
-        // Check if the RPC is from a shooter.
-        PlayerData player = GetPlayerByGameObjectNetworkId(characterNetworkId);
-        if (player != null && player.teamId == 1)
-        {
-            ServerNetwork.NetworkObject projectile = serverNet.InstantiateNetworkObject("Projectile", position, rotation, player.clientId, "");
-            serverNet.AddObjectToArea(projectile.networkId, 1);
-        }
+        // Instantiate a projectile game object.
+        ServerNetwork.NetworkObject projectile = serverNet.InstantiateNetworkObject("Projectile", position, rotation, serverNet.SendingClientId, "");
+        if (projectile == null)
+            return;
 
-        // Check if the RPC is from an NPC.
-        else if(hitboxData.NPCHitboxes.ContainsKey(characterNetworkId))
-        {
-            ServerNetwork.NetworkObject projectile = serverNet.InstantiateNetworkObject("Projectile", position, rotation, serverNet.SendingClientId, "");
-            serverNet.AddObjectToArea(projectile.networkId, 1);
-        }
+        // Instantiate a hitbox for the projectile on server side.
+        hitboxData.ProjectileHitboxes[projectile.networkId] = new ProjectileHitbox(Instantiate(hitboxData.ProjectileHitboxPrefab, projectile.position, projectile.rotation), gameRules.projectileDamage, characterNetworkId);
+
+        serverNet.AddObjectToArea(projectile.networkId, 1);
     }
 
     // RPC to spawn an NPC.
-    public void SpawnNPC(Vector3 position)
+    public void SpawnNPC(Vector3 position, Quaternion rotation)
     {
         PlayerData player = GetPlayerByClientId(serverNet.SendingClientId);
         if (player == null)
@@ -438,7 +416,14 @@ public class TagServer : MonoBehaviour
         // + Number of NPCs < Number of Shooters * NPC Count Multiplier.
         if (player.teamId == 2 && hitboxData.NPCHitboxes.Count < hitboxData.ShooterHitboxes.Count * gameRules.npcCountMultiplier)
         {
-            ServerNetwork.NetworkObject npc = serverNet.InstantiateNetworkObject("NPC", position, Quaternion.identity, player.clientId, "");
+            // Instantiate an NPC.
+            ServerNetwork.NetworkObject npc = serverNet.InstantiateNetworkObject("NPC", position, rotation, player.clientId, "");
+            if (npc == null)
+                return;
+
+            // Instantiate the hitbox of the NPC on the client side.
+            hitboxData.NPCHitboxes[npc.networkId] = new CharacterHitbox(Instantiate(hitboxData.CharacterHitboxPrefab, position, rotation), gameRules.npcHealth);
+
             serverNet.AddObjectToArea(npc.networkId, 1);
         }
     }
@@ -451,17 +436,18 @@ public class TagServer : MonoBehaviour
         if (player == null)
             return;
 
-        Debug.Log("Message received: " + message + " (" + messageType + ")");
-
-        if(messageType == 1)
+        // Send the message the all clients.
+        if (messageType == 1)
         {
             string messageToSend = player.name + ": " + message;
             serverNet.CallRPC("ReceiveChatMessage", UCNetwork.MessageReceiver.AllClients, -1, messageToSend);
         }
-        else if(messageType == 2)
+
+        // Send the message to team members only.
+        else if (messageType == 2)
         {
             string messageToSend = player.name + " [TEAM]: " + message;
-            foreach(PlayerData player2 in players)
+            foreach (PlayerData player2 in players)
             {
                 if (player2.teamId == player.teamId)
                 {
@@ -492,24 +478,12 @@ public class TagServer : MonoBehaviour
         return null;
     }
 
-    // Get the player with the given player ID.
-    public PlayerData GetPlayerByPlayerId(int aPlayerId)
-    {
-        for (int i = 0; i < players.Count; i++)
-        {
-            if (players[i].playerId == aPlayerId)
-            {
-                return players[i];
-            }
-        }
-
-        Debug.Log("Unable to get player with playerId" + aPlayerId);
-        return null;
-    }
-
     // Get the player whose game object matches the network ID.
-    public PlayerData GetPlayerByGameObjectNetworkId(int aNetworkId)
+    public PlayerData GetPlayerByShooterObjNetId(int aNetworkId)
     {
+        if (aNetworkId <= 0)
+            return null;
+
         foreach (PlayerData player in players)
         {
             if (player.shooterObjNetId == aNetworkId)

@@ -126,10 +126,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 382aef9af40df5f4594a73b2444de2e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camera: {fileID: 0}
+  spawnerCamera: {fileID: 4274908829610604811}
   cameraMovement: {fileID: 4730650304299417810}
   spawner: {fileID: 3629832006370961048}
-  inputLock: {fileID: 0}
+  inputLock: {fileID: 251573683916200859}
 --- !u!114 &251573683916200859
 MonoBehaviour:
   m_ObjectHideFlags: 0

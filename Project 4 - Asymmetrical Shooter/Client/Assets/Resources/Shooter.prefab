@@ -554,7 +554,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc13e4e034d4e0c4bb06e0e696b25be8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camera: {fileID: 4246585019340098960}
+  characterCamera: {fileID: 4246585019340098960}
   sensitivityX: 20
   sensitivityY: 30
 --- !u!114 &2614905083603558693
@@ -570,7 +570,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   networkSync: {fileID: 0}
-  camera: {fileID: 4246585019340098960}
+  characterCamera: {fileID: 4246585019340098960}
   muzzleTransform: {fileID: 4256820265631658497}
 --- !u!114 &4071357625225051527
 MonoBehaviour:
