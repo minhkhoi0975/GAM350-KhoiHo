@@ -11,18 +11,18 @@ using UnityEngine;
 [System.Serializable]
 public class GameRules
 {
-    // The movement speeds of shooters
+    [Header("Movement")]
     public float shooterMovementSpeed = 80.0f;
+    public float npcMovementSpeed = 8.0f;
 
-    // The maximum number of NPCs that can appear at the same time = Number of shooters * maxNpcShooterRatio.
-    public int maxNpcShooterRatio = 5;
-
-    // Health of shooters.
+    [Header("Health")]
     public float shooterHealth = 100.0f;
-
-    // Health of NPCs.
     public float npcHealth = 50.0f;
 
-    // Damage from a projectile.
+    [Header("Combat")]
     public float projectileDamage = 20.0f;
+
+    [Header("NPC Spawning")]
+    // The maximum number of NPCs that can appear at the same time = Number of shooters * maxNpcShooterRatio.
+    public int maxNpcShooterRatio = 5;
 }

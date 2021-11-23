@@ -153,9 +153,6 @@ public class ASClient : MonoBehaviour
             // Reference InputLock component.
             inputLock = myPlayerGameObject.GetComponent<InputLock>();
         }
-
-        // Tell the server to display shooters' name tags.
-        clientNet.CallRPC("NewClientRequestsNameTags", UCNetwork.MessageReceiver.ServerOnly, -1);
     }
 
     void RequestSpawnShooter()

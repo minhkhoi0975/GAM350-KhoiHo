@@ -1,6 +1,6 @@
 /**
  * AICharacterInput.cs
- * Description: This script handles the inputs for AI character.
+ * Description: This script handles the behavior of an NPC.
  * Programmer: Khoi Ho
  */
 
@@ -11,7 +11,7 @@ using UnityEngine.AI;
 
 [RequireComponent(typeof(CharacterCombat))]
 [RequireComponent(typeof(NavMeshAgent))]
-public class AIController : MonoBehaviour
+public class AIBehavior : MonoBehaviour
 {
     // Reference to NetworkSync component.
     [SerializeField] NetworkSync networkSync;

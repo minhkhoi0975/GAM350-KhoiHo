@@ -135,7 +135,7 @@ public class ASServer : MonoBehaviour
         if (disconnectedPlayer == null)
             return;
 
-        // Make sure that the shooter's character object is completely removed, in case the client fails to do so.
+        // If the disconnected client is a shooter, destroy their character.
         if (disconnectedPlayer.shooterObjNetId != -1)
         {
             ServerNetwork.NetworkObject shooter = serverNet.GetNetObjById(disconnectedPlayer.shooterObjNetId);
@@ -163,7 +163,25 @@ public class ASServer : MonoBehaviour
     // A client has been added to a new area
     void OnAddArea(ServerNetwork.AreaChangeInfo aInfo)
     {
-        Debug.Log(aInfo.networkId + " has been added to area " + aInfo.areaId);
+        Debug.Log("Client " + aInfo.id + " has been added to area " + aInfo.areaId);
+
+        // Update the name tags of the shooters.
+        foreach (PlayerData player in players)
+        {
+            if (player.teamId == 1 && player.clientId != aInfo.id)
+            {
+                serverNet.CallRPC("SetNameTag", aInfo.id, player.shooterObjNetId, "[" + player.name + "]");
+            }
+        }
+
+        // Tell the new client about the movement speed of the NPCs.
+        foreach (ServerNetwork.NetworkObject npc in serverNet.GetNetObjsByPrefab("NPC"))
+        {
+            if (npc != null)
+            {
+                serverNet.CallRPC("SetMovementSpeed", aInfo.id, npc.networkId, gameRules.npcMovementSpeed);
+            }
+        }
     }
 
     // An object has been added to a new area
@@ -341,22 +359,6 @@ public class ASServer : MonoBehaviour
         Debug.Log(player.playerId + " has set their name to " + player.name);
     }
 
-    // RPC when a new client requests the server to display all shooters' name tags.
-    public void NewClientRequestsNameTags()
-    {
-        PlayerData newPlayer = GetPlayerByClientId(serverNet.SendingClientId);
-        if (newPlayer == null)
-            return;
-
-        foreach (PlayerData player in players)
-        {
-            if (player.teamId == 1 && player != newPlayer)
-            {
-                serverNet.CallRPC("SetNameTag", newPlayer.clientId, player.shooterObjNetId, "[" + player.name + "]");
-            }
-        }
-    }
-
     // RPC to spawn a shooter.
     public void SpawnShooter(Vector3 position, Quaternion rotation)
     {
@@ -425,6 +427,10 @@ public class ASServer : MonoBehaviour
             hitboxData.NPCHitboxes[npc.networkId] = new CharacterHitbox(Instantiate(hitboxData.CharacterHitboxPrefab, position, rotation), gameRules.npcHealth);
 
             serverNet.AddObjectToArea(npc.networkId, 1);
+
+            // Set the movement speed of the NPC.
+            // The RPC is sent to all clients so that the movement speed of the NPCs is maintained after their ownership is transferred to another client.
+            serverNet.CallRPC("SetMovementSpeed", UCNetwork.MessageReceiver.AllClients, npc.networkId, gameRules.npcMovementSpeed);
         }
     }
 
