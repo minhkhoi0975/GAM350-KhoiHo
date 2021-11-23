@@ -1,0 +1,15 @@
+Shooter:
+  - WASD: move the character
+  - Space: jump
+  - Left Mouse: fire a projectile
+
+Spawner:
+  - WASD: move the camera
+  - Right Mouse: rotate the camera
+  - Left Mouse: spawn an NPC at where the mouse cursor points at
+
+Common:
+  - Y: Start typing a message to all players
+  - U: Start typing a message to team members only
+  - Enter: Start typing a message using previous message type/Send message
+  - Escape: Disconnect from server
