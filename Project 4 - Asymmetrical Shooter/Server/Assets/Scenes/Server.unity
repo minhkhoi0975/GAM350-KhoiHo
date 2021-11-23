@@ -219,7 +219,7 @@ MonoBehaviour:
   portNumber: 605
   gameRules:
     shooterMovementSpeed: 80
-    npcMovementSpeed: 8
+    npcMovementSpeed: 6
     shooterHealth: 100
     npcHealth: 50
     projectileDamage: 20
