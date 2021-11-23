@@ -210,6 +210,13 @@ public class ASClient : MonoBehaviour
         Debug.Log("Player " + playerId + " has entered the game.");
     }
 
+    // A client has disconnected from the server.
+    public void ClientDisconnected(int playerId)
+    {
+        // Remove the player that matches the player id.
+        players.Remove(playerId);
+    }
+
     // A player has changed their name.
     public void PlayerNameChanged(int playerId, string name)
     {
@@ -218,13 +225,6 @@ public class ASClient : MonoBehaviour
         players[playerId].name = name;
 
         Debug.Log(oldName + "(" + playerId + ") has changed their name to " + players[playerId].name + ".");
-    }
-
-    // A client has disconnected from the server.
-    public void ClientDisconnected(int playerId)
-    {
-        // Remove the player that matches the player id.
-        players.Remove(playerId);
     }
 
     // The shooter of this client has been successfully spawned.
