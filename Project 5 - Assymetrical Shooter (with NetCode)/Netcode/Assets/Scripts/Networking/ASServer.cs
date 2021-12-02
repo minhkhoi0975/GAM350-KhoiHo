@@ -26,12 +26,9 @@ public class ASServer : MonoBehaviour
 
     private void Start()
     {
-        // Client wants to connect to the server? They must be approved by the server.
-        NetworkManager.Singleton.NetworkConfig.ConnectionApproval = true;
-
         NetworkManager.Singleton.OnServerStarted += OnServerStarted;
 
-        NetworkManager.Singleton.ConnectionApprovalCallback += ApprovalCheck;
+        NetworkManager.Singleton.ConnectionApprovalCallback += OnClientConnecting;
         NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
         NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnected;
     }
@@ -65,11 +62,11 @@ public class ASServer : MonoBehaviour
     }
 
     // Check whether the connection should be approved.
-    private void ApprovalCheck(byte[] connectionData, ulong clientId, NetworkManager.ConnectionApprovedDelegate callback)
+    private void OnClientConnecting(byte[] connectionData, ulong clientId, NetworkManager.ConnectionApprovedDelegate callback)
     {
         if (NetworkManager.Singleton.IsServer)
         {
-            Debug.Log("Player " + clientId + "'s connection is approved.");
+            Debug.Log("Player " + clientId + " is connecting to the game.");
 
             PlayerData newPlayer = new PlayerData();
             newPlayer.canPlay = false;
@@ -86,7 +83,7 @@ public class ASServer : MonoBehaviour
     {
         if (NetworkManager.Singleton.IsServer)
         {
-            Debug.Log("A player has connected to the game: " + clientId);
+            Debug.Log("Player " + clientId + " has successfully connected to the game.");
 
             players[clientId].canPlay = true;
             players[clientId].team = GetTeamForNewPlayer();
@@ -132,7 +129,7 @@ public class ASServer : MonoBehaviour
     {
         if (NetworkManager.Singleton.IsServer)
         {
-            Debug.Log("A player has disconnected from the game: " + clientId);
+            Debug.Log("Player " + clientId + " has disconnected from the game.");
 
             if (players.ContainsKey(clientId))
             {

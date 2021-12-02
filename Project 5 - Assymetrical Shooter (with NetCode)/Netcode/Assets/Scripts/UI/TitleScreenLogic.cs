@@ -5,7 +5,7 @@ using Unity.Netcode;
 using Unity.Netcode.Transports.UNET;
 using System.Collections;
 
-public class TitleScreenLogic : MonoBehaviour 
+public class TitleScreenLogic : MonoBehaviour
 {
     public ASServer serverNet;
     public ASClient clientNet;
@@ -31,7 +31,28 @@ public class TitleScreenLogic : MonoBehaviour
     public void StartClient()
     {
         clientNet.StartClient(server.text, int.Parse(port.text));
+        StartCoroutine(WaitingForConnection());
+    }
+
+    // Wait until the client has connected to the server.
+    IEnumerator WaitingForConnection()
+    {
+        float requestConnectionTime = Time.realtimeSinceStartup;
+
+        while (!NetworkManager.Singleton.IsClient)
+        {
+            float currentTime = Time.realtimeSinceStartup;
+
+            // If the waiting time is too long, automatically disconnect the client.
+            if(currentTime - requestConnectionTime >= NetworkManager.Singleton.NetworkConfig.ClientConnectionBufferTimeout)
+            {
+                clientNet.DisconnectFromServer();
+                yield return null;
+            }
+        }
+
         HideTitleScreenPanel();
+        yield return null;
     }
 
     public void QuitGame()

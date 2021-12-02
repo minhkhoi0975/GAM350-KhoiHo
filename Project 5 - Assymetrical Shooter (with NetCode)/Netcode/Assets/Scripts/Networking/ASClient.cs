@@ -8,13 +8,8 @@ using System;
 
 public class ASClient : MonoBehaviour
 {
-    // If this client cannot connect to a server within this amount of time, the client will be automatically disconnected.
-    [SerializeField] int timeOut = 10;
-
     private void Start()
     {
-        NetworkManager.Singleton.NetworkConfig.ClientConnectionBufferTimeout = timeOut;
-
         NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnected;
     }
 
@@ -24,7 +19,7 @@ public class ASClient : MonoBehaviour
         NetworkManager.Singleton.GetComponent<UNetTransport>().ConnectAddress = address;
         NetworkManager.Singleton.GetComponent<UNetTransport>().ConnectPort = port;
         NetworkManager.Singleton.GetComponent<UNetTransport>().ServerListenPort = port;
-
+        
         NetworkManager.Singleton.StartClient();
     }
 
@@ -32,11 +27,17 @@ public class ASClient : MonoBehaviour
     private void OnClientDisconnected(ulong clientId)
     {
         // If the disconnected client is this client, reload the scene.
-        if (!NetworkManager.Singleton.IsConnectedClient)
+        if (!NetworkManager.Singleton.IsConnectedClient && !NetworkManager.Singleton.IsHost && !NetworkManager.Singleton.IsServer)
         {
             Debug.Log("You have disconnected from the server.");
-            NetworkManager.Singleton.Shutdown();
-            SceneManager.LoadScene("NetCode");
+            DisconnectFromServer();
         }
+    }
+
+    // Disconnect this client from the server.
+    public void DisconnectFromServer()
+    {
+        NetworkManager.Singleton.Shutdown();
+        SceneManager.LoadScene("NetCode");
     }
 }
