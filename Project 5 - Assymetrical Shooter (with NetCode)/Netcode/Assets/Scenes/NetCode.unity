@@ -9810,8 +9810,8 @@ MonoBehaviour:
   MaxConnections: 100
   MaxSentMessageQueueSize: 128
   ConnectAddress: 127.0.0.1
-  ConnectPort: 7777
-  ServerListenPort: 7777
+  ConnectPort: 603
+  ServerListenPort: 603
   MessageSendMode: 0
 --- !u!114 &1006332031
 MonoBehaviour:

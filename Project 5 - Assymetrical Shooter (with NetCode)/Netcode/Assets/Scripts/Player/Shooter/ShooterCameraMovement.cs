@@ -31,8 +31,18 @@ public class ShooterCameraMovement : NetworkBehaviour
     {
         if (IsOwner)
         {
-            Camera.current?.gameObject.SetActive(false);
-            characterCamera.gameObject.SetActive(true);
+            if(Camera.current)
+            {
+                Camera.current.enabled = false;
+            }
+            characterCamera.enabled = true;
+
+            Debug.Log("I'm owner of camera.");
+        }
+        else
+        {
+            characterCamera.enabled = false;
+            characterCamera.GetComponent<AudioListener>().enabled = true;
         }
     }
 
@@ -43,6 +53,11 @@ public class ShooterCameraMovement : NetworkBehaviour
 
     [ServerRpc]
     public void RotateCameraServerRpc(float mouseX, float mouseY)
+    {
+        RotateCameraImplementation(mouseX, mouseY);
+    }
+
+    void RotateCameraImplementation(float mouseX, float mouseY)
     {
         // Move the camera up/down.
 
