@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UNET;
@@ -8,6 +9,8 @@ using System;
 
 public class ASClient : MonoBehaviour
 {
+    [SerializeField] Text playerNameText;
+
     private void Start()
     {
         NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnected;
@@ -19,7 +22,10 @@ public class ASClient : MonoBehaviour
         NetworkManager.Singleton.GetComponent<UNetTransport>().ConnectAddress = address;
         NetworkManager.Singleton.GetComponent<UNetTransport>().ConnectPort = port;
         NetworkManager.Singleton.GetComponent<UNetTransport>().ServerListenPort = port;
-        
+
+        // When the client connects to the server, send the player's name to the server.
+        NetworkManager.Singleton.NetworkConfig.ConnectionData = System.Text.Encoding.ASCII.GetBytes(playerNameText.text);
+
         NetworkManager.Singleton.StartClient();
     }
 
