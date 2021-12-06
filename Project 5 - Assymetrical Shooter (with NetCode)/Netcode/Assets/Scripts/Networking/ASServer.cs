@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UNET;
@@ -25,6 +26,9 @@ public class ASServer : MonoBehaviour
     // List of start transforms for the shooters.
     [SerializeField] List<Transform> shooterStartTransforms;
 
+    // Reference to the player name text. Need this to set the name for player who is the listen server.
+    [SerializeField] Text playerNameText;
+
     private void Start()
     {
         NetworkManager.Singleton.OnServerStarted += OnServerStarted;
@@ -44,6 +48,7 @@ public class ASServer : MonoBehaviour
 
         if (listenServer == true)
         {
+            NetworkManager.Singleton.NetworkConfig.ConnectionData = System.Text.Encoding.ASCII.GetBytes(playerNameText.text);
             NetworkManager.Singleton.StartHost();
         }
         else
