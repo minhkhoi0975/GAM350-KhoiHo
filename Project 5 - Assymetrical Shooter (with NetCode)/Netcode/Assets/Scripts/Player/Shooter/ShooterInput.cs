@@ -81,41 +81,28 @@ public class ShooterInput : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!IsOwner)
-            return;
-
-        if (inputLock.isLocked)
-            return;
-
-        GetInput(inputData);
-
-        // Move camera.
-        characterCameraMovement.RotateCamera(inputData.mouseXAxis, inputData.mouseYAxis);
-
-        // Jump.
-        if(inputData.jump)
+        if (IsOwner)
         {
-            characterMovement.Jump();
-        }
+            //if (inputLock.isLocked)
+            //    return;
 
-        // Fire a projectile.
-        if(inputData.fireProjectile)
-        {
-            characterCombat.FireProjectile();
+            GetInput(inputData);
+            Predict(inputData);
+            ProcessInputServerRpc(inputData);
         }
     }
 
     private void FixedUpdate()
     {
-        if (!IsOwner)
-            return;
+        if (IsOwner || IsServer)
+        {
+            //if (IsOwner && inputLock.isLocked)
+            //    return;
 
-        if (inputLock.isLocked)
-            return;
-
-        // Move character.
-        Vector3 worldMovementDirection = new Vector3(inputData.horizontalAxis, 0.0f, inputData.verticalAxis);
-        characterMovement.Move(worldMovementDirection);
+            // Move character.
+            Vector3 worldMovementDirection = new Vector3(inputData.horizontalAxis, 0.0f, inputData.verticalAxis);
+            characterMovement.Move(worldMovementDirection);
+        }
     }
 
     // Get input from the player.
@@ -139,6 +126,37 @@ public class ShooterInput : NetworkBehaviour
     void Predict(InputData inputData)
     {
         if (IsServer)
-            return;     
+            return;
+
+        // Move camera.
+        characterCameraMovement.RotateCamera(inputData.mouseXAxis, inputData.mouseYAxis);
+
+        // Jump.
+        if (inputData.jump)
+        {
+            characterMovement.Jump();
+        }
+    }
+
+    // Process the input on server side.
+    [ServerRpc]
+    void ProcessInputServerRpc(InputData inputData)
+    {
+        this.inputData = inputData;
+
+        // Move camera.
+        characterCameraMovement.RotateCamera(inputData.mouseXAxis, inputData.mouseYAxis);
+
+        // Jump.
+        if (inputData.jump)
+        {
+            characterMovement.Jump();
+        }
+
+        // Fire a projectile.
+        if (inputData.fireProjectile)
+        {
+            characterCombat.FireProjectile();
+        }
     }
 }

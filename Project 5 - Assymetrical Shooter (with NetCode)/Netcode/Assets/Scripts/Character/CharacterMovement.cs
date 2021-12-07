@@ -47,26 +47,14 @@ public class CharacterMovement : NetworkBehaviour
 
     private void FixedUpdate()
     {
-        if (IsOwner)
+        if (IsOwner || IsServer)
         {
             Fall();
         }
     }
 
-    // Change the movement speed of the character.
-    public void SetMovementSpeed(float newMovementSpeed)
-    {
-        movementSpeed = newMovementSpeed;
-    }
-
     // Move the character.
     public void Move(Vector3 relativeMovementDirection)
-    {
-        MoveServerRpc(relativeMovementDirection);
-    }
-
-    [ServerRpc]
-    public void MoveServerRpc(Vector3 relativeMovementDirection)
     {
         if (relativeMovementDirection.magnitude >= 0.1f)
         {
@@ -96,12 +84,6 @@ public class CharacterMovement : NetworkBehaviour
     // Make the character jump.
     public void Jump()
     {
-        JumpServerRpc();
-    }
-
-    [ServerRpc]
-    public void JumpServerRpc()
-    {
         if (characterFoot.IsGrounded)
         {
             rigidBody.AddForce(Vector3.up * jumpForce);
@@ -110,12 +92,6 @@ public class CharacterMovement : NetworkBehaviour
 
     // Make the character fall.
     public void Fall()
-    {
-        FallServerRPC();
-    }
-
-    [ServerRpc]
-    public void FallServerRPC()
     {
         if (!characterFoot.IsGrounded)
         {

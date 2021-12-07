@@ -7,29 +7,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
-public class CharacterFoot : MonoBehaviour
+public class CharacterFoot : NetworkBehaviour
 {
     // The max angle of the slope on which the character can stand.
     public float maxSlopeAngle = 60.0f;
 
     // Is the character on the ground?
-    bool isGrounded = false;
+    NetworkVariable<bool> isGrounded = new NetworkVariable<bool>(false);
     public bool IsGrounded
     {
         get
         {
-            return isGrounded;
+            return isGrounded.Value;
         }
     }
 
     // Is this character on a slope?
-    bool isOnSlope = false;
+    NetworkVariable<bool> isOnSlope = new NetworkVariable<bool>(false);
     public bool IsOnSlope
     {
         get
         {
-            return isOnSlope;
+            return isOnSlope.Value;
         }
     }
 
@@ -53,42 +54,35 @@ public class CharacterFoot : MonoBehaviour
         }
     }
 
-    // Store the previous position of the foot.
-    Vector3 previousFootPosition;
-
     // Update is called once per frame
     void Update()
     {
-        UpdateIsGrounded();
+        if (IsServer)
+        {
+            UpdateIsGrounded();
+        }
     }
 
     private void UpdateIsGrounded()
     {
-        // Don't update if the character does not move.
-        if (transform.position == previousFootPosition)
-            return;
-
-        isGrounded = Physics.Raycast(transform.position, Vector3.down, out groundInfo, 0.2f);
-        if (isGrounded)
+        isGrounded.Value = Physics.Raycast(transform.position, Vector3.down, out groundInfo, 0.2f);
+        if (isGrounded.Value)
         {
             // Calculate the slope angle and determine whether the character is on a slope or not.
             slopeAngle = Vector3.Angle(groundInfo.normal, Vector3.up);
             if (slopeAngle >= 1.0f && slopeAngle <= maxSlopeAngle)
             {
-                isOnSlope = true;
+                isOnSlope.Value = true;
             }
             else
             {
-                isOnSlope = false;
+                isOnSlope.Value = false;
             }
         }
         else
         {
             slopeAngle = 0.0f;
-            isOnSlope = false;
+            isOnSlope.Value = false;
         }
-
-        // Update the current position of the foot.
-        previousFootPosition = transform.position;
     }
 }

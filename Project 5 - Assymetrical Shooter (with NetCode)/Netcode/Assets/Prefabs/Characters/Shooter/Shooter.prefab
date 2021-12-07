@@ -392,7 +392,7 @@ GameObject:
   - component: {fileID: 2080487153109596431}
   - component: {fileID: 4246585019340098960}
   - component: {fileID: 431200844293405523}
-  - component: {fileID: 7695342200253162270}
+  - component: {fileID: 3289153913942174507}
   m_Layer: 3
   m_Name: Camera
   m_TagString: Untagged
@@ -466,7 +466,7 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6355503175121449431}
   m_Enabled: 0
---- !u!114 &7695342200253162270
+--- !u!114 &3289153913942174507
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -475,24 +475,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 6355503175121449431}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Script: {fileID: 11500000, guid: eb3a7a037e2a55f478236f3d043f1591, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SyncPositionX: 0
-  SyncPositionY: 0
-  SyncPositionZ: 0
-  SyncRotAngleX: 1
-  SyncRotAngleY: 1
-  SyncRotAngleZ: 1
-  SyncScaleX: 0
-  SyncScaleY: 0
-  SyncScaleZ: 0
-  PositionThreshold: 0.001
-  RotAngleThreshold: 0.01
-  ScaleThreshold: 0.01
-  InLocalSpace: 1
-  Interpolate: 1
-  CanCommitToTransform: 0
 --- !u!1 &7417730105418172715
 GameObject:
   m_ObjectHideFlags: 0
@@ -503,7 +488,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3838056518195125055}
   - component: {fileID: 1676303360886025193}
-  - component: {fileID: 5800929865649832162}
   - component: {fileID: 592452074864387023}
   - component: {fileID: 7387618826283332414}
   - component: {fileID: 2614905083603558693}
@@ -511,7 +495,7 @@ GameObject:
   - component: {fileID: 5899903553422426028}
   - component: {fileID: 1933703904780540905}
   - component: {fileID: 1360542458644907379}
-  - component: {fileID: 5761172417187581623}
+  - component: {fileID: 7397234716888104297}
   m_Layer: 3
   m_Name: Shooter
   m_TagString: Character
@@ -553,18 +537,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &5800929865649832162
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7417730105418172715}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6c0be61502bb534f922ebb746851216, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &592452074864387023
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -671,7 +643,7 @@ MonoBehaviour:
   AlwaysReplicateAsRoot: 0
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &5761172417187581623
+--- !u!114 &7397234716888104297
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -680,21 +652,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 7417730105418172715}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Script: {fileID: 11500000, guid: eb3a7a037e2a55f478236f3d043f1591, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SyncPositionX: 1
-  SyncPositionY: 1
-  SyncPositionZ: 1
-  SyncRotAngleX: 1
-  SyncRotAngleY: 1
-  SyncRotAngleZ: 1
-  SyncScaleX: 0
-  SyncScaleY: 0
-  SyncScaleZ: 0
-  PositionThreshold: 0.001
-  RotAngleThreshold: 0.01
-  ScaleThreshold: 0.01
-  InLocalSpace: 0
-  Interpolate: 1
-  CanCommitToTransform: 0

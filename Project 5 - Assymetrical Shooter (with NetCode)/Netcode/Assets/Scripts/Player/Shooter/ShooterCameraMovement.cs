@@ -48,17 +48,6 @@ public class ShooterCameraMovement : NetworkBehaviour
 
     public void RotateCamera(float mouseX, float mouseY)
     {
-        RotateCameraServerRpc(mouseX, mouseY);
-    }
-
-    [ServerRpc]
-    public void RotateCameraServerRpc(float mouseX, float mouseY)
-    {
-        RotateCameraImplementation(mouseX, mouseY);
-    }
-
-    void RotateCameraImplementation(float mouseX, float mouseY)
-    {
         // Move the camera up/down.
 
         cameraPitch -= mouseY * sensitivityY * Time.deltaTime;
@@ -73,5 +62,11 @@ public class ShooterCameraMovement : NetworkBehaviour
 
         float cameraYaw = transform.rotation.eulerAngles.y + mouseX * sensitivityX * Time.deltaTime;
         transform.rotation = Quaternion.Euler(0.0f, cameraYaw, 0.0f);
+    }
+
+    [ServerRpc]
+    public void RotateCameraServerRpc(float mouseX, float mouseY)
+    {
+        RotateCamera(mouseX, mouseY);
     }
 }
