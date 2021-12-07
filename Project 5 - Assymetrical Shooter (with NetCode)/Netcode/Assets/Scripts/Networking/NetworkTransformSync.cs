@@ -2,6 +2,7 @@
  * NetworkSync.cs
  * Descripption: This script synchronizes the transform of a network game object from a server to clients.
  * Programmer: Khoi Ho
+ * Credits: Professor Carrigg for his NetworkSync script in UCNetwork.
  */
 
 using System.Collections;

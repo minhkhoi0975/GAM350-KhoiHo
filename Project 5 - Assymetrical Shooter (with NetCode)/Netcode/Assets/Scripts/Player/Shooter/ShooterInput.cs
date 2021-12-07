@@ -55,24 +55,34 @@ public class ShooterInput : NetworkBehaviour
     }
     InputData inputData = new InputData();
 
+    public override void OnNetworkSpawn()
+    {
+        if (IsOwner)
+        {
+            // Lock cursor.
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+    }
+
     private void Awake()
     {
-        if(!characterMovement)
+        if (!characterMovement)
         {
             characterMovement = GetComponent<CharacterMovement>();
         }
 
-        if(!characterCameraMovement)
+        if (!characterCameraMovement)
         {
             characterCameraMovement = GetComponent<ShooterCameraMovement>();
         }
 
-        if(!characterCombat)
+        if (!characterCombat)
         {
             characterCombat = GetComponent<CharacterCombat>();
         }
 
-        if(!inputLock)
+        if (!inputLock)
         {
             inputLock = GetComponent<InputLock>();
         }
@@ -96,9 +106,6 @@ public class ShooterInput : NetworkBehaviour
     {
         if (IsOwner || IsServer)
         {
-            //if (IsOwner && inputLock.isLocked)
-            //    return;
-
             // Move character.
             Vector3 worldMovementDirection = new Vector3(inputData.horizontalAxis, 0.0f, inputData.verticalAxis);
             characterMovement.Move(worldMovementDirection);
@@ -108,9 +115,6 @@ public class ShooterInput : NetworkBehaviour
     // Get input from the player.
     void GetInput(InputData inputData)
     {
-        if (IsServer && !IsHost)
-            return;
-
         inputData.horizontalAxis = Input.GetAxisRaw("Horizontal");
         inputData.verticalAxis = Input.GetAxisRaw("Vertical");
 
@@ -138,7 +142,7 @@ public class ShooterInput : NetworkBehaviour
         }
     }
 
-    // Process the input on server side.
+    // Process the input on the server side.
     [ServerRpc]
     void ProcessInputServerRpc(InputData inputData)
     {
