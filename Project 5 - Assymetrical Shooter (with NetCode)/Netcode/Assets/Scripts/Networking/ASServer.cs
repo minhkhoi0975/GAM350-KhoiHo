@@ -137,4 +137,20 @@ public class ASServer : MonoBehaviour
             }
         }
     }
+
+    // Shut down the server
+    public void ShutDownServer()
+    {
+        if (NetworkManager.Singleton.IsServer)
+        {
+            // Clear all player data.
+            players.Clear();
+
+            // Shut down the server.
+            NetworkManager.Singleton.Shutdown();
+
+            // Load the main menu.
+            SceneManager.LoadScene("NetCode");
+        }
+    }
 }

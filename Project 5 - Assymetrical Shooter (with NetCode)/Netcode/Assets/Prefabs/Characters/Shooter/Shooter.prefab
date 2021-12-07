@@ -595,8 +595,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterCamera: {fileID: 4246585019340098960}
-  sensitivityX: 20
-  sensitivityY: 30
+  sensitivityX: 30
+  sensitivityY: 20
 --- !u!114 &2614905083603558693
 MonoBehaviour:
   m_ObjectHideFlags: 0

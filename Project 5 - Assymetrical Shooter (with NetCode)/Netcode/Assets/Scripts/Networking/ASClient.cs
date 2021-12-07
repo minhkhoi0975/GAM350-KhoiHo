@@ -37,7 +37,10 @@ public class ASClient : MonoBehaviour
     // Disconnect this client from the server.
     public void DisconnectFromServer()
     {
-        NetworkManager.Singleton.Shutdown();
-        SceneManager.LoadScene("NetCode");
+        if (NetworkManager.Singleton.IsClient && !NetworkManager.Singleton.IsHost)
+        {
+            NetworkManager.Singleton.Shutdown();
+            SceneManager.LoadScene("NetCode");
+        }
     }
 }
