@@ -24,9 +24,36 @@ public class ShooterInput : NetworkBehaviour
     // Used for locking input.
     public InputLock inputLock;
 
-    float horizontalAxis, verticalAxis;
+    public class InputData : INetworkSerializable
+    {
+        // Move direction
+        public float horizontalAxis;
+        public float verticalAxis;
 
-    float mouseXAxis, mouseYAxis;
+        // Camera rotation
+        public float mouseXAxis;
+        public float mouseYAxis;
+
+        // Jump
+        public bool jump;
+
+        // Fire a projectile
+        public bool fireProjectile;
+
+        public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
+        {
+            serializer.SerializeValue(ref horizontalAxis);
+            serializer.SerializeValue(ref verticalAxis);
+
+            serializer.SerializeValue(ref mouseXAxis);
+            serializer.SerializeValue(ref mouseYAxis);
+
+            serializer.SerializeValue(ref jump);
+
+            serializer.SerializeValue(ref fireProjectile);
+        }
+    }
+    InputData inputData = new InputData();
 
     private void Awake()
     {
@@ -60,25 +87,19 @@ public class ShooterInput : NetworkBehaviour
         if (inputLock.isLocked)
             return;
 
-        // Get movement input.
-        horizontalAxis = Input.GetAxisRaw("Horizontal");
-        verticalAxis = Input.GetAxisRaw("Vertical");
-
-        // Get camera input.
-        mouseXAxis = Input.GetAxis("Mouse X");
-        mouseYAxis = Input.GetAxis("Mouse Y");
+        GetInput(inputData);
 
         // Move camera.
-        characterCameraMovement.RotateCamera(mouseXAxis, mouseYAxis);
+        characterCameraMovement.RotateCamera(inputData.mouseXAxis, inputData.mouseYAxis);
 
         // Jump.
-        if(Input.GetButtonDown("Jump"))
+        if(inputData.jump)
         {
             characterMovement.Jump();
         }
 
         // Fire a projectile.
-        if(Input.GetButtonDown("Fire1"))
+        if(inputData.fireProjectile)
         {
             characterCombat.FireProjectile();
         }
@@ -93,7 +114,31 @@ public class ShooterInput : NetworkBehaviour
             return;
 
         // Move character.
-        Vector3 worldMovementDirection = new Vector3(horizontalAxis, 0.0f, verticalAxis);
+        Vector3 worldMovementDirection = new Vector3(inputData.horizontalAxis, 0.0f, inputData.verticalAxis);
         characterMovement.Move(worldMovementDirection);
+    }
+
+    // Get input from the player.
+    void GetInput(InputData inputData)
+    {
+        if (IsServer && !IsHost)
+            return;
+
+        inputData.horizontalAxis = Input.GetAxisRaw("Horizontal");
+        inputData.verticalAxis = Input.GetAxisRaw("Vertical");
+
+        inputData.mouseXAxis = Input.GetAxis("Mouse X");
+        inputData.mouseYAxis = Input.GetAxis("Mouse Y");
+
+        inputData.jump = Input.GetButtonDown("Jump");
+
+        inputData.fireProjectile = Input.GetButtonDown("Fire1");
+    }
+
+    // Predict the movement of the character on the client side.
+    void Predict(InputData inputData)
+    {
+        if (IsServer)
+            return;     
     }
 }

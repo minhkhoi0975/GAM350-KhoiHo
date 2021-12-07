@@ -8,14 +8,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Unity.Netcode;
 
-public class ShooterNameTag : MonoBehaviour
+public class ShooterNameTag : NetworkBehaviour
 {
     // Reference to the character game object.
     public GameObject characterGameObject;
 
     // Reference to the name text.
     public TextMesh playerNameText;
+
+    public override void OnNetworkSpawn()
+    {
+        // If the client is the owner of this character, hide the name tag.
+        if (IsOwner)
+        {
+            enabled = false;
+        }
+    }
 
     // Update is called once per frame
     void LateUpdate()
@@ -31,14 +41,17 @@ public class ShooterNameTag : MonoBehaviour
         }
     }
 
-    // Change the name tag of the character.
+    [ClientRpc]
+    public void SetNameTagClientRpc(string name)
+    {
+        SetNameTag(name);
+    }
+
     public void SetNameTag(string name)
     {
-        Debug.Log("Name tag changed.");
-
         if (playerNameText)
         {
-            playerNameText.text = name;
+            playerNameText.text = "[" + name + "]";
         }
     }
 }

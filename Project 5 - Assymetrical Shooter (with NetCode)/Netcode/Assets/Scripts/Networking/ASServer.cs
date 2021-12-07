@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UNET;
@@ -11,6 +12,7 @@ public class ASServer : MonoBehaviour
     // Info about a player.
     public class PlayerData
     {
+        public string name = "";
         public bool canPlay = false;
         public int team = 0;
     }
@@ -23,6 +25,9 @@ public class ASServer : MonoBehaviour
 
     // List of start transforms for the shooters.
     [SerializeField] List<Transform> shooterStartTransforms;
+
+    // Reference to the player name text. Need this to set the name for player who is the listen server.
+    [SerializeField] Text playerNameText;
 
     private void Start()
     {
@@ -41,8 +46,9 @@ public class ASServer : MonoBehaviour
         NetworkManager.Singleton.GetComponent<UNetTransport>().ConnectPort = port;
         NetworkManager.Singleton.GetComponent<UNetTransport>().ServerListenPort = port;
 
-        if(listenServer == true)
+        if (listenServer == true)
         {
+            NetworkManager.Singleton.NetworkConfig.ConnectionData = System.Text.Encoding.ASCII.GetBytes(playerNameText.text);
             NetworkManager.Singleton.StartHost();
         }
         else
@@ -66,9 +72,10 @@ public class ASServer : MonoBehaviour
     {
         if (NetworkManager.Singleton.IsServer)
         {
-            Debug.Log("Player " + clientId + " is connecting to the game.");
+            Debug.Log("A player with clientId = " + clientId + " is connecting to the game.");
 
             PlayerData newPlayer = new PlayerData();
+            newPlayer.name = System.Text.Encoding.ASCII.GetString(connectionData);
             newPlayer.canPlay = false;
             newPlayer.team = 0;
 
@@ -83,22 +90,18 @@ public class ASServer : MonoBehaviour
     {
         if (NetworkManager.Singleton.IsServer)
         {
-            Debug.Log("Player " + clientId + " has successfully connected to the game.");
+            Debug.Log(players[clientId].name + " (clientId = " + clientId + ") has successfully connected to the game.");
 
             players[clientId].canPlay = true;
             players[clientId].team = GetTeamForNewPlayer();
 
-            // If the player is a shooter, spawn a character for the player.
-            if (players[clientId].team == 1)
-            {
-                // Get random spawn position.
-                Transform shooterStartTransform = shooterStartTransforms[UnityEngine.Random.Range(0, shooterStartTransforms.Count)];
-                Vector3 startPosition = shooterStartTransform.position;
-                Quaternion startRotation = shooterStartTransform.rotation;
+            // Let the new player see shooters' name tags.
+            LetNewPlayerSeeGameTags(clientId);
 
-                // Spawn the shooter.
-                GameObject shooter = Instantiate(shooterPrefab, startPosition, startRotation, null);
-                shooter.GetComponent<NetworkObject>().SpawnWithOwnership(clientId, true);
+            // If the player is a shooter, spawn a character for the player.
+            // if (players[clientId].team == 1)
+            {
+                SpawnShooter(clientId);
             }
         }
     }
@@ -122,6 +125,37 @@ public class ASServer : MonoBehaviour
         }
 
         return team1Count <= team2Count ? 1 : 2;
+    }
+
+    // Let the new player see shooters' name tags.
+    void LetNewPlayerSeeGameTags(ulong clientId)
+    {
+        foreach (KeyValuePair<ulong, PlayerData> otherPlayer in players)
+        {
+            if (otherPlayer.Key != clientId /*&&otherPlayer.Value.team == 1*/)
+            {
+                NetworkClient networkClient = NetworkManager.Singleton.ConnectedClients[otherPlayer.Key];
+                foreach (NetworkObject networkObject in networkClient.OwnedObjects)
+                {
+                    networkObject.GetComponent<ShooterNameTag>()?.SetNameTagClientRpc(otherPlayer.Value.name);
+                }
+            }
+        }
+    }
+
+    // Spawn a character for a shooter.
+    void SpawnShooter(ulong clientId)
+    {
+        // Get a random spawn position.
+        Transform shooterStartTransform = shooterStartTransforms[UnityEngine.Random.Range(0, shooterStartTransforms.Count)];
+        Vector3 startPosition = shooterStartTransform.position;
+        Quaternion startRotation = shooterStartTransform.rotation;
+
+        // Spawn the shooter.
+        GameObject shooter = Instantiate(shooterPrefab, startPosition, startRotation, null);
+        shooter.GetComponent<NetworkObject>().SpawnWithOwnership(clientId, true);
+        shooter.GetComponent<ShooterNameTag>().SetNameTag(players[clientId].name);
+        shooter.GetComponent<ShooterNameTag>().SetNameTagClientRpc(players[clientId].name);
     }
 
     // Called when a client has disconnected from the server.
