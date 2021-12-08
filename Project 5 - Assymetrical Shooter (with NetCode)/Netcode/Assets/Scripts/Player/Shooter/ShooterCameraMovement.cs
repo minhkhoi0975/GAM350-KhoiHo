@@ -37,10 +37,6 @@ public class ShooterCameraMovement : NetworkBehaviour
             }
             characterCamera.enabled = true;
 
-            // Lock cursor.
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
-            
             Debug.Log("I'm owner of camera.");
         }
         else
@@ -51,22 +47,6 @@ public class ShooterCameraMovement : NetworkBehaviour
     }
 
     public void RotateCamera(float mouseX, float mouseY)
-    {
-        if (!NetworkManager.Singleton.IsServer)
-        {
-            RotateCameraImplementation(mouseX, mouseY);
-        }
-
-        RotateCameraServerRpc(mouseX, mouseY);
-    }
-
-    [ServerRpc]
-    public void RotateCameraServerRpc(float mouseX, float mouseY)
-    {
-        RotateCameraImplementation(mouseX, mouseY);
-    }
-
-    void RotateCameraImplementation(float mouseX, float mouseY)
     {
         // Move the camera up/down.
 
@@ -82,5 +62,11 @@ public class ShooterCameraMovement : NetworkBehaviour
 
         float cameraYaw = transform.rotation.eulerAngles.y + mouseX * sensitivityX * Time.deltaTime;
         transform.rotation = Quaternion.Euler(0.0f, cameraYaw, 0.0f);
+    }
+
+    [ServerRpc]
+    public void RotateCameraServerRpc(float mouseX, float mouseY)
+    {
+        RotateCamera(mouseX, mouseY);
     }
 }

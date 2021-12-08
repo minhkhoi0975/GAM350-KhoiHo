@@ -37,16 +37,16 @@ public class CharacterCombat : NetworkBehaviour
 
     public void FireProjectile()
     {
-        FireProjectileServerRpc();
-    }
-
-    [ServerRpc]
-    public void FireProjectileServerRpc()
-    {
         if (projectilePrefab)
         {
             GameObject projectile = Instantiate(projectilePrefab, muzzleTransform.position, muzzleTransform.rotation);
             projectile.GetComponent<NetworkObject>().Spawn(true);
         }
+    }
+
+    [ServerRpc]
+    public void FireProjectileServerRpc()
+    {
+        FireProjectile();
     }
 }
