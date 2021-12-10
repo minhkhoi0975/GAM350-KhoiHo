@@ -7,11 +7,40 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using Unity.Netcode;
 
-public class SpawnerCameraMovement : MonoBehaviour
+public class SpawnerCameraMovement : NetworkBehaviour
 {
     public float moveSpeed = 10.0f;
     public float rotationSpeed = 3.0f;
+
+    public override void OnNetworkSpawn()
+    {
+        if (IsOwner)
+        {
+            if (Camera.current)
+            {
+                Camera.current.GetComponent<AudioListener>().enabled = false;
+                Camera.current.enabled = false;
+            }
+            GetComponent<Camera>().enabled = true;
+        }
+        else
+        {
+            GetComponent<Camera>().enabled = false;
+            GetComponent<AudioListener>().enabled = false;
+        }
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        if (IsOwner && IsClient && !IsHost)
+        {
+            NetworkManager.Singleton.GetComponent<ASClient>().DisconnectFromServer();
+            SceneManager.LoadScene("NetCode");
+        }
+    }
 
     // Move the camera.
     public void Move(float horizontalAxis, float verticalAxis)

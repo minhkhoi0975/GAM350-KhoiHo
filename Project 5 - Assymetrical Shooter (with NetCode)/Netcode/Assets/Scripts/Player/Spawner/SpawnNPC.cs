@@ -7,11 +7,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Unity.Netcode;
 
-public class SpawnNPC : MonoBehaviour
+public class SpawnNPC : NetworkBehaviour
 {
     // The prefab of NPC to be spawned.
     [SerializeField] GameObject prefab;
+
+    [ServerRpc]
+    public void SpawnServerRpc(Vector3 position, Quaternion rotation)
+    {
+        Spawn(position, rotation);
+    }
 
     public void Spawn(Vector3 position, Quaternion rotation)
     {
@@ -21,6 +28,7 @@ public class SpawnNPC : MonoBehaviour
             return;
 
         // Spawn NPC.
-        Instantiate(prefab, hit.position, rotation, null);
+        GameObject npc = Instantiate(prefab, hit.position, rotation, null);
+        npc.GetComponent<NetworkObject>().Spawn(true);
     }
 }

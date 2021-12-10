@@ -107,7 +107,7 @@ public class AIBehavior : NetworkBehaviour
         Vector2 idealLookDirection2D = new Vector2(idealLookDirection.x, idealLookDirection.z).normalized;
 
         float aimingDotProduct = Vector2.Dot(forwardDirection2D, idealLookDirection2D);
-        Debug.Log(aimingDotProduct);
+        // Debug.Log(aimingDotProduct);
 
         // Check if the dot product is equal to or greater than the minimum dot product.
         return aimingDotProduct >= 0.85f;

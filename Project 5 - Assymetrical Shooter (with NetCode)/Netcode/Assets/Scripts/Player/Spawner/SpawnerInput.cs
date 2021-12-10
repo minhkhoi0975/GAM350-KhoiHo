@@ -77,7 +77,7 @@ public class SpawnerInput : MonoBehaviour
 
                 if(hitInfo.collider.CompareTag("Environment"))
                 {
-                    spawner.Spawn(hitInfo.point, rotation);
+                    spawner.SpawnServerRpc(hitInfo.point, rotation);
                 }
                 else
                 {

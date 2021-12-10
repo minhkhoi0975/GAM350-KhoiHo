@@ -7,6 +7,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Unity.Netcode;
 
 public class ShooterCameraMovement : NetworkBehaviour
@@ -33,16 +34,24 @@ public class ShooterCameraMovement : NetworkBehaviour
         {
             if(Camera.current)
             {
+                Camera.current.GetComponent<AudioListener>().enabled = false;
                 Camera.current.enabled = false;
             }
             characterCamera.enabled = true;
-
-            Debug.Log("I'm owner of camera.");
         }
         else
         {
             characterCamera.enabled = false;
-            characterCamera.GetComponent<AudioListener>().enabled = true;
+            characterCamera.GetComponent<AudioListener>().enabled = false;
+        }
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        if (IsOwner && IsClient && !IsHost)
+        {
+            NetworkManager.Singleton.GetComponent<ASClient>().DisconnectFromServer();
+            SceneManager.LoadScene("NetCode");
         }
     }
 

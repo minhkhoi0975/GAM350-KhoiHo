@@ -17,6 +17,9 @@ public class ASServer : MonoBehaviour
         public int team = 0;
     }
 
+    // Reference to the player name text. Need this to set the name for player who is the listen server.
+    [SerializeField] Text playerNameText;
+
     // List of all players in the game.
     Dictionary<ulong, PlayerData> players = new Dictionary<ulong, PlayerData>();
 
@@ -26,8 +29,8 @@ public class ASServer : MonoBehaviour
     // List of start transforms for the shooters.
     [SerializeField] List<Transform> shooterStartTransforms;
 
-    // Reference to the player name text. Need this to set the name for player who is the listen server.
-    [SerializeField] Text playerNameText;
+    // Spawner camera prefab.
+    [SerializeField] GameObject spawnerCameraPrefab;
 
     private void Start()
     {
@@ -95,13 +98,19 @@ public class ASServer : MonoBehaviour
             players[clientId].canPlay = true;
             players[clientId].team = GetTeamForNewPlayer();
 
+            Debug.Log(players[clientId].name + " is assigned to team " + (players[clientId].team == 1 ? " Shooter" : " Spawner") + ".");
+
             // Let the new player see shooters' name tags.
             LetNewPlayerSeeGameTags(clientId);
 
             // If the player is a shooter, spawn a character for the player.
-            // if (players[clientId].team == 1)
+            if (players[clientId].team == 1)
             {
                 SpawnShooter(clientId);
+            }
+            else if (players[clientId].team == 2)
+            {
+                SpawnSpawnerCamera(clientId);
             }
         }
     }
@@ -118,12 +127,14 @@ public class ASServer : MonoBehaviour
             {
                 team1Count++;
             }
-            else
+            else if (player.Value.team == 2)
             {
                 team2Count++;
             }
         }
 
+        Debug.Log("Team 1 count: " + team1Count);
+        Debug.Log("Team 2 count: " + team2Count);
         return team1Count <= team2Count ? 1 : 2;
     }
 
@@ -156,6 +167,17 @@ public class ASServer : MonoBehaviour
         shooter.GetComponent<NetworkObject>().SpawnWithOwnership(clientId, true);
         shooter.GetComponent<ShooterNameTag>().SetNameTag(players[clientId].name);
         shooter.GetComponent<ShooterNameTag>().SetNameTagClientRpc(players[clientId].name);
+    }
+
+    // Spawn a camera for a spawner.
+    void SpawnSpawnerCamera(ulong clientId)
+    {
+        // Get the main camera's position.
+        Transform mainCameraTransform = Camera.main.transform;
+
+        // Spawn the camera.
+        GameObject spawnerCamera = Instantiate(spawnerCameraPrefab, mainCameraTransform.position, mainCameraTransform.rotation, null);
+        spawnerCamera.GetComponent<NetworkObject>().SpawnWithOwnership(clientId, true);
     }
 
     // Called when a client has disconnected from the server.

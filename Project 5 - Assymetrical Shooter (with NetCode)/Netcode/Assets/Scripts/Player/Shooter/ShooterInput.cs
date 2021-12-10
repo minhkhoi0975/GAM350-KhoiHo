@@ -97,7 +97,12 @@ public class ShooterInput : NetworkBehaviour
             //    return;
 
             GetInput(inputData);
-            Predict(inputData);
+
+            if (!IsHost)
+            {
+                Predict(inputData);
+            }
+
             ProcessInputServerRpc(inputData);
         }
     }

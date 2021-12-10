@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 
-public class TransformRecord
+public struct TransformRecord
 {
     public float timeStamp;
     public Vector3 position;
@@ -46,13 +46,21 @@ public class NetworkInterpolatedTransform : NetworkBehaviour
         }
     }
 
+    private void Start()
+    {
+        TransformRecord firstTransformRecord = new TransformRecord();
+        firstTransformRecord.position = transform.position;
+        firstTransformRecord.rotation = transform.rotation;
+        transformRecords.Add(firstTransformRecord);
+    }
+
     // Update is called once per frame
     void Update()
     {
         if (IsServer)
             return;
 
-        float currentTime = NetworkManager.Singleton.LocalTime.TimeAsFloat;
+        float currentTime = NetworkManager.Singleton.ServerTime.TimeAsFloat;
         float interpolationTime = currentTime - interpolationBackTime;
 
         // Interpolation
@@ -84,6 +92,7 @@ public class NetworkInterpolatedTransform : NetworkBehaviour
             }
         }
 
+        /*
         // Extrapolation
         else
         {
@@ -99,7 +108,7 @@ public class NetworkInterpolatedTransform : NetworkBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, latestTransformRecord.rotation, f);
             transform.position = Vector3.Lerp(transform.position, latestTransformRecord.position + velocity, f);
         }
-
+        */
     }
 
     // Called when the client receives the transform from the server.
@@ -107,7 +116,7 @@ public class NetworkInterpolatedTransform : NetworkBehaviour
     {
         TransformRecord newTransformRecord = new TransformRecord();
 
-        newTransformRecord.timeStamp = NetworkManager.Singleton.LocalTime.TimeAsFloat;
+        newTransformRecord.timeStamp = NetworkManager.Singleton.ServerTime.TimeAsFloat;
         newTransformRecord.position = position;
         newTransformRecord.rotation = rotation;
 
