@@ -9,7 +9,30 @@ using System;
 
 public class ASClient : MonoBehaviour
 {
+    static ASClient singleton;
+    public ASClient Singleton
+    {
+        get
+        {
+            return singleton;
+        }
+    }
+
     [SerializeField] Text playerNameText;
+
+    private void Awake()
+    {
+        // When the client loads a new level, the NetworkManager game object is duplicated.
+        // Need those lines to avoid duplication.
+        if (!singleton)
+        {
+            singleton = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     private void Start()
     {
@@ -27,24 +50,40 @@ public class ASClient : MonoBehaviour
         NetworkManager.Singleton.NetworkConfig.ConnectionData = System.Text.Encoding.ASCII.GetBytes(playerNameText.text);
 
         NetworkManager.Singleton.StartClient();
+        StartCoroutine(WaitingForConnection());
+    }
+
+    IEnumerator WaitingForConnection()
+    {
+        float requestConnectionTime = Time.realtimeSinceStartup;
+
+        while (!NetworkManager.Singleton.IsConnectedClient)
+        {
+            // If the waiting time is too long, automatically disconnect the client.
+            if (Time.realtimeSinceStartup - requestConnectionTime >= 10.0f)
+            {
+                DisconnectFromServer();
+                yield break;
+            }
+        }
+
+        yield return null;
     }
 
     // Callback when a client is disconnected from the game.
     private void OnClientDisconnected(ulong clientId)
     {
-        // If the disconnected client is this client, reload the scene.
-        if (!NetworkManager.Singleton.IsConnectedClient && !NetworkManager.Singleton.IsHost && !NetworkManager.Singleton.IsServer)
-        {
-            Debug.Log("You have disconnected from the server.");
-            DisconnectFromServer();
-        }
+        Debug.Log("You have disconnected from the server.");
+        DisconnectFromServer();
     }
 
     // Disconnect this client from the server.
     public void DisconnectFromServer()
     {
-        NetworkManager.Singleton.Shutdown();
-        SceneManager.LoadScene("NetCode");
-
+        if (!NetworkManager.Singleton.IsServer)
+        {
+            NetworkManager.Singleton.Shutdown();
+            SceneManager.LoadScene("NetCode");
+        }
     }
 }

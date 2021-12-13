@@ -7,6 +7,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
 [RequireComponent(typeof(HUDLogic))]
 public class HUDInput : MonoBehaviour
@@ -20,11 +21,18 @@ public class HUDInput : MonoBehaviour
         {
             hudLogic = GetComponent<HUDLogic>();
         }
+
+        // Make the cursor visible in case the client is disconnected from the server.
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!NetworkManager.Singleton.IsConnectedClient)
+            return;
+
         // Send message to all players.
         if(Input.GetButtonDown("MessageAll"))
         {

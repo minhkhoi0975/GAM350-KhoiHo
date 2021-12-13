@@ -27,22 +27,20 @@ public class ShooterCameraMovement : NetworkBehaviour
             characterCamera = GetComponentInChildren<Camera>(true);
         }
     }
-
     public override void OnNetworkSpawn()
     {
         if (IsOwner)
         {
-            if(Camera.current)
+            if(Camera.main)
             {
-                Camera.current.GetComponent<AudioListener>().enabled = false;
-                Camera.current.enabled = false;
+                Camera.main.gameObject.SetActive(false);
             }
             characterCamera.enabled = true;
+            characterCamera.GetComponent<AudioListener>().enabled = true;
         }
         else
         {
             characterCamera.enabled = false;
-            characterCamera.GetComponent<AudioListener>().enabled = false;
         }
     }
 

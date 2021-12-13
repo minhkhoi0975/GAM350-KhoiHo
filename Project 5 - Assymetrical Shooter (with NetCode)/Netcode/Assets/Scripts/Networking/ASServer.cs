@@ -23,14 +23,22 @@ public class ASServer : MonoBehaviour
     // List of all players in the game.
     Dictionary<ulong, PlayerData> players = new Dictionary<ulong, PlayerData>();
 
+    [Header("Shooter")]
+
     // Shooter prefab.
     [SerializeField] GameObject shooterPrefab;
 
     // List of start transforms for the shooters.
     [SerializeField] List<Transform> shooterStartTransforms;
 
+    [Header("Spawner")]
+
     // Spawner camera prefab.
     [SerializeField] GameObject spawnerCameraPrefab;
+
+    // Initial transform of the spawner camera.
+    [SerializeField] Vector3 initialCameraPosition;
+    [SerializeField] Quaternion initialCameraRotation;
 
     private void Start()
     {
@@ -172,11 +180,8 @@ public class ASServer : MonoBehaviour
     // Spawn a camera for a spawner.
     void SpawnSpawnerCamera(ulong clientId)
     {
-        // Get the main camera's position.
-        Transform mainCameraTransform = Camera.main.transform;
-
         // Spawn the camera.
-        GameObject spawnerCamera = Instantiate(spawnerCameraPrefab, mainCameraTransform.position, mainCameraTransform.rotation, null);
+        GameObject spawnerCamera = Instantiate(spawnerCameraPrefab, initialCameraPosition, initialCameraRotation, null);
         spawnerCamera.GetComponent<NetworkObject>().SpawnWithOwnership(clientId, true);
     }
 

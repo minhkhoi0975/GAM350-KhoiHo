@@ -40,18 +40,18 @@ public class NetworkInterpolatedTransform : NetworkBehaviour
             networkTransformSync = GetComponent<NetworkTransformSync>();
         }
 
-        if (!networkTransformSync)
-        {
-            networkTransformSync.transformSynchronizedCallback += OnTransformSynchronized;
-        }
+        networkTransformSync.transformSynchronizedCallback += OnTransformSynchronized;
+
+        interpolationBackTime = networkTransformSync.BroadcastFrequency * 2;
+        extrapolationTime = networkTransformSync.BroadcastFrequency;
     }
 
     private void Start()
     {
-        TransformRecord firstTransformRecord = new TransformRecord();
-        firstTransformRecord.position = transform.position;
-        firstTransformRecord.rotation = transform.rotation;
-        transformRecords.Add(firstTransformRecord);
+        if (IsServer)
+        {
+            this.enabled = false;
+        }
     }
 
     // Update is called once per frame
@@ -92,7 +92,6 @@ public class NetworkInterpolatedTransform : NetworkBehaviour
             }
         }
 
-        /*
         // Extrapolation
         else
         {
@@ -108,7 +107,6 @@ public class NetworkInterpolatedTransform : NetworkBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, latestTransformRecord.rotation, f);
             transform.position = Vector3.Lerp(transform.position, latestTransformRecord.position + velocity, f);
         }
-        */
     }
 
     // Called when the client receives the transform from the server.
@@ -117,8 +115,15 @@ public class NetworkInterpolatedTransform : NetworkBehaviour
         TransformRecord newTransformRecord = new TransformRecord();
 
         newTransformRecord.timeStamp = NetworkManager.Singleton.ServerTime.TimeAsFloat;
-        newTransformRecord.position = position;
-        newTransformRecord.rotation = rotation;
+        newTransformRecord.position = networkTransformSync.SynchronizedPosition;
+        newTransformRecord.rotation = networkTransformSync.SynchronizedRotation;
+
+        if (first)
+        {
+            first = false;
+            transform.position = newTransformRecord.position;
+            transform.rotation = newTransformRecord.rotation;
+        }
 
         // Remove old transform records (which are in the rightmost of transformRecords).
         if (transformRecords.Count >= TRANSFORM_RECORD_MAX_COUNT)

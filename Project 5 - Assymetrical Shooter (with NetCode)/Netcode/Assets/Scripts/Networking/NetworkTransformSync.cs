@@ -12,13 +12,47 @@ using Unity.Netcode;
 
 public class NetworkTransformSync : NetworkBehaviour
 {
+    NetworkVariable<Vector3> synchronizedPosition;
+    public Vector3 SynchronizedPosition
+    {
+        get
+        {
+            return synchronizedPosition.Value;
+        }
+        set
+        {
+            synchronizedPosition.Value = value;
+        }
+    }
+
+    NetworkVariable<Quaternion> synchronizedRotation;
+    public Quaternion SynchronizedRotation
+    {
+        get
+        {
+            return synchronizedRotation.Value;
+        }
+        set
+        {
+            synchronizedRotation.Value = value;
+        }
+    }
+
+
     // Callback when the client receives the transform from the server.
     public delegate void TransformSynchronized(Vector3 position, Quaternion rotation);
     public TransformSynchronized transformSynchronizedCallback;
 
     // How often is the transform synchronized?
     // If the value is 0.1, then the transform is synchronized 1/0.1 = 10 times a second.
-    float broadcastFrequency = 0.1f;
+    [SerializeField] float broadcastFrequency = 0.1f;
+    public float BroadcastFrequency
+    {
+        get
+        {
+            return broadcastFrequency;
+        }
+    }
 
     // How long before the server synchronizes the transfrom.
     float timeToSend = 0.0f;
@@ -28,20 +62,37 @@ public class NetworkTransformSync : NetworkBehaviour
     {
         if (IsServer)
         {
-            timeToSend -= broadcastFrequency;
+            timeToSend -= Time.deltaTime;
             if (timeToSend <= 0)
             {
-                SynchronizeTransformClientRpc(transform.position, transform.rotation);
+                synchronizedPosition.Value = transform.position;
+                synchronizedRotation.Value = transform.rotation;
+                SynchronizeTransformClientRpc();
+                timeToSend = broadcastFrequency;
             }
         }
+        /*
+        else
+        {
+            Debug.Log(Time.deltaTime);
+
+            transform.position = synchronizedPosition.Value;
+            transform.rotation = synchronizedRotation.Value;
+
+            transformSynchronizedCallback?.Invoke(synchronizedPosition.Value, synchronizedRotation.Value);
+        }
+        */
     }
 
-    [ClientRpc]
-    void SynchronizeTransformClientRpc(Vector3 position, Quaternion rotation)
+    [ClientRpc(Delivery = RpcDelivery.Unreliable)]
+    void SynchronizeTransformClientRpc()
     {
-        transformSynchronizedCallback?.Invoke(position, rotation);
+        // Debug.Log("Client transform of " + gameObject.name + ": " + transform.position + " " + transform.rotation);
+        // Debug.Log("Server transform of " + gameObject.name + ": " + synchronizedPosition.Value + " " + synchronizedRotation.Value);
 
-        transform.position = position;
-        transform.rotation = rotation;      
+        transform.position = synchronizedPosition.Value;
+        transform.rotation = synchronizedRotation.Value;     
+    
+        transformSynchronizedCallback?.Invoke(synchronizedPosition.Value, synchronizedRotation.Value);
     }
 }

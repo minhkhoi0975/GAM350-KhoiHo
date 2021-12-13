@@ -7,6 +7,15 @@ using System.Collections;
 
 public class TitleScreenLogic : MonoBehaviour
 {
+    static TitleScreenLogic singleton;
+    public TitleScreenLogic Singleton
+    {
+        get
+        {
+            return singleton;
+        }
+    }
+
     public ASServer serverNet;
     public ASClient clientNet;
 
@@ -15,6 +24,18 @@ public class TitleScreenLogic : MonoBehaviour
     public Text server;
     public Text port;
     public Text playerName;
+
+    private void Awake()
+    {
+        if (!singleton)
+        {
+            singleton = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
+    }
 
     public void StartHost()
     {
@@ -29,32 +50,12 @@ public class TitleScreenLogic : MonoBehaviour
     }
 
     public void StartClient()
-    {
+    {   
         clientNet.StartClient(server.text, int.Parse(port.text));
-        StartCoroutine(WaitingForConnection());
+        HideTitleScreenPanel();
     }
 
     // Wait until the client has connected to the server.
-    IEnumerator WaitingForConnection()
-    {
-        float requestConnectionTime = Time.realtimeSinceStartup;
-
-        while (!NetworkManager.Singleton.IsClient)
-        {
-            float currentTime = Time.realtimeSinceStartup;
-
-            // If the waiting time is too long, automatically disconnect the client.
-            if(currentTime - requestConnectionTime >= NetworkManager.Singleton.NetworkConfig.ClientConnectionBufferTimeout)
-            {
-                clientNet.DisconnectFromServer();
-                yield return null;
-            }
-        }
-
-        HideTitleScreenPanel();
-        yield return null;
-    }
-
     public void QuitGame()
     {
         Application.Quit();

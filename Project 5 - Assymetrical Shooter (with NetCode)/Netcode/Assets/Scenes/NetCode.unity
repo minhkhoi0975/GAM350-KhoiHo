@@ -1253,6 +1253,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 38
       objectReference: {fileID: 0}
+    - target: {fileID: 4936919244989792012, guid: 5d62352c9153aa741b46226ce233ace4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6937421294376474326, guid: 5d62352c9153aa741b46226ce233ace4, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -445.02
@@ -9401,6 +9405,7 @@ GameObject:
   m_Component:
   - component: {fileID: 963194228}
   - component: {fileID: 963194227}
+  - component: {fileID: 963194226}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -9408,6 +9413,14 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!81 &963194226
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
 --- !u!20 &963194227
 Camera:
   m_ObjectHideFlags: 0
@@ -9884,6 +9897,8 @@ MonoBehaviour:
   - {fileID: 1946265204}
   - {fileID: 1642029351}
   spawnerCameraPrefab: {fileID: 4274908829610604809, guid: 7597fd9bc65933648a9f08d37a4c43b0, type: 3}
+  initialCameraPosition: {x: -54.20767, y: 45.601803, z: -29.592884}
+  initialCameraRotation: {x: 0.24088697, y: 0.37624708, z: -0.10196934, w: 0.88882726}
 --- !u!1001 &1007571858
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -12,6 +12,15 @@ using UnityEngine.EventSystems;
 
 public class HUDLogic : MonoBehaviour
 {
+    static HUDLogic singleton;
+    public static HUDLogic Singleton
+    {
+        get
+        {
+            return singleton;
+        }
+    }
+
     // References to sub panels.
     [Header("Panels")]
     public GameObject commonPanel;
@@ -30,6 +39,18 @@ public class HUDLogic : MonoBehaviour
     public GameObject sendMessagePanel;
     public int maxMessageCount = 10;               // How many messages can be display in chatHistoryText?
     List<string> messages = new List<string>();    // Message history.
+
+    public void Awake()
+    {
+        if (!singleton)
+        {
+            singleton = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
+    }
 
     public void DisplayHUD(bool shooter)
     {
