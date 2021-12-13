@@ -9,6 +9,15 @@ using System;
 
 public class ASServer : MonoBehaviour
 {
+    static ASServer singleton;
+    public static ASServer Singleton
+    {
+        get
+        {
+            return singleton;
+        }
+    }
+
     // Info about a player.
     public class PlayerData
     {
@@ -21,7 +30,7 @@ public class ASServer : MonoBehaviour
     [SerializeField] Text playerNameText;
 
     // List of all players in the game.
-    Dictionary<ulong, PlayerData> players = new Dictionary<ulong, PlayerData>();
+    public Dictionary<ulong, PlayerData> players = new Dictionary<ulong, PlayerData>();
 
     [Header("Shooter")]
 
@@ -39,6 +48,23 @@ public class ASServer : MonoBehaviour
     // Initial transform of the spawner camera.
     [SerializeField] Vector3 initialCameraPosition;
     [SerializeField] Quaternion initialCameraRotation;
+
+    [Header("Chat System")]
+    [SerializeField] GameObject ChatManagerPrefab;
+
+    private void Awake()
+    {
+        // When the client loads a new level, the NetworkManager game object is duplicated.
+        // Need those lines to avoid duplication.
+        if (!singleton)
+        {
+            singleton = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     private void Start()
     {
@@ -76,6 +102,10 @@ public class ASServer : MonoBehaviour
     private void OnServerStarted()
     {
         Debug.Log("Server started.");
+
+        // Create a chat manager network object.
+        GameObject chatManager = Instantiate(ChatManagerPrefab);
+        chatManager.GetComponent<NetworkObject>().Spawn();
     }
 
     // Check whether the connection should be approved.

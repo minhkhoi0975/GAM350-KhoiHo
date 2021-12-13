@@ -10,7 +10,7 @@ using System;
 public class ASClient : MonoBehaviour
 {
     static ASClient singleton;
-    public ASClient Singleton
+    public static ASClient Singleton
     {
         get
         {
@@ -18,7 +18,7 @@ public class ASClient : MonoBehaviour
         }
     }
 
-    [SerializeField] Text playerNameText;
+    public Text playerNameText;
 
     private void Awake()
     {
@@ -50,7 +50,7 @@ public class ASClient : MonoBehaviour
         NetworkManager.Singleton.NetworkConfig.ConnectionData = System.Text.Encoding.ASCII.GetBytes(playerNameText.text);
 
         NetworkManager.Singleton.StartClient();
-        StartCoroutine(WaitingForConnection());
+        //StartCoroutine(WaitingForConnection());
     }
 
     IEnumerator WaitingForConnection()
@@ -63,11 +63,9 @@ public class ASClient : MonoBehaviour
             if (Time.realtimeSinceStartup - requestConnectionTime >= 10.0f)
             {
                 DisconnectFromServer();
-                yield break;
+                yield return null;
             }
         }
-
-        yield return null;
     }
 
     // Callback when a client is disconnected from the game.

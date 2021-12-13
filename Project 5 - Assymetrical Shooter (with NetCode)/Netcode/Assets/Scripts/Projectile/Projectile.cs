@@ -76,6 +76,9 @@ public class Projectile : NetworkBehaviour
 
     public void DestroyProjectile()
     {
+        if (!IsServer)
+            return;
+
         Destroy(gameObject);
     }
 }

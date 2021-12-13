@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using Unity.Netcode;
 
 public class HUDLogic : MonoBehaviour
 {
@@ -96,6 +97,12 @@ public class HUDLogic : MonoBehaviour
     {
         // Trim the message.
         messageInputField.text = messageInputField.text.Trim();
+
+        ChatMessageDeliverer chatManager = FindObjectOfType<ChatMessageDeliverer>();
+        if (chatManager)
+        {
+            chatManager.RequestSendMessage(messageInputField.text, messageTypeDropDown.value + 1);
+        }
 
         // Empty the input field.
         messageInputField.text = "";

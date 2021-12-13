@@ -30,9 +30,6 @@ public class HUDInput : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!NetworkManager.Singleton.IsConnectedClient)
-            return;
-
         // Send message to all players.
         if(Input.GetButtonDown("MessageAll"))
         {
