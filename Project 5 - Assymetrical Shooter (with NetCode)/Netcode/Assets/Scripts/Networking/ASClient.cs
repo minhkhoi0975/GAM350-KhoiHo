@@ -20,6 +20,9 @@ public class ASClient : MonoBehaviour
 
     public Text playerNameText;
 
+    // Reference to the game object of this client.
+    [HideInInspector] public GameObject myNetworkGameObject;
+
     private void Awake()
     {
         // When the client loads a new level, the NetworkManager game object is duplicated.

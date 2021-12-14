@@ -7,13 +7,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
 [RequireComponent(typeof(Camera))]
 [RequireComponent(typeof(SpawnerCameraMovement))]
 [RequireComponent(typeof(SpawnNPC))]
 [RequireComponent(typeof(InputLock))]
 
-public class SpawnerInput : MonoBehaviour
+public class SpawnerInput : NetworkBehaviour
 {
     // Reference to the camera.
     public Camera spawnerCamera;
@@ -50,6 +51,16 @@ public class SpawnerInput : MonoBehaviour
         }
     }
 
+    public override void OnNetworkSpawn()
+    {
+        if (IsOwner)
+        {
+            // Unlock input for this game object.
+            ASClient.Singleton.myNetworkGameObject = gameObject;
+            GetComponent<InputLock>().isLocked = false;
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -77,7 +88,7 @@ public class SpawnerInput : MonoBehaviour
 
                 if(hitInfo.collider.CompareTag("Environment"))
                 {
-                    spawner.SpawnServerRpc(hitInfo.point, rotation);
+                    spawner.SpawnServerRpc(OwnerClientId, hitInfo.point, rotation);
                 }
                 else
                 {

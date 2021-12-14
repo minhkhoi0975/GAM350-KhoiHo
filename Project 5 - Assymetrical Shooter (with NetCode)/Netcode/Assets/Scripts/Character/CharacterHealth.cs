@@ -6,6 +6,9 @@ using System;
 
 public class CharacterHealth : NetworkBehaviour
 {
+    // If the character is hit by a projectile with the same team id, it will not take damage.
+    public int teamId;
+
     // Callback when the health is changed.
     public delegate void OnHealthChanged(float newHealth);
     public OnHealthChanged onHealthChangedCallback;

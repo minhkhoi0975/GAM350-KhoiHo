@@ -30,6 +30,9 @@ public class Projectile : NetworkBehaviour
         }
     }
 
+    // If the projectile hits a character with the same teamId, the character will not take damage.
+    [HideInInspector] public int teamId;
+
     // Handle collision on client side.
     private void OnTriggerEnter(Collider other)
     {
@@ -38,11 +41,16 @@ public class Projectile : NetworkBehaviour
 
         if (other.attachedRigidbody && other.attachedRigidbody.CompareTag("Character"))
         {
-            other.attachedRigidbody.GetComponent<CharacterHealth>().Health -= damage.Value;
+            int hitCharacterTeamId = other.attachedRigidbody.GetComponent<CharacterHealth>().teamId;
 
-            if (other.attachedRigidbody.GetComponent<CharacterHealth>().Health <= 0)
+            if (teamId != hitCharacterTeamId)
             {
-                Destroy(other.attachedRigidbody.gameObject);
+                other.attachedRigidbody.GetComponent<CharacterHealth>().Health -= damage.Value;
+
+                if (other.attachedRigidbody.GetComponent<CharacterHealth>().Health <= 0)
+                {
+                    Destroy(other.attachedRigidbody.gameObject);
+                }
             }
         }
 

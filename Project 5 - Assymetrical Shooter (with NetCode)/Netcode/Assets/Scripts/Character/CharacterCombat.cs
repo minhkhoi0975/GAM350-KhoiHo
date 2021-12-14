@@ -37,16 +37,14 @@ public class CharacterCombat : NetworkBehaviour
 
     public void FireProjectile()
     {
+        if (!IsServer)
+            return;
+
         if (projectilePrefab)
         {
             GameObject projectile = Instantiate(projectilePrefab, muzzleTransform.position, muzzleTransform.rotation);
-            projectile.GetComponent<NetworkObject>().Spawn(true);
+            projectile.GetComponent<Projectile>().teamId = GetComponent<CharacterHealth>().teamId;
+            projectile.GetComponent<NetworkObject>().Spawn();
         }
-    }
-
-    [ServerRpc]
-    public void FireProjectileServerRpc()
-    {
-        FireProjectile();
     }
 }

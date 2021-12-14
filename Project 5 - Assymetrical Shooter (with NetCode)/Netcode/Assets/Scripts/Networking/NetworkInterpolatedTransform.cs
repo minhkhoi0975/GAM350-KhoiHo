@@ -64,7 +64,7 @@ public class NetworkInterpolatedTransform : NetworkBehaviour
         float interpolationTime = currentTime - interpolationBackTime;
 
         // Interpolation
-        if (transformRecords[transformRecords.Count - 1].timeStamp > interpolationTime)
+        if (transformRecords.Count > 0 && transformRecords[transformRecords.Count - 1].timeStamp > interpolationTime)
         {
             for (int i = 0; i < transformRecords.Count; i++)
             {
@@ -115,8 +115,8 @@ public class NetworkInterpolatedTransform : NetworkBehaviour
         TransformRecord newTransformRecord = new TransformRecord();
 
         newTransformRecord.timeStamp = NetworkManager.Singleton.ServerTime.TimeAsFloat;
-        newTransformRecord.position = networkTransformSync.SynchronizedPosition;
-        newTransformRecord.rotation = networkTransformSync.SynchronizedRotation;
+        newTransformRecord.position = position;
+        newTransformRecord.rotation = rotation;
 
         if (first)
         {

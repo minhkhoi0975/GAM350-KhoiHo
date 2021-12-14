@@ -15,12 +15,7 @@ public class SpawnNPC : NetworkBehaviour
     [SerializeField] GameObject prefab;
 
     [ServerRpc]
-    public void SpawnServerRpc(Vector3 position, Quaternion rotation)
-    {
-        Spawn(position, rotation);
-    }
-
-    public void Spawn(Vector3 position, Quaternion rotation)
+    public void SpawnServerRpc(ulong instigatorClientId, Vector3 position, Quaternion rotation)
     {
         // Try finding the nearest point on navmesh.
         NavMeshHit hit;

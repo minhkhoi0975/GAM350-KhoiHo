@@ -75,6 +75,9 @@ public class HUDLogic : MonoBehaviour
 
     public void ToggleSendMessagePanel()
     {
+        // Disable the input of the shooter/spawner camera.
+        ASClient.Singleton.myNetworkGameObject.GetComponent<InputLock>().isLocked = true;
+
         // Enable cursor.
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
@@ -91,6 +94,16 @@ public class HUDLogic : MonoBehaviour
     {
         // Make the chat box inactive.
         sendMessagePanel.SetActive(false);
+
+        // If the client is a spawner, disable cursor.
+        if (ASClient.Singleton.myNetworkGameObject.GetComponent<ShooterInput>())
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+
+        // Enable the input of the shooter/spawner camera.
+        ASClient.Singleton.myNetworkGameObject.GetComponent<InputLock>().isLocked = false;
     }
 
     public void SendChatMessage()

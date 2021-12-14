@@ -55,16 +55,6 @@ public class ShooterInput : NetworkBehaviour
     }
     InputData inputData = new InputData();
 
-    public override void OnNetworkSpawn()
-    {
-        if (IsOwner)
-        {
-            // Lock cursor.
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-        }
-    }
-
     private void Awake()
     {
         if (!characterMovement)
@@ -88,13 +78,27 @@ public class ShooterInput : NetworkBehaviour
         }
     }
 
+    public override void OnNetworkSpawn()
+    {
+        if (IsOwner)
+        {
+            // Lock cursor.
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+
+            // Set my network gameobject to this object.
+            ASClient.Singleton.myNetworkGameObject = gameObject;
+            GetComponent<InputLock>().isLocked = false;
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
         if (IsOwner)
         {
-            //if (inputLock.isLocked)
-            //    return;
+            if (inputLock.isLocked)
+                return;
 
             GetInput(inputData);
 
