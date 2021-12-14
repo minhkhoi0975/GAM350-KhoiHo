@@ -75,9 +75,14 @@ public class NetworkTransformSync : NetworkBehaviour
 
     private void SynchronizeTransformOnClient(SynchronizedTransform previousValue, SynchronizedTransform newValue)
     {
-        transform.position = newValue.synchronizedPosition;
-        transform.rotation = newValue.synchronizedRotation;
-
-        transformSynchronizedCallback?.Invoke(newValue.synchronizedPosition, newValue.synchronizedRotation);
+        if (transformSynchronizedCallback != null)
+        {
+            transformSynchronizedCallback?.Invoke(newValue.synchronizedPosition, newValue.synchronizedRotation);
+        }
+        else
+        {
+            transform.position = newValue.synchronizedPosition;
+            transform.rotation = newValue.synchronizedRotation;
+        }
     }
 }

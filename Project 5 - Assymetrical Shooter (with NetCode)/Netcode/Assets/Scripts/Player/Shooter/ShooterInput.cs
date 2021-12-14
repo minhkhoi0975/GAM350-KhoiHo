@@ -142,7 +142,7 @@ public class ShooterInput : NetworkBehaviour
             return;
 
         // Move camera.
-        characterCameraMovement.RotateCamera(inputData.mouseXAxis, inputData.mouseYAxis);
+        characterMovement.RotateCamera(inputData.mouseXAxis, inputData.mouseYAxis);
 
         // Jump.
         if (inputData.jump)
@@ -158,7 +158,7 @@ public class ShooterInput : NetworkBehaviour
         this.inputData = inputData;
 
         // Move camera.
-        characterCameraMovement.RotateCamera(inputData.mouseXAxis, inputData.mouseYAxis);
+        characterMovement.RotateCamera(inputData.mouseXAxis, inputData.mouseYAxis);
 
         // Jump.
         if (inputData.jump)

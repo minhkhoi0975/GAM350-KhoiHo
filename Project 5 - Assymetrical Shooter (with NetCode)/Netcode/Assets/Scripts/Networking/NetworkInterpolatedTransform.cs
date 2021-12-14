@@ -64,7 +64,7 @@ public class NetworkInterpolatedTransform : NetworkBehaviour
         float interpolationTime = currentTime - interpolationBackTime;
 
         // Interpolation
-        if (transformRecords.Count > 0 && transformRecords[transformRecords.Count - 1].timeStamp > interpolationTime)
+        if (transformRecords.Count > 0 && currentTime - transformRecords[transformRecords.Count - 1].timeStamp > interpolationTime)
         {
             for (int i = 0; i < transformRecords.Count; i++)
             {
