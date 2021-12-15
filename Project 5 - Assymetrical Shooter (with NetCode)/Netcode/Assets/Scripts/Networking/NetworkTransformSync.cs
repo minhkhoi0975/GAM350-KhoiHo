@@ -1,6 +1,6 @@
 /**
  * NetworkSync.cs
- * Descripption: This script synchronizes the transform of a network game object from a server to clients.
+ * Descripption: This script synchronizes the transform of a network game object from a server to clients. I created this script because the NetworkTransform component does not support client-side prediction.
  * Programmer: Khoi Ho
  * Credits: Professor Carrigg for his NetworkSync script in UCNetwork.
  */
@@ -33,7 +33,7 @@ public class NetworkTransformSync : NetworkBehaviour
 
     // How often is the transform synchronized?
     // If the value is 0.1, then the transform is synchronized 1/0.1 = 10 times a second.
-    [SerializeField] float broadcastFrequency = 0.1f;
+    float broadcastFrequency = 0.1f;
     public float BroadcastFrequency
     {
         get
@@ -44,6 +44,15 @@ public class NetworkTransformSync : NetworkBehaviour
 
     // How long before the server synchronizes the transfrom.
     float timeToSend = 0.0f;
+
+    private void Awake()
+    {
+        if (IsServer)
+        {
+            // Broadcast frequency must match the tick rate of the network manager.
+            broadcastFrequency = 1 / NetworkManager.Singleton.NetworkTickSystem.TickRate;
+        }
+    }
 
     private void Start()
     {
@@ -64,8 +73,8 @@ public class NetworkTransformSync : NetworkBehaviour
             {
                 synchronizedTranform.Value = new SynchronizedTransform
                 {
-                    synchronizedPosition = transform.position,
-                    synchronizedRotation = transform.rotation
+                    synchronizedPosition = transform.localPosition,
+                    synchronizedRotation = transform.localRotation
                 };
 
                 timeToSend = broadcastFrequency;
@@ -75,14 +84,15 @@ public class NetworkTransformSync : NetworkBehaviour
 
     private void SynchronizeTransformOnClient(SynchronizedTransform previousValue, SynchronizedTransform newValue)
     {
-        if (transformSynchronizedCallback != null)
-        {
-            transformSynchronizedCallback?.Invoke(newValue.synchronizedPosition, newValue.synchronizedRotation);
-        }
-        else
-        {
-            transform.position = newValue.synchronizedPosition;
-            transform.rotation = newValue.synchronizedRotation;
-        }
+        if (IsServer || IsHost)
+            return;
+     
+        transform.localPosition = newValue.synchronizedPosition;
+        transform.localRotation = newValue.synchronizedRotation;
+
+        transformSynchronizedCallback?.Invoke(newValue.synchronizedPosition, newValue.synchronizedRotation);
+
+        Debug.Log(name + " Server position: " + newValue.synchronizedPosition + " " + newValue.synchronizedRotation.eulerAngles);
+        Debug.Log(name + " Client position: " + transform.localPosition + " " + transform.localRotation.eulerAngles);     
     }
 }

@@ -19,12 +19,13 @@ public class SpawnerCameraMovement : NetworkBehaviour
     {
         if (IsOwner)
         {
-            if (Camera.current)
+            if (Camera.main)
             {
-                Camera.current.GetComponent<AudioListener>().enabled = false;
-                Camera.current.enabled = false;
+                Camera.main.GetComponent<AudioListener>().enabled = false;
+                Camera.main.enabled = false;
             }
             GetComponent<Camera>().enabled = true;
+            GetComponent<AudioListener>().enabled = true;
         }
         else
         {

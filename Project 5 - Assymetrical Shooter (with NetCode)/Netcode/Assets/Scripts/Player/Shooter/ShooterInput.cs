@@ -127,8 +127,8 @@ public class ShooterInput : NetworkBehaviour
         inputData.horizontalAxis = Input.GetAxisRaw("Horizontal");
         inputData.verticalAxis = Input.GetAxisRaw("Vertical");
 
-        inputData.mouseXAxis = Input.GetAxis("Mouse X");
-        inputData.mouseYAxis = Input.GetAxis("Mouse Y");
+        inputData.mouseXAxis = Input.GetAxisRaw("Mouse X");
+        inputData.mouseYAxis = Input.GetAxisRaw("Mouse Y");
 
         inputData.jump = Input.GetButtonDown("Jump");
 

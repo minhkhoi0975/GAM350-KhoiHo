@@ -64,7 +64,7 @@ public class NetworkInterpolatedTransform : NetworkBehaviour
         float interpolationTime = currentTime - interpolationBackTime;
 
         // Interpolation
-        if (transformRecords.Count > 0 && currentTime - transformRecords[transformRecords.Count - 1].timeStamp > interpolationTime)
+        if (transformRecords.Count > 1 && transformRecords[transformRecords.Count - 1].timeStamp > interpolationTime)
         {
             for (int i = 0; i < transformRecords.Count; i++)
             {
@@ -84,8 +84,8 @@ public class NetworkInterpolatedTransform : NetworkBehaviour
                         t = (float)((interpolationTime - lhs.timeStamp) / length);
 
                     // if t=0 => lhs is used directly
-                    transform.position = Vector3.Lerp(lhs.position, rhs.position, t);
-                    transform.rotation = Quaternion.Slerp(lhs.rotation, rhs.rotation, t);
+                    transform.localPosition = Vector3.Lerp(lhs.position, rhs.position, t);
+                    transform.localRotation = Quaternion.Slerp(lhs.rotation, rhs.rotation, t);
 
                     return;
                 }
@@ -104,8 +104,8 @@ public class NetworkInterpolatedTransform : NetworkBehaviour
             }
 
             float f = extrapolationTime;
-            transform.rotation = Quaternion.Slerp(transform.rotation, latestTransformRecord.rotation, f);
-            transform.position = Vector3.Lerp(transform.position, latestTransformRecord.position + velocity, f);
+            transform.localRotation = Quaternion.Slerp(transform.localRotation, latestTransformRecord.rotation, f);
+            transform.localPosition = Vector3.Lerp(transform.localPosition, latestTransformRecord.position + velocity, f);
         }
     }
 
