@@ -14,6 +14,15 @@ using Unity.Netcode;
 [RequireComponent(typeof(NavMeshAgent))]
 public class AIBehavior : NetworkBehaviour
 {
+    static int numNPCs = 0;  // Use for counting the number of NPCs.
+    public static int NumNPCs
+    {
+        get
+        {
+            return numNPCs;
+        }
+    }
+
     [SerializeField] CharacterCombat characterCombat;
 
     [SerializeField] NavMeshAgent navMeshAgent;
@@ -22,6 +31,11 @@ public class AIBehavior : NetworkBehaviour
     bool readyToFire = true;                           // Used for preventing the AI from shooting thousands of projectiles within a short time.
 
     GameObject targetPlayerCharacter;                  // The player character this AI tries to attack.
+
+    private void Awake()
+    {
+        numNPCs++;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -35,6 +49,12 @@ public class AIBehavior : NetworkBehaviour
         {
             navMeshAgent = GetComponent<NavMeshAgent>();
         }
+    }
+
+    public override void OnDestroy()
+    {
+        numNPCs--;
+        base.OnDestroy();
     }
 
     // Update is called once per frame

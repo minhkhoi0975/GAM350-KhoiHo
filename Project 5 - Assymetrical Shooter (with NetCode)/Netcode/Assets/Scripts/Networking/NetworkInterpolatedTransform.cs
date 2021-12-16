@@ -60,6 +60,9 @@ public class NetworkInterpolatedTransform : NetworkBehaviour
         if (IsServer)
             return;
 
+        if (transformRecords.Count == 0)
+            return;
+
         float currentTime = NetworkManager.Singleton.ServerTime.TimeAsFloat;
         float interpolationTime = currentTime - interpolationBackTime;
 

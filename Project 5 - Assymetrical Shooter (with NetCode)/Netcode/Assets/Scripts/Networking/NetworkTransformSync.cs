@@ -92,7 +92,7 @@ public class NetworkTransformSync : NetworkBehaviour
 
         transformSynchronizedCallback?.Invoke(newValue.synchronizedPosition, newValue.synchronizedRotation);
 
-        Debug.Log(name + " Server position: " + newValue.synchronizedPosition + " " + newValue.synchronizedRotation.eulerAngles);
-        Debug.Log(name + " Client position: " + transform.localPosition + " " + transform.localRotation.eulerAngles);     
+        //Debug.Log(name + " Server position: " + newValue.synchronizedPosition + " " + newValue.synchronizedRotation.eulerAngles);
+        //Debug.Log(name + " Client position: " + transform.localPosition + " " + transform.localRotation.eulerAngles);     
     }
 }

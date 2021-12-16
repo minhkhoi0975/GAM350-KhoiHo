@@ -49,6 +49,9 @@ public class ASServer : MonoBehaviour
     [SerializeField] Vector3 initialCameraPosition;
     [SerializeField] Quaternion initialCameraRotation;
 
+    // The maximum number of NPCs that can appear at the same time = Number of shooters * maxNpcShooterRatio.
+    public int maxNpcShooterRatio = 5;
+
     [Header("Chat System")]
     [SerializeField] GameObject ChatManagerPrefab;
 
@@ -134,7 +137,16 @@ public class ASServer : MonoBehaviour
             Debug.Log(players[clientId].name + " (clientId = " + clientId + ") has successfully connected to the game.");
 
             players[clientId].canPlay = true;
-            players[clientId].team = GetTeamForNewPlayer();
+
+            // Host joins a random team.
+            if (clientId == 0)
+            {
+                players[clientId].team = UnityEngine.Random.Range(1, 3);
+            }
+            else
+            {
+                players[clientId].team = GetTeamForNewPlayer();
+            }
 
             Debug.Log(players[clientId].name + " is assigned to team " + (players[clientId].team == 1 ? " Shooter" : " Spawner") + ".");
 
@@ -193,7 +205,7 @@ public class ASServer : MonoBehaviour
     }
 
     // Spawn a character for a shooter.
-    void SpawnShooter(ulong clientId)
+    public void SpawnShooter(ulong clientId)
     {
         // Get a random spawn position.
         Transform shooterStartTransform = shooterStartTransforms[UnityEngine.Random.Range(0, shooterStartTransforms.Count)];
@@ -208,7 +220,7 @@ public class ASServer : MonoBehaviour
     }
 
     // Spawn a camera for a spawner.
-    void SpawnSpawnerCamera(ulong clientId)
+    public void SpawnSpawnerCamera(ulong clientId)
     {
         // Spawn the camera.
         GameObject spawnerCamera = Instantiate(spawnerCameraPrefab, initialCameraPosition, initialCameraRotation, null);
@@ -243,5 +255,21 @@ public class ASServer : MonoBehaviour
             // Load the main menu.
             SceneManager.LoadScene("NetCode");
         }
+    }
+
+    // Get the number of players in a team.
+    public int GetNumPlayers(int team)
+    {
+        int count = 0;
+
+        foreach (PlayerData player in players.Values)
+        {
+            if (player.team == team)
+            {
+                count++;
+            }
+        }
+
+        return count;
     }
 }

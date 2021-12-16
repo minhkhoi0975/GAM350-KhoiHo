@@ -17,6 +17,10 @@ public class SpawnNPC : NetworkBehaviour
     [ServerRpc]
     public void SpawnServerRpc(ulong instigatorClientId, Vector3 position, Quaternion rotation)
     {
+        // Check number of NPCs vs number of shooters.
+        if (AIBehavior.NumNPCs >= ASServer.Singleton.GetNumPlayers(1) * ASServer.Singleton.maxNpcShooterRatio)
+            return;
+
         // Try finding the nearest point on navmesh.
         NavMeshHit hit;
         if (!NavMesh.SamplePosition(position, out hit, 1.0f, NavMesh.AllAreas))

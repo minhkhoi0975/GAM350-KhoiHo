@@ -60,6 +60,33 @@ public class CharacterMovement : NetworkBehaviour
             characterCamera = GetComponentInChildren<Camera>(true);
         }
     }
+    public override void OnNetworkSpawn()
+    {
+        // If the client controls this character, then set make the character's camera active so that the client can see.
+        if (IsOwner && IsClient)
+        {
+            if (Camera.main)
+            {
+                Camera.main.GetComponent<AudioListener>().enabled = false;
+            }
+
+            characterCamera.enabled = true;
+            characterCamera.GetComponent<AudioListener>().enabled = true;
+        }
+        else
+        {
+            characterCamera.enabled = false;
+        }
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        // Create another character for this client.
+        if (IsServer)
+        {
+            ASServer.Singleton.SpawnShooter(OwnerClientId);
+        }
+    }
 
     private void FixedUpdate()
     {

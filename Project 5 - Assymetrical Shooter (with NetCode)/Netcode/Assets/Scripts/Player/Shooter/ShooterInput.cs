@@ -11,14 +11,12 @@ using UnityEngine.SceneManagement;
 using Unity.Netcode;
 
 [RequireComponent(typeof(CharacterMovement))]
-[RequireComponent(typeof(ShooterCameraMovement))]
 [RequireComponent(typeof(CharacterCombat))]
 [RequireComponent(typeof(InputLock))]
 public class ShooterInput : NetworkBehaviour
 {
     // References to components.
     public CharacterMovement characterMovement;
-    public ShooterCameraMovement characterCameraMovement;
     public CharacterCombat characterCombat;
 
     // Used for locking input.
@@ -60,11 +58,6 @@ public class ShooterInput : NetworkBehaviour
         if (!characterMovement)
         {
             characterMovement = GetComponent<CharacterMovement>();
-        }
-
-        if (!characterCameraMovement)
-        {
-            characterCameraMovement = GetComponent<ShooterCameraMovement>();
         }
 
         if (!characterCombat)
