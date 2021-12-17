@@ -13,11 +13,13 @@ using System;
 
 public struct SynchronizedTransform: INetworkSerializable
 {
+    public float sendTime;                      // When is the transform sent to the client?
     public Vector3 synchronizedPosition;
     public Quaternion synchronizedRotation;
 
     public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
     {
+        serializer.SerializeValue(ref sendTime);
         serializer.SerializeValue(ref synchronizedPosition);
         serializer.SerializeValue(ref synchronizedRotation);
     }
@@ -25,6 +27,10 @@ public struct SynchronizedTransform: INetworkSerializable
 
 public class NetworkTransformSync : NetworkBehaviour
 {
+    public const int MAX_HISTORY_COUNT = 20;
+    [HideInInspector] public List<SynchronizedTransform> transformRecord = new List<SynchronizedTransform>();
+
+
     public NetworkVariable<SynchronizedTransform> synchronizedTranform;
 
     // Callback when the client receives the transform from the server.
@@ -73,11 +79,45 @@ public class NetworkTransformSync : NetworkBehaviour
             {
                 synchronizedTranform.Value = new SynchronizedTransform
                 {
+                    sendTime = NetworkManager.ServerTime.TimeAsFloat,
                     synchronizedPosition = transform.localPosition,
                     synchronizedRotation = transform.localRotation
                 };
 
                 timeToSend = broadcastFrequency;
+            }
+        }
+        else
+        {
+            if (transformRecord.Count > 1)
+            {
+                float currentTime = NetworkManager.LocalTime.TimeAsFloat;
+                float lastSendTime = transformRecord[transformRecord.Count - 1].sendTime;
+
+                // Interpolation.
+                if (currentTime - lastSendTime < broadcastFrequency * 2)
+                {
+                    SynchronizedTransform mostRecentTransform = transformRecord[transformRecord.Count - 1];
+                    SynchronizedTransform secondRecentTransform = transformRecord[transformRecord.Count - 2];
+
+                    float t = (mostRecentTransform.sendTime - secondRecentTransform.sendTime) / broadcastFrequency;
+
+                    transform.localPosition = Vector3.Lerp(transform.localPosition, mostRecentTransform.synchronizedPosition, t);
+                    transform.localRotation = Quaternion.Slerp(transform.localRotation, mostRecentTransform.synchronizedRotation, t);
+                }
+
+                // Extrapolation.
+                else
+                {
+                    SynchronizedTransform mostRecentTransform = transformRecord[transformRecord.Count - 1];
+                    SynchronizedTransform secondRecentTransform = transformRecord[transformRecord.Count - 2];
+
+                    Vector3 velocity = (mostRecentTransform.synchronizedPosition - secondRecentTransform.synchronizedPosition) / (broadcastFrequency * 2);
+
+                    float f = broadcastFrequency;
+                    transform.localRotation = Quaternion.Slerp(transform.localRotation, mostRecentTransform.synchronizedRotation, f);
+                    transform.localPosition = Vector3.Lerp(transform.localPosition, mostRecentTransform.synchronizedPosition + velocity, f);
+                }
             }
         }
     }
@@ -86,13 +126,54 @@ public class NetworkTransformSync : NetworkBehaviour
     {
         if (IsServer || IsHost)
             return;
-     
-        transform.localPosition = newValue.synchronizedPosition;
-        transform.localRotation = newValue.synchronizedRotation;
 
-        transformSynchronizedCallback?.Invoke(newValue.synchronizedPosition, newValue.synchronizedRotation);
+        // Obsolete transforms are skipped.
+        if (transformRecord.Count > 0 && newValue.sendTime < transformRecord[transformRecord.Count - 1].sendTime)
+            return;
 
-        //Debug.Log(name + " Server position: " + newValue.synchronizedPosition + " " + newValue.synchronizedRotation.eulerAngles);
-        //Debug.Log(name + " Client position: " + transform.localPosition + " " + transform.localRotation.eulerAngles);     
+        transformRecord.Add(newValue);
+        if (transformRecord.Count > MAX_HISTORY_COUNT)
+        {
+            transformRecord.RemoveAt(0);
+        }
+
+        if (transformRecord.Count == 1)
+        {
+            transform.localPosition = newValue.synchronizedPosition;
+            transform.localRotation = newValue.synchronizedRotation;
+        }
+
+        /*
+        // Calculate the time interval between when the transform is sent and when the transform is received.
+        float receiveTime = NetworkManager.LocalTime.TimeAsFloat;
+        float receiveTimeInterval = receiveTime - newValue.sendTime;
+
+        Debug.Log("Time from server to client: " + receiveTimeInterval);
+
+        // If the receive time interval is lower than the broadcast frequency, perform interpolation.
+        //if (receiveTimeInterval < broadcastFrequency)
+        
+        {
+            if (transformRecord.Count >= 2)
+            {
+                SynchronizedTransform mostRecentTransform = transformRecord[transformRecord.Count - 1];
+                SynchronizedTransform secondRecentTransform = transformRecord[transformRecord.Count - 2];
+
+                // float t = (mostRecentTransform.sendTime - secondRecentTransform.sendTime) / broadcastFrequency;
+
+                float t = receiveTimeInterval / (mostRecentTransform.sendTime - secondRecentTransform.sendTime);
+
+                transform.localPosition = Vector3.Lerp(transform.localPosition, newValue.synchronizedPosition, t);
+                transform.localRotation = Quaternion.Slerp(transform.localRotation, newValue.synchronizedRotation, t);
+            }
+            else
+            {
+                transform.localPosition = newValue.synchronizedPosition;
+                transform.localRotation = newValue.synchronizedRotation;
+            }
+        }
+
+        transformSynchronizedCallback?.Invoke(newValue.synchronizedPosition, newValue.synchronizedRotation);    
+        */
     }
 }

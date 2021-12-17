@@ -24,6 +24,9 @@ public class ShooterInput : NetworkBehaviour
 
     public class InputData : INetworkSerializable
     {
+        // Tick rate.
+        public float tick;
+
         // Move direction
         public float horizontalAxis;
         public float verticalAxis;
@@ -40,6 +43,8 @@ public class ShooterInput : NetworkBehaviour
 
         public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
         {
+            serializer.SerializeValue(ref tick);
+
             serializer.SerializeValue(ref horizontalAxis);
             serializer.SerializeValue(ref verticalAxis);
 
@@ -52,6 +57,7 @@ public class ShooterInput : NetworkBehaviour
         }
     }
     InputData inputData = new InputData();
+    InputData previousInputData = new InputData();
 
     private void Awake()
     {
@@ -117,6 +123,8 @@ public class ShooterInput : NetworkBehaviour
     // Get input from the player.
     void GetInput(InputData inputData)
     {
+        inputData.tick = NetworkManager.LocalTime.Tick;
+
         inputData.horizontalAxis = Input.GetAxisRaw("Horizontal");
         inputData.verticalAxis = Input.GetAxisRaw("Vertical");
 
@@ -148,7 +156,11 @@ public class ShooterInput : NetworkBehaviour
     [ServerRpc]
     void ProcessInputServerRpc(InputData inputData)
     {
+        // Don't process obsolete input.
+        this.previousInputData = this.inputData;      
         this.inputData = inputData;
+        if (this.inputData.tick < this.previousInputData.tick)
+            return;
 
         // Move camera.
         characterMovement.RotateCamera(inputData.mouseXAxis, inputData.mouseYAxis);
