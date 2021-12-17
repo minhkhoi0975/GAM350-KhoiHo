@@ -16,9 +16,6 @@ public class TitleScreenLogic : MonoBehaviour
         }
     }
 
-    public ASServer serverNet;
-    public ASClient clientNet;
-
     public GameObject titleScreenPanel;
 
     public Text server;
@@ -39,19 +36,19 @@ public class TitleScreenLogic : MonoBehaviour
 
     public void StartHost()
     {
-        serverNet.StartServer(server.text, int.Parse(port.text), true);
+        ASServer.Singleton.StartServer(server.text, int.Parse(port.text), true);
         HideTitleScreenPanel();
     }
 
     public void StartServer()
     {
-        serverNet.StartServer(server.text, int.Parse(port.text), false);
+        ASServer.Singleton.StartServer(server.text, int.Parse(port.text), false);
         HideTitleScreenPanel();
     }
 
     public void StartClient()
     {   
-        clientNet.StartClient(server.text, int.Parse(port.text));
+        ASClient.Singleton.StartClient(server.text, int.Parse(port.text));
         HideTitleScreenPanel();
     }
 

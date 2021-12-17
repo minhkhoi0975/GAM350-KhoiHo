@@ -42,6 +42,11 @@ public class ASClient : MonoBehaviour
         NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnected;
     }
 
+    private void OnDestroy()
+    {
+        StopCoroutine("WaitingForConnection");
+    }
+
     public void StartClient(string address, int port)
     {
         // Set the ip address and the port of the game session.
@@ -53,7 +58,7 @@ public class ASClient : MonoBehaviour
         NetworkManager.Singleton.NetworkConfig.ConnectionData = System.Text.Encoding.ASCII.GetBytes(playerNameText.text);
 
         NetworkManager.Singleton.StartClient();
-        //StartCoroutine(WaitingForConnection());
+        StartCoroutine(WaitingForConnection());
     }
 
     IEnumerator WaitingForConnection()
@@ -66,9 +71,13 @@ public class ASClient : MonoBehaviour
             if (Time.realtimeSinceStartup - requestConnectionTime >= 10.0f)
             {
                 DisconnectFromServer();
-                yield return null;
+                break;
             }
+
+            yield return null;
         }
+
+        yield return null;
     }
 
     // Callback when a client is disconnected from the game.

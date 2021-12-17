@@ -207,6 +207,9 @@ public class ASServer : MonoBehaviour
     // Spawn a character for a shooter.
     public void SpawnShooter(ulong clientId)
     {
+        if (!players.ContainsKey(clientId))
+            return;
+
         // Get a random spawn position.
         Transform shooterStartTransform = shooterStartTransforms[UnityEngine.Random.Range(0, shooterStartTransforms.Count)];
         Vector3 startPosition = shooterStartTransform.position;
@@ -222,6 +225,9 @@ public class ASServer : MonoBehaviour
     // Spawn a camera for a spawner.
     public void SpawnSpawnerCamera(ulong clientId)
     {
+        if (!players.ContainsKey(clientId))
+            return;
+
         // Spawn the camera.
         GameObject spawnerCamera = Instantiate(spawnerCameraPrefab, initialCameraPosition, initialCameraRotation, null);
         spawnerCamera.GetComponent<NetworkObject>().SpawnWithOwnership(clientId, true);
