@@ -2,7 +2,7 @@
  * NetworkSync.cs
  * Descripption: This script synchronizes the transform of a network game object from a server to clients. I created this script because the NetworkTransform component does not support client-side prediction.
  * Programmer: Khoi Ho
- * Credits: Professor Carrigg for his NetworkSync script in UCNetwork.
+ * Credits: Professor Carrigg for his NetworkSync.cs and NetworkInterpolatedTransform.cs scripts in UCNetwork.
  */
 
 using System.Collections;
@@ -32,10 +32,6 @@ public class NetworkTransformSync : NetworkBehaviour
 
 
     public NetworkVariable<SynchronizedTransform> synchronizedTranform;
-
-    // Callback when the client receives the transform from the server.
-    public delegate void TransformSynchronized(Vector3 position, Quaternion rotation);
-    public TransformSynchronized transformSynchronizedCallback;
 
     // How often is the transform synchronized?
     // If the value is 0.1, then the transform is synchronized 1/0.1 = 10 times a second.
@@ -72,6 +68,7 @@ public class NetworkTransformSync : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Server sends transform to clients.
         if (IsServer)
         {
             timeToSend -= Time.deltaTime;
@@ -87,10 +84,13 @@ public class NetworkTransformSync : NetworkBehaviour
                 timeToSend = broadcastFrequency;
             }
         }
+
+        // Client performs interpolation and extrapolation to smooth the movement.
         else
         {
             if (transformRecord.Count > 1)
             {
+                // Calculate the time interval between when now and when the transform is received.
                 float currentTime = NetworkManager.LocalTime.TimeAsFloat;
                 float lastSendTime = transformRecord[transformRecord.Count - 1].sendTime;
 
@@ -142,38 +142,5 @@ public class NetworkTransformSync : NetworkBehaviour
             transform.localPosition = newValue.synchronizedPosition;
             transform.localRotation = newValue.synchronizedRotation;
         }
-
-        /*
-        // Calculate the time interval between when the transform is sent and when the transform is received.
-        float receiveTime = NetworkManager.LocalTime.TimeAsFloat;
-        float receiveTimeInterval = receiveTime - newValue.sendTime;
-
-        Debug.Log("Time from server to client: " + receiveTimeInterval);
-
-        // If the receive time interval is lower than the broadcast frequency, perform interpolation.
-        //if (receiveTimeInterval < broadcastFrequency)
-        
-        {
-            if (transformRecord.Count >= 2)
-            {
-                SynchronizedTransform mostRecentTransform = transformRecord[transformRecord.Count - 1];
-                SynchronizedTransform secondRecentTransform = transformRecord[transformRecord.Count - 2];
-
-                // float t = (mostRecentTransform.sendTime - secondRecentTransform.sendTime) / broadcastFrequency;
-
-                float t = receiveTimeInterval / (mostRecentTransform.sendTime - secondRecentTransform.sendTime);
-
-                transform.localPosition = Vector3.Lerp(transform.localPosition, newValue.synchronizedPosition, t);
-                transform.localRotation = Quaternion.Slerp(transform.localRotation, newValue.synchronizedRotation, t);
-            }
-            else
-            {
-                transform.localPosition = newValue.synchronizedPosition;
-                transform.localRotation = newValue.synchronizedRotation;
-            }
-        }
-
-        transformSynchronizedCallback?.Invoke(newValue.synchronizedPosition, newValue.synchronizedRotation);    
-        */
     }
 }
