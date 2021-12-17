@@ -5,6 +5,10 @@
  * Credits: Professor Carrigg for his NetworkSync.cs and NetworkInterpolatedTransform.cs scripts in UCNetwork.
  */
 
+/**
+ * NOTE: This script does not work properly for cameras if you test the game in editor. However, it works properly when both the server and the clients are run in standalone mode.
+ */
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
